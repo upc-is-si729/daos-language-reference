@@ -617,7 +617,7 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
    * @return enrollmentId
    */
   public Long handle(RequestEnrollmentCommand command) {
-    studentRepository.findByAcmeStudentRecordId(command.studentRecordId()).map(student -> {
+    studentRepository.findByStudentRecordId(command.studentRecordId()).map(student -> {
       Course course = courseRepository.findById(command.courseId()).orElseThrow(() -> new CourseNotFoundException(command.courseId()));
       Enrollment enrollment = new Enrollment(command.studentRecordId(), course);
       enrollment = enrollmentRepository.save(enrollment);

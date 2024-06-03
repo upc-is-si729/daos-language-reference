@@ -202,9 +202,9 @@ En el package `aggregates` modificar la clase `Student` con el siguiente conteni
 ```java
 import jakarta.persistence.*;
 import lombok.Getter;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProfileId;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentPerformanceMetricSet;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProfileId;
 import pe.edu.upc.center.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 /**
@@ -216,8 +216,8 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
 
   @Getter
   @Embedded
-  @Column(name = "acme_student_id")
-  private final AcmeStudentRecordId acmeStudentRecordId;
+  @Column(name = "student_id")
+  private final StudentRecordId studentRecordId;
 
   @Embedded
   private ProfileId profileId;
@@ -226,7 +226,7 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
   private StudentPerformanceMetricSet performanceMetricSet;
 
   public Student() {
-    this.acmeStudentRecordId = new AcmeStudentRecordId();
+    this.studentRecordId = new StudentRecordId();
     this.performanceMetricSet = new StudentPerformanceMetricSet();
   }
 
@@ -258,8 +258,8 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
     this.performanceMetricSet = this.performanceMetricSet.incrementTotalTutorials();
   }
 
-  public String getStudentRecordId() {
-    return this.acmeStudentRecordId.studentRecordId();
+  public String getStudentId() {
+    return this.studentRecordId.studentId();
   }
 
   public Long getProfileId() {
@@ -355,9 +355,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import pe.edu.upc.center.platform.learning.domain.model.events.TutorialCompletedEvent;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.EnrollmentStatus;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProgressRecord;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.EnrollmentStatus;
 import pe.edu.upc.center.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 /**
@@ -369,7 +369,7 @@ public class Enrollment extends AuditableAbstractAggregateRoot<Enrollment> {
 
   @Getter
   @Embedded
-  private AcmeStudentRecordId acmeStudentRecordId;
+  private StudentRecordId studentRecordId;
 
   @Getter
   @ManyToOne
@@ -388,8 +388,8 @@ public class Enrollment extends AuditableAbstractAggregateRoot<Enrollment> {
   public Enrollment() {
   }
 
-  public Enrollment(AcmeStudentRecordId studentRecordId, Course course) {
-    this.acmeStudentRecordId = studentRecordId;
+  public Enrollment(StudentRecordId studentRecordId, Course course) {
+    this.studentRecordId = studentRecordId;
     this.course = course;
     this.status = EnrollmentStatus.REQUESTED;
     this.progressRecord = new ProgressRecord();

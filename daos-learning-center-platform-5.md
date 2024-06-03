@@ -78,7 +78,7 @@ import pe.edu.upc.center.platform.learning.application.internal.outboundservices
 import pe.edu.upc.center.platform.learning.domain.model.aggregates.Student;
 import pe.edu.upc.center.platform.learning.domain.model.commands.CreateStudentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.commands.UpdateStudentMetricsOnTutorialCompletedCommand;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 import pe.edu.upc.center.platform.learning.domain.services.StudentCommandService;
 import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.repositories.StudentRepository;
 
@@ -108,7 +108,7 @@ public class StudentCommandServiceImpl implements StudentCommandService {
   // * @return AcmeStudentRecordId
   // */
   @Override
-  public AcmeStudentRecordId handle(CreateStudentCommand command) {
+  public StudentRecordId handle(CreateStudentCommand command) {
 
     // Fetch profileId by email
     var profileId = externalProfileService.fetchProfileIdByEmail(command.email());
@@ -130,7 +130,7 @@ public class StudentCommandServiceImpl implements StudentCommandService {
     // Create student using fetched or created profileId
     var student = new Student(profileId.get());
     studentRepository.save(student);
-    return student.getAcmeStudentRecordId();
+    return student.getStudentRecordId();
   }
 
   //**
@@ -140,12 +140,12 @@ public class StudentCommandServiceImpl implements StudentCommandService {
   // * @return AcmeStudentRecordId
   // */
   @Override
-  public AcmeStudentRecordId handle(UpdateStudentMetricsOnTutorialCompletedCommand command) {
-    studentRepository.findByAcmeStudentRecordId(command.studentRecordId()).map(student -> {
+  public StudentRecordId handle(UpdateStudentMetricsOnTutorialCompletedCommand command) {
+    studentRepository.findByStudentRecordId(command.studentRecordId()).map(student -> {
       // Update student metrics
       student.updateMetricsOnTutorialCompleted();
       studentRepository.save(student);
-      return student.getAcmeStudentRecordId();
+      return student.getStudentRecordId();
     }).orElseThrow(() -> new IllegalArgumentException("Student with given Id not found"));
     return null;
   }

@@ -100,6 +100,7 @@ En el package principal `pe.edu.upc.learning.platform`, crear la siguiente estru
       - 📄 AuditableModel.java
   - 📁 infrastructure
     - 📁 documentation.openapi.configuration
+      - 📄 OpenApiConfiguration.java
     - 📁 persistence.jpa.configuration.strategy
       - 📄 SnakeCaseWithPluralizedTablePhysicalNamingStrategy.java
   - 📁 interfaces.rest.resources
