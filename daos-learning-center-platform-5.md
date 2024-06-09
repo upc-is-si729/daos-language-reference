@@ -18,8 +18,10 @@ import java.util.Optional;
  * ExternalProfileService
  *
  * <p>
- *     This class is an outbound service used by the Learning Context to interact with the Profiles Context.
- *     It is implemented as part of an anti-corruption layer (ACL) to decouple the Learning Context from the Profiles Context.
+ *   This class is an outbound service used by the Learning Context to interact with the
+ *     Profiles Context.
+ *   It is implemented as part of an anti-corruption layer (ACL) to decouple the Learning
+ *     Context from the Profiles Context.
  * </p>
  *
  */
@@ -58,10 +60,11 @@ public class ExternalProfileService {
    * @param zipCode the zip code
    * @return profileId if created, empty otherwise
    */
-  public Optional<ProfileId> createProfile(String firstName, String lastName, String email, String street, 
-                                           String number, String city, String state, String zipCode) {
-    var profileId = profilesContextFacade.createProfile(firstName, lastName, email, street, number, city, 
-            state, zipCode);
+  public Optional<ProfileId> createProfile(String firstName, String lastName, String email,
+      String street, String number, String city, String state, String zipCode) {
+
+    var profileId = profilesContextFacade.createProfile(firstName, lastName, email, street,
+        number, city, state, zipCode);
     if (profileId == 0L)
       return Optional.empty();
     return Optional.of(new ProfileId(profileId));

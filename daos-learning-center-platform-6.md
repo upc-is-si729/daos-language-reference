@@ -1,23 +1,6 @@
-# Learning Center Platform - Part 5
+# Learning Center Platform - Part 6
 
 ## Table of contents
-
-## Package shared
-
-### Package infrastructure documentation.openapi.configuration
-
-En el package `configuration` crear la clase `OpenApiConfiguration` con el siguiente contenido:
-```java
-import pe.edu.upc.center.platform.learning.domain.model.aggregates.Course;
-import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CourseResource;
-
-public class CourseResourceFromEntityAssembler {
-
-  public static CourseResource toResourceFromEntity(Course entity) {
-    return new CourseResource(entity.getId(), entity.getTitle(), entity.getDescription());
-  }
-}
-```
 
 ## Learning Bounded Context
 
@@ -367,8 +350,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByAcmeStudentRecordIdQuery;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByStudentRecordIdQuery;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 import pe.edu.upc.center.platform.learning.domain.services.StudentCommandService;
 import pe.edu.upc.center.platform.learning.domain.services.StudentQueryService;
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateStudentResource;
@@ -413,13 +396,13 @@ public class StudentsController {
   @PostMapping
   public ResponseEntity<StudentResource> createStudent(@RequestBody CreateStudentResource resource) {
     var createStudentCommand = CreateStudentCommandFromResourceAssembler.toCommandFromResource(resource);
-    var studentId = studentCommandService.handle(createStudentCommand);
+    var studentRecordId = studentCommandService.handle(createStudentCommand);
 
-    if (studentId.studentRecordId().isEmpty()) {
+    if (studentRecordId.studentId().isEmpty()) {
       return ResponseEntity.badRequest().build();
     }
-    var getStudentByAcmeStudentRecordIdQuery = new GetStudentByAcmeStudentRecordIdQuery(studentId);
-    var student = studentQueryService.handle(getStudentByAcmeStudentRecordIdQuery);
+    var getStudentByStudentRecordIdQuery = new GetStudentByStudentRecordIdQuery(studentRecordId);
+    var student = studentQueryService.handle(getStudentByStudentRecordIdQuery);
 
     if (student.isEmpty()) {
       return ResponseEntity.badRequest().build();
@@ -432,17 +415,17 @@ public class StudentsController {
   /**
    * GET /api/v1/students/{studentRecordId}
    *
-   * <p>Endpoint that gets a student by its acme student record id</p>
+   * <p>Endpoint that gets a student by its student record id</p>
    *
-   * @param studentRecordId the acme student record id
+   * @param studentRecordId the student record id
    * @return the student resource
    * @see StudentResource
    */
   @GetMapping("/{studentRecordId}")
-  public ResponseEntity<StudentResource> getStudentByAcmeStudentRecordId(@PathVariable String studentRecordId) {
-    var acmeStudentRecordId = new AcmeStudentRecordId(studentRecordId);
-    var getStudentByAcmeStudentRecordIdQuery = new GetStudentByAcmeStudentRecordIdQuery(acmeStudentRecordId);
-    var student = studentQueryService.handle(getStudentByAcmeStudentRecordIdQuery);
+  public ResponseEntity<StudentResource> getStudentByStudentRecordId(@PathVariable String studentRecordId) {
+    var StudentRecordIdVar = new StudentRecordId(studentRecordId);
+    var getStudentByStudentRecordIdQuery = new GetStudentByStudentRecordIdQuery(StudentRecordIdVar);
+    var student = studentQueryService.handle(getStudentByStudentRecordIdQuery);
 
     if (student.isEmpty()) {
       return ResponseEntity.notFound().build();
@@ -464,8 +447,8 @@ import pe.edu.upc.center.platform.learning.domain.model.commands.CancelEnrollmen
 import pe.edu.upc.center.platform.learning.domain.model.commands.ConfirmEnrollmentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.commands.RejectEnrollmentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetAllEnrollmentsQuery;
-import pe.edu.upc.center.platform.learning.domain.model.queries.GetEnrollmentByAcmeStudentRecordIdAndCourseIdQuery;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.queries.GetEnrollmentByStudentRecordIdAndCourseIdQuery;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 import pe.edu.upc.center.platform.learning.domain.services.EnrollmentCommandService;
 import pe.edu.upc.center.platform.learning.domain.services.EnrollmentQueryService;
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.EnrollmentResource;
@@ -515,8 +498,8 @@ public class EnrollmentsController {
     var command = RequestEnrollmentCommandFromResourceAssembler.toCommandFromResource(resource);
     var enrollmentId = enrollmentCommandService.handle(command);
     System.out.println("Enrollment ID: " + enrollmentId);
-    var getEnrollmentByAcmeStudentRecordIdAndCourseIdQuery = new GetEnrollmentByAcmeStudentRecordIdAndCourseIdQuery(new AcmeStudentRecordId(resource.studentRecordId()), resource.courseId());
-    var enrollment = enrollmentQueryService.handle(getEnrollmentByAcmeStudentRecordIdAndCourseIdQuery);
+    var getEnrollmentByStudentRecordIdAndCourseIdQuery = new GetEnrollmentByStudentRecordIdAndCourseIdQuery(new StudentRecordId(resource.studentId()), resource.courseId());
+    var enrollment = enrollmentQueryService.handle(getEnrollmentByStudentRecordIdAndCourseIdQuery);
 
     if (enrollment.isEmpty()) {
       return ResponseEntity.notFound().build();
@@ -712,8 +695,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pe.edu.upc.center.platform.learning.domain.model.queries.GetAllEnrollmentsByAcmeStudentRecordIdQuery;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.queries.GetAllEnrollmentsByStudentRecordIdQuery;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 import pe.edu.upc.center.platform.learning.domain.services.EnrollmentQueryService;
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.EnrollmentResource;
 import pe.edu.upc.center.platform.learning.interfaces.rest.transform.EnrollmentResourceFromEntityAssembler;
@@ -755,9 +738,9 @@ public class StudentEnrollmentsController {
    */
   @GetMapping
   public ResponseEntity<List<EnrollmentResource>> getEnrollmentsForStudentWithStudentRecordId(@PathVariable String studentRecordId) {
-    var acmeStudentRecordId = new AcmeStudentRecordId(studentRecordId);
-    var getAllEnrollmentsByAcmeStudentRecordIdQuery = new GetAllEnrollmentsByAcmeStudentRecordIdQuery(acmeStudentRecordId);
-    var enrollments = enrollmentQueryService.handle(getAllEnrollmentsByAcmeStudentRecordIdQuery);
+    var studentRecordIdVar = new StudentRecordId(studentRecordId);
+    var getAllEnrollmentsByStudentRecordIdQuery = new GetAllEnrollmentsByStudentRecordIdQuery(studentRecordIdVar);
+    var enrollments = enrollmentQueryService.handle(getAllEnrollmentsByStudentRecordIdQuery);
     var enrollmentResources = enrollments.stream().map(EnrollmentResourceFromEntityAssembler::toResourceFromEntity).toList();
     return ResponseEntity.ok(enrollmentResources);
   }

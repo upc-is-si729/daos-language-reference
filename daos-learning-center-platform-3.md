@@ -12,11 +12,11 @@ public record GetAllCoursesQuery() {
 }
 ```
 
-En el package `queries` crear el record `GetAllEnrollmentsByAcmeStudentRecordIdQuery` con el siguiente contenido:
+En el package `queries` crear el record `GetAllEnrollmentsByStudentRecordIdQuery` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
-public record GetAllEnrollmentsByAcmeStudentRecordIdQuery(AcmeStudentRecordId studentRecordId) {
+public record GetAllEnrollmentsByStudentRecordIdQuery(StudentRecordId studentRecordId) {
 }
 ```
 
@@ -38,11 +38,11 @@ public record GetCourseByIdQuery(Long courseId) {
 }
 ```
 
-En el package `queries` crear el record `GetEnrollmentByAcmeStudentRecordIdAndCourseIdQuery` con el siguiente contenido:
+En el package `queries` crear el record `GetEnrollmentByStudentRecordIdAndCourseIdQuery` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
-public record GetEnrollmentByAcmeStudentRecordIdAndCourseIdQuery(AcmeStudentRecordId acmeStudentRecordId, Long courseId) {
+public record GetEnrollmentByStudentRecordIdAndCourseIdQuery(StudentRecordId studentRecordId, Long courseId) {
 }
 ```
 
@@ -58,11 +58,11 @@ public record GetLearningPathItemByCourseIdAndTutorialIdQuery(Long courseId, Lon
 }
 ```
 
-En el package `queries` crear el record `GetStudentByAcmeStudentRecordIdQuery` con el siguiente contenido:
+En el package `queries` crear el record `GetStudentByStudentRecordIdQuery` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
-public record GetStudentByAcmeStudentRecordIdQuery(AcmeStudentRecordId acmeStudentRecordId) {
+public record GetStudentByStudentRecordIdQuery(StudentRecordId studentRecordId) {
 }
 ```
 
@@ -126,9 +126,9 @@ public record RejectEnrollmentCommand(Long enrollmentId) {
 
 En el package `commands` crear el record `RequestEnrollmentCommand` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
-public record RequestEnrollmentCommand(AcmeStudentRecordId studentRecordId, Long courseId) {
+public record RequestEnrollmentCommand(StudentRecordId studentRecordId, Long courseId) {
 }
 ```
 
@@ -140,9 +140,9 @@ public record UpdateCourseCommand(Long id, String title, String description) {
 
 En el package `commands` crear el record `UpdateStudentMetricsOnTutorialCompletedCommand` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
-public record UpdateStudentMetricsOnTutorialCompletedCommand(AcmeStudentRecordId studentRecordId) {
+public record UpdateStudentMetricsOnTutorialCompletedCommand(StudentRecordId studentRecordId) {
 }
 ```
 
@@ -203,18 +203,18 @@ public interface EnrollmentCommandService {
 
 En el package `services` crear el interface `EnrollmentQueryService` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.aggregates.Enrollment;
 import pe.edu.upc.center.platform.learning.domain.model.queries.*;
+import pe.edu.upc.center.platform.learning.domain.model.aggregates.Enrollment;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EnrollmentQueryService {
-  List<Enrollment> handle(GetAllEnrollmentsByAcmeStudentRecordIdQuery query);
+  List<Enrollment> handle(GetAllEnrollmentsByStudentRecordIdQuery query);
   Optional<Enrollment> handle(GetEnrollmentByIdQuery query);
   List<Enrollment> handle(GetAllEnrollmentsQuery query);
   List<Enrollment> handle(GetAllEnrollmentsByCourseIdQuery query);
-  Optional<Enrollment> handle(GetEnrollmentByAcmeStudentRecordIdAndCourseIdQuery query);
+  Optional<Enrollment> handle(GetEnrollmentByStudentRecordIdAndCourseIdQuery query);
 }
 ```
 
@@ -222,25 +222,25 @@ En el package `services` crear el interface `StudentCommandService` con el sigui
 ```java
 import pe.edu.upc.center.platform.learning.domain.model.commands.CreateStudentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.commands.UpdateStudentMetricsOnTutorialCompletedCommand;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
 public interface StudentCommandService {
-  AcmeStudentRecordId handle(CreateStudentCommand command);
-  AcmeStudentRecordId handle(UpdateStudentMetricsOnTutorialCompletedCommand command);
+  StudentRecordId handle(CreateStudentCommand command);
+  StudentRecordId handle(UpdateStudentMetricsOnTutorialCompletedCommand command);
 }
 ```
 
 En el package `services` crear el interface `StudentQueryService` con el siguiente contenido:
 ```java
-import pe.edu.upc.center.platform.learning.domain.model.aggregates.Student;
-import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByAcmeStudentRecordIdQuery;
+import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByStudentRecordIdQuery;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByProfileIdQuery;
+import pe.edu.upc.center.platform.learning.domain.model.aggregates.Student;
 
 import java.util.Optional;
 
 public interface StudentQueryService {
   Optional<Student> handle(GetStudentByProfileIdQuery query);
-  Optional<Student> handle(GetStudentByAcmeStudentRecordIdQuery query);
+  Optional<Student> handle(GetStudentByStudentRecordIdQuery query);
 }
 ```
 
@@ -278,16 +278,16 @@ En el package `repositories` crear el interface `EnrollmentRepository` con el si
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pe.edu.upc.center.platform.learning.domain.model.aggregates.Enrollment;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
-  List<Enrollment> findAllByAcmeStudentRecordId(AcmeStudentRecordId acmeStudentRecordId);
+  List<Enrollment> findAllByStudentRecordId(StudentRecordId studentRecordId);
   List<Enrollment> findAllByCourseId(Long courseId);
-  Optional<Enrollment> findByAcmeStudentRecordIdAndCourseId(AcmeStudentRecordId acmeStudentRecordId, Long courseId);
+  Optional<Enrollment> findByStudentRecordIdAndCourseId(StudentRecordId studentRecordId, Long courseId);
 }
 ```
 
@@ -296,14 +296,14 @@ En el package `repositories` crear el interface `StudentRepository` con el sigui
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pe.edu.upc.center.platform.learning.domain.model.aggregates.Student;
-import pe.edu.upc.center.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentRecordId;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProfileId;
 
 import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-  Optional<Student> findByAcmeStudentRecordId(AcmeStudentRecordId studentRecordId);
+  Optional<Student> findByStudentRecordId(StudentRecordId studentRecordId);
   Optional<Student> findByProfileId(ProfileId profileId);
 }
 ```
@@ -384,11 +384,11 @@ public class EnrollmentQueryServiceImpl implements EnrollmentQueryService {
    * @param query containing studentRecordId
    * @return List of Enrollments
    * @see Enrollment
-   * @see GetAllEnrollmentsByAcmeStudentRecordIdQuery
+   * @see GetAllEnrollmentsByStudentRecordIdQuery
    */
   @Override
-  public List<Enrollment> handle(GetAllEnrollmentsByAcmeStudentRecordIdQuery query) {
-    return enrollmentRepository.findAllByAcmeStudentRecordId(query.studentRecordId());
+  public List<Enrollment> handle(GetAllEnrollmentsByStudentRecordIdQuery query) {
+    return enrollmentRepository.findAllByStudentRecordId(query.studentRecordId());
   }
 
   /**
@@ -431,8 +431,8 @@ public class EnrollmentQueryServiceImpl implements EnrollmentQueryService {
   }
 
   @Override
-  public Optional<Enrollment> handle(GetEnrollmentByAcmeStudentRecordIdAndCourseIdQuery query) {
-    return enrollmentRepository.findByAcmeStudentRecordIdAndCourseId(query.acmeStudentRecordId(), query.courseId());
+  public Optional<Enrollment> handle(GetEnrollmentByStudentRecordIdAndCourseIdQuery query) {
+    return enrollmentRepository.findByStudentRecordIdAndCourseId(query.studentRecordId(), query.courseId());
   }
 }
 ```
@@ -441,7 +441,7 @@ En el package `queryservices` crear la clase `StudentQueryServiceImpl` con el si
 ```java
 import org.springframework.stereotype.Service;
 import pe.edu.upc.center.platform.learning.domain.model.aggregates.Student;
-import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByAcmeStudentRecordIdQuery;
+import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByStudentRecordIdQuery;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByProfileIdQuery;
 import pe.edu.upc.center.platform.learning.domain.services.StudentQueryService;
 import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.repositories.StudentRepository;
@@ -478,8 +478,8 @@ public class StudentQueryServiceImpl implements StudentQueryService {
   }
 
   @Override
-  public Optional<Student> handle(GetStudentByAcmeStudentRecordIdQuery query) {
-    return studentRepository.findByAcmeStudentRecordId(query.acmeStudentRecordId());
+  public Optional<Student> handle(GetStudentByStudentRecordIdQuery query) {
+    return studentRepository.findByStudentRecordId(query.studentRecordId());
   }
 }
 ```
@@ -761,7 +761,7 @@ public class TutorialCompletedEventHandler {
     var enrollment = enrollmentQueryService.handle(getEnrollmentByIdQuery);
     if (enrollment.isPresent()) {
       // Update student metrics on tutorial completed
-      var updateStudentMetricsOnTutorialCompletedCommand = new UpdateStudentMetricsOnTutorialCompletedCommand(enrollment.get().getAcmeStudentRecordId());
+      var updateStudentMetricsOnTutorialCompletedCommand = new UpdateStudentMetricsOnTutorialCompletedCommand(enrollment.get().getStudentRecordId());
       studentCommandService.handle(updateStudentMetricsOnTutorialCompletedCommand);
     }
     System.out.println("TutorialCompletedEventHandler executed");

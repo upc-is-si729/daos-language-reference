@@ -63,22 +63,22 @@ public enum ProgressStatus {
 }
 ```
 
-En el package `valueobjects` crear el record `AcmeStudentRecordId` con el siguiente contenido:
+En el package `valueobjects` crear el record `StudentRecordId` con el siguiente contenido:
 ```java
 import jakarta.persistence.Embeddable;
 import java.util.UUID;
 
 /**
- * Value object representing the Acme student record id.
+ * Value object representing the Student record id.
  */
 @Embeddable
-public record AcmeStudentRecordId(String studentRecordId) {
-  public AcmeStudentRecordId() {
+public record StudentRecordId(String studentId) {
+  public StudentRecordId() {
     this(UUID.randomUUID().toString());
   }
 
-  public AcmeStudentRecordId {
-    if (studentRecordId == null || studentRecordId.isBlank()) {
+  public StudentRecordId {
+    if (studentId == null || studentId.isBlank()) {
       throw new IllegalArgumentException("Acme student record profileId cannot be null or blank");
     }
   }
