@@ -183,16 +183,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import pe.edu.upc.center.platform.iam.infrastructure.authorization.sfs.pipeline.BearerAuthorizationRequestFilter;
 import pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.BCryptHashingService;
 import pe.edu.upc.center.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
+
+import java.util.List;
 
 /**
  * Web Security Configuration.
  * <p>
  * This class is responsible for configuring the web security.
  * It enables the method security and configures the security filter chain.
- * It includes the authentication manager, the authentication provider, 
+ * It includes the authentication manager, the authentication provider,
  * the password encoder and the authentication entry point.
  * </p>
  */
@@ -203,7 +206,7 @@ public class WebSecurityConfiguration {
   private final UserDetailsService userDetailsService;
   private final BearerTokenService tokenService;
   private final BCryptHashingService hashingService;
-  
+
   private final AuthenticationEntryPoint unauthorizedRequestHandler;
 
   /**
@@ -256,6 +259,13 @@ public class WebSecurityConfiguration {
    */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.cors(corsConfigurer -> corsConfigurer.configurationSource( request -> {
+      var cors = new CorsConfiguration();
+      cors.setAllowedOrigins(List.of("*"));
+      cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
+      cors.setAllowedHeaders(List.of("*"));
+      return cors;
+    } ));
     http.csrf(csrfConfigurer -> csrfConfigurer.disable())
         .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
         .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -279,10 +289,10 @@ public class WebSecurityConfiguration {
    * @param authenticationEntryPoint The authentication entry point
    */
   public WebSecurityConfiguration(
-      @Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService, 
-      BearerTokenService tokenService, BCryptHashingService hashingService, 
+      @Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService,
+      BearerTokenService tokenService, BCryptHashingService hashingService,
       AuthenticationEntryPoint authenticationEntryPoint) {
-    
+
     this.userDetailsService = userDetailsService;
     this.tokenService = tokenService;
     this.hashingService = hashingService;
