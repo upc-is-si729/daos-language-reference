@@ -84,7 +84,7 @@ Ejecute los siguientes comandos:
 ```
 cd ..
 ls -l
-sudo chown -R alumnos ./si729-ws53-fakestore-products
+sudo chown -R alumnos ./daos-fakestore-products
 ls -l
 ```
 
