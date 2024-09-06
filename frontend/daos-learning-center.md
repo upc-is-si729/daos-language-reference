@@ -1,4 +1,5 @@
-# Creación del Proyecto Learning Center
+# Learning Center Project
+
 ## Creación del proyecto y agregando Material Design (MacOS)
 
 Cargar el `Terminal` de MacOS y ejecute las siguientes instrucciones:
