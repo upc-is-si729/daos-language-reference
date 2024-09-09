@@ -1,74 +1,131 @@
 # Learning Center Project
 
-## Creación del proyecto y agregando Material Design (MacOS)
+## Creación del proyecto
 
-Cargar el `Terminal` de MacOS y ejecute las siguientes instrucciones:
+> [!CAUTION]
+> **En el caso de estar en un equipo MAC:**
+> - Debe anteceder el comando `sudo` al ejecutar las instrucciones: `ng` y `chown`, y luego ingresar la contraseña del Administrador.
+> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/si729/2024-02` o en otra de su preferencia.
 
+> [!CAUTION]
+> **En el caso de estar en un equipo Windows:**
+> - Debe ubicarse en la carpeta `IdeaProjects/` o en otra de su preferencia.
+
+A continuación se detalla las intrucciones para crear un nuevo `workspace` e `initial starter app` de Angular. Más información en: https://angular.dev/tools/cli/setup-local
+
+**Cargar** el `Terminal`, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
+
+```bash
+ng new daos-learning-center
 ```
-cd /Users/alumnos/IdeaProjects
-sudo ng new daos-ws51-learning-center
-```
 
-Which stylesheet format would you like to use? Seleccione la siguiente opción:
+Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
+
+_Which stylesheet format would you like to use?_, **Seleccionar** la siguiente opción:
 
 ```
 CSS  [ https://developer.mozilla.org/docs/Web/CSS
 ```
 
-Do you want to enable Server-Side Rendering (SSR) and Static Site Generation 
-(SSG/Prerendering)? Seleccione:
+_Do you want to enable Server-Side Rendering (SSR) and Static Site Generation 
+(SSG/Prerendering)?_, **digitar**:
 
 ```
 N
 ```
 
-Luego ejecute las siguientes instrucciones:
+### Instalando Angular Material
+
+> [!CAUTION]
+> **En el caso de estar en un equipo MAC:**
+> - Debe anteceder el comando `sudo` al ejecutar las instrucciones: `ng` y luego ingresar la contraseña del Administrador.
+
+A continuación se detalla las intrucciones para instalar `Angular Material` a la Aplicación. Más información en: https://material.angular.io/guide/getting-started
+
+**Ejecutar** los siguientes commands:
 ```
-cd daos-ws51-learning-center
-sudo ng add @angular/material
+cd daos-learning-center
+ng add @angular/material
 ```
 
-Would you like to proceed?, digite:
+Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
+
+*Would you like to proceed?*, **digitar**:
 ```
 Y
 ```
 
-Choose a prebuilt theme name, or "custom" for a custom theme, seleccione:
+*Choose a prebuilt theme name, or "custom" for a custom theme*, **seleccionar**:
 ```
-Indigo/Pink  [ Preview: https://material.angular.io?theme=indigo-pink ]
+Azure/Blue   [Preview: https://material.angular.io?theme=azure-blue]
 ```
 
-Set up global Angular Material typography styles?, selecione:
+*Set up global Angular Material typography styles?*, **digitar**:
 ```
 Y
 ```
 
-Include the Angular animations module?, selecione:
+*Include the Angular animations module?*, **seleccionar**:
 ```
 Include and enable animations
 ```
 
-Luego ejecute las siguientes instrucciones:
+### Instalando Internationalization en/es
+
+A continuación se detalla las intrucciones para instalar los libraries de internacionalización (i18n) para Angular: **@ngx-translate**. Más información en: https://github.com/ngx-translate/core
+
+**Ejecutar** el siguiente command:
+
+```
+npm install @ngx-translate/core @ngx-translate/http-loader --save
+```
+
+### Instalando Json-sever
+
+A continuación se detalla las intrucciones para instalar un `full fake REST API` sin codificación: **JSON Server**. Más información en: https://github.com/typicode/json-server/tree/v0
+
+**Ejecutar** el siguiente command:
+
+```
+npm install -g json-server@0.17.4
+```
+
+### Liberar el proyecto creado con sudo (Solo MAC)
+
+> [!CAUTION]
+> **Solo ejecutar si estas en un equipo MAC:**
+
+
+**Ejecutar** los siguientes commands:
 ```
 cd ..
-sudo chown -R alumnos ./daos-ws51-learning-center
+ls -l
+sudo chown -R alumnos ./daos-learning-center
+ls -l
 ```
 
-## En el IDE IntelliJ IDEA Community
 
-Cargar el IntelliJ IDEA y abra el proyecto ubicado en: `/Users/alumnos/IdeaProjects/daos-ws51-learning-center`  
+## Desarrollo del proyecto
 
-### Configuración de JSON-SERVER
+**Cargar** el IntelliJ IDEA y **abrir** el proyecto ubicado en la carpeta de su preferencia.
 
-Cargar el `Terminal` del IDE y ejecutar la siguiente instrucción:
+**Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command:
 ```
-npm install json-server
+ng serve --port 4200
 ```
 
-En la carpeta principal crear la carpeta `server`
+### Configuración de JSON-Server
 
-En la carpeta `server` crear el archivo `db.json` con el siguiente contenido:
+**Crear** la carpeta `server` en la carpeta raiz del proyecto:
 
+```markdown
+- 📂 daos-learning-center
+  - 📁 server
+```
+
+**Crear** los archivo `db.json` y `routes.json` en la carpeta `server` con el siguiente contenido:
+
+#### db.json
 ```json
 {
   "students": [
@@ -94,92 +151,214 @@ En la carpeta `server` crear el archivo `db.json` con el siguiente contenido:
 }
 ```
 
-En la carpeta `server` crear el archivo `routes.json` con el siguiente contenido:
+#### routes.json
 ```json
 {
   "/api/v1/*": "/$1"
 }
+```
+
+**Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
+
+**Ejecutar** el siguiente command para iniciar el `json-server`:
+
+```
+json-server --watch server/db.json --routes server/routes.json
+```
+
+### Creación de los Archivos de idiomas
+
+**Crear** las carpetas: `assets` e `i18n` en la carpeta :file_folder: `public` ubicado en la raiz del proyecto:
+
+```markdown
+- 📂 public
+  - 📁 assets
+    - 📁 i18n
+```
+
+**Crear** los archivos `en.json` y `es.json` en la carpeta :file_folder: `i18n` con el siguiente contenido:
+
+#### en.json
+```json
+{
+  "filter": {
+    "label": "Filter",
+    "placeholder": "Enter text to filter"
+  },
+  "title": {
+    "students": "Students",
+    "add": "New Student",
+    "edit": "Edit Student"
+  },
+  "student": {
+    "id": "No.",
+    "name": "Name",
+    "age": "Age",
+    "address": "Address",
+    "actions": "Actions"
+  },
+  "footer": {
+    "rights": "Copyright © 2024 {{ api }}, All rights reserved",
+    "intro": "Developed ",
+    "author": "by {{ team }} Team"
+  }
+}
 
 ```
 
-Cargar el `Terminal` del IDE y ejecutar la siguiente instrucción para ejecutar el `json-server`
-```
-npx json-server --watch server/db.json
+#### es.json
+```json
+{
+  "filter": {
+    "label": "Filtrar",
+    "placeholder": "Digite texto a filtrar"
+  },
+  "title": {
+    "students": "Estudiantes",
+    "add": "Nuevo estudiante",
+    "edit": "Editar estudiante"
+  },
+  "student": {
+    "id": "Núm.",
+    "name": "Nombre",
+    "age": "Edad",
+    "address": "Dirección",
+    "actions": "Acciones"
+  },
+  "footer": {
+    "rights": "Derechos de autor © 2024 {{ api }}, Todos los derechos reservados",
+    "intro": "Desarrollado ",
+    "author": "por el Equipo {{ team }}"
+  }
+}
+
 ```
 
-### Configuración del environments
+### Configuración de environments
 
-Cargar una nueva pestaña en el `Terminal` del IDE y ejecutar la siguiente instrucción
-```
+A continuación se detalla las intrucciones para definir diferentes `named build configurations`  para el proyecto, como `development` y `staging` con diferentes valores predeterminados. Más información en: https://angular.dev/tools/cli/environments#configure-environment-specific-defaults
+
+**Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
+
+**Ejecutar** el siguiente CLI command para crear el directorio `environments` y archivos de configuración, ubicado en la carpeta `src`:
+
+```bash
 ng generate environments
 ```
 
-Agregar los siguientes valores a la constante `environment` ubicado en el archivo `environment.development.ts` de la carpeta `environments`:
-```typescript
-  production: false,
-  serverBasePath: 'http://localhost:3000'
+**Agregar** los siguientes valores a la constante `environment` del archivo `environment.development.ts` ubicado en la carpeta `/src/environments`:
+
+```ts
+production: false,
+// Server Base Path for Fake REST API
+serverBasePath: 'http://localhost:3000/api/v1'
+// Server Base Path for Spring Boot REST API
+//serverBasePath: 'http://localhost:8090/api/v1'
 ```
 
-Agregar los siguientes valores a la constante `environment` ubicado en el archivo `environment.ts` de la carpeta `environments`:
-```typescript
-  production: true,
-  serverBasePath: undefined
+**Agregar** los siguientes valores a la constante `environment` del archivo `environment.ts` ubicado en la carpeta `environments`:
+
+```ts
+production: true,
+serverBasePath: undefined
 ```
 
-### Creación de carpetas
+### Información del HttpClient y provideHttpClient
 
-En la carpeta `app` ubicado en la carpeta `src`, crear las carpetas: `learning`, `public` y `shared`.
+**HttpClient**: 
 
-En la carpeta `learning` crear las carpetas: `components`, `model`, `pages` y `services`-
+Realiza HTTP requests. Este servicio está disponible como un injectable class, con métodos para realizar HTTP requests. Cada request method tiene múltiples signatures y el return type varía según el signatures que el llamado (principalmente los valores de observe y responseType).
 
-En la carpeta `public` crear la carpeta: `pages`.
+Más información en: https://angular.dev/api/common/http/HttpClient
 
-En la carpeta `shared` crear la carpeta: `services`.
+**provideHttpClient**:
+
+Configura el servicio HttpClient de Angular para que esté disponible para injection.
+
+Más información en: https://angular.dev/api/common/http/provideHttpClient
 
 
-### Creando componentes, model y service
+### Configuración del appConfig
 
-En el Terminal del IDE crearemos los siguientes componentes:
+A continuación se detalla las instrucciones para agregar el provide del `HttpClient` y `TranslateLoader` al config.
+
+**Agregar** los siguientes imports al archivo `app.config.ts` ubicado en la carpeta `/src/app`:
+
+```ts
+import { HttpClient, provideHttpClient } from "@angular/common/http";
+import { importProvidersFrom } from '@angular/core';
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 ```
+
+**Agregar** la function `HttpLoaderFactory` despues de los `imports`.
+
+```ts
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+```
+
+**Agregar** los siguientes métodos al array `providers` de la constante `appConfig` del archivo `app.config.ts` :
+```
+provideHttpClient(),
+importProvidersFrom(
+  TranslateModule.forRoot({
+    loader: {
+      provide: TranslateLoader,
+      useFactory: HttpLoaderFactory,
+      deps: [HttpClient]
+    }
+  })
+)
+```
+
+### Creación de la estructura del proyecto
+
+**Crear** la siguiente estrutura de carpetas en la carpeta :file_folder: `/src/app`:
+
+```markdown
+- 📂 src
+  - 📂 app
+    - 📂 learning
+      - 📁 components
+      - 📁 model
+      - 📁 pages
+      - 📁 services
+    - 📂 public
+      - 📁 pages
+    - 📂 shared
+      - 📁 services
+```
+
+### Creación de componentes
+
+**Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
+
+**Ejecutar** los siguientes CLI commands para la creación de los componentes: `student-create-and-edit`, `student-management`, `about`, `home`, `language-switcher` y `page-not-found` (Ejecute los comandos uno a la vez):
+```bash
 ng generate component learning/components/student-create-and-edit --skip-tests=true
 ng generate component learning/pages/student-management --skip-tests=true
 ng generate component public/pages/about --skip-tests=true
 ng generate component public/pages/home --skip-tests=true
+ng generate component public/pages/language-switcher --skip-tests=true
 ng generate component public/pages/page-not-found --skip-tests=true
 ```
 
-En el Terminal del IDE crearemos el siguiente modelo:
-```
-ng generate class learning/model/student --type=entity
-```
-
-En el Terminal del IDE crearemos los siguientes services:
-```
-ng generate service learning/services/students
-ng generate service shared/services/base
-```
-
-### Agregando el provide HttpClient al config
-
-Agregar el siguiente import a la constante `appConfig` ubicado en el archivo `app.config.ts`
-```typescript
-import { provideHttpClient } from "@angular/common/http";
-```
-
-Agregar el método `provideHttpClient()` en la variable `providers` de la constante `appConfig` ubicado en el archivo `app.config.ts`
-
 ### Configuración del Routes
 
-Agregar los siguientes imports a la constante `routes` ubicado en el archivo `app.routes.ts`:
-```typescript
+**Agregar** los siguientes `import` al archivo `app.routes.ts` ubicado en la carpeta `/src/app`:
+
+```ts
 import { HomeComponent } from "./public/pages/home/home.component";
 import { AboutComponent } from "./public/pages/about/about.component";
 import { PageNotFoundComponent } from "./public/pages/page-not-found/page-not-found.component";
 import { StudentManagementComponent } from "./learning/pages/student-management/student-management.component";
 ```
 
-Agregar los siguientes valores a la constante `routes` ubicado en el archivo `app.routes.ts` de la carpeta `app`:
-```typescript
+**Agregar** los siguientes valores a la constante `routes` del archivo `app.routes.ts`:
+
+```ts
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'learning/students', component: StudentManagementComponent },
@@ -187,28 +366,88 @@ Agregar los siguientes valores a la constante `routes` ubicado en el archivo `ap
   { path: '**', component: PageNotFoundComponent }
 ```
 
-### Component AppComponent
+## Modificación del LanguageSwitcherComponent
 
-Agregar los siguientes imports a la clase `AppComponent` ubicado en el archivo `app.component.ts`:
-```typescript
+**Agregar** los siguientes `import` al archivo `language-switcher.component.ts`, ubicado en la carpeta `/src/app/public/pages/language-switcher`:
+
+```ts
+import { TranslateService } from "@ngx-translate/core";
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `LanguageSwitcherComponent` ubicado en el archivo `language-switcher.component.ts`.
+
+```
+MatButtonToggleModule
+```
+
+**Reemplazar** el contenido de la clase `LanguageSwitcherComponent` con el siguiente código, ubicado en el archivo `language-switcher.component.ts`:
+
+```ts
+currentLang: string = 'en';
+languages: string[] = ['en', 'es'];
+
+constructor(private translate: TranslateService) {
+  this.currentLang = translate.currentLang;
+}
+
+useLanguage(language: string) : void {
+  this.translate.use(language);
+}
+```
+**Reemplazar** el contenido del archivo `language-switcher.component.html` con el siguiente código, ubicado en la carpeta `/src/app/public/pages/language-switcher`:
+
+```html
+<mat-button-toggle-group [value]="currentLang" appearance="standard" aria-label="Preferred Language" name="language">
+  @for (language of languages; track language) {
+    <mat-button-toggle (click)="useLanguage(language)"
+                       [aria-label]="language"
+                       [value]="language">{{ language.toUpperCase() }}
+    </mat-button-toggle>
+  }
+</mat-button-toggle-group>
+```
+
+### Modificación del AppComponent
+
+**Agregar** los siguientes `import` al archivo `app.component.ts`, ubicado en la carpeta `/src/app`:
+
+```ts
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { TranslateService } from "@ngx-translate/core";
+import { LanguageSwitcherComponent } from "./public/pages/language-switcher/language-switcher.component";
 ```
 
-Agregar las clases `RouterLink, MatToolbarModule, MatButtonModule, MatIconModule` en la variable `imports` de `@Component` de la clase `AppComponent` ubicado en el archivo `app.component.ts`.
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `AppComponent`, ubicado en el archivo `app.component.ts`
 
-Agregar el siguiente atributo a la clase `AppComponent` ubicado en el archivo `app.component.ts`:
-```typescript
-  options = [
-    { path: '/home', title: 'Home'},
-    { path: '/learning/students', title: 'Students'},
-    {path:'/about', title: 'About'}
-  ]
+```ts
+RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, LanguageSwitcherComponent
 ```
 
-Reemplazar el contenido del archivo `app.component.html` con:
+**Agregar** el atributo `options` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
+
+```ts
+options = [
+  { path: '/home', title: 'Home'},
+  { path: '/learning/students', title: 'Students'},
+  {path:'/about', title: 'About'}
+];
+```
+
+**Agregar** el siguiente `constructor` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
+
+```ts
+constructor(translate: TranslateService) {
+  translate.setDefaultLang('en');
+  translate.use('en');
+}
+```
+
+**Reemplazar** el contenido del archivo `app.component.html` con el siguiente código, ubicado en la carpeta `/src/app`:
+
 ```html
 <mat-toolbar color="primary">
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
@@ -219,51 +458,81 @@ Reemplazar el contenido del archivo `app.component.html` con:
   @for(option of options; track option.title) {
     <a mat-button [routerLink]="option.path">{{ option.title }}</a>
   }
+  <span>
+    <app-language-switcher/>
+  </span>
 </mat-toolbar>
 <router-outlet/>
 ```
 
-Reemplazar el contenido del archivo `app.component.css` con:
+**Reemplazar** el contenido del archivo `app.component.css` con el siguiente código, ubicado en la carpeta `/src/app`:
+
 ```css
 .mat-spacer {
   flex: 1 1 auto;
 }
 ```
 
-Cargar el `Terminal` del IDE y ejecutar la siguiente instrucción:
-```
-ng serve
-```
+### Analizando el endpoint de students
 
-### Model Student
+Dirijase al endpoint: http://localhost:3000/students y **evaluar** el json de respuesta:
 
-Agregar los siguentes atributos y constructor a la clase `Student` ubicado en el archivo `student.entity.ts` de la carpeta `learning/model`:
-```typescript
-  id: number;
-  name: string;
-  age: number;
-  address: string;
-  constructor() {
-    this.id = 0;
-    this.name = "";
-    this.age = 0;
-    this.address = "";
-  }
+```json
+{
+  "id": 1,
+  "name": "John Doe",
+  "age": 26,
+  "address": "Nowhere"
+}
 ```
 
-### Service Base
+### Creación del model student tipo entity
 
-Agregar los siguentes imports a la clase `BaseService` ubicado en el archivo `base.service.ts` de la carpeta `shared/services`:
+**Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear el modelo `student`:
+
+```bash
+ng generate class learning/model/student --type=entity --skip-tests=true
+```
+
+**Agregar** los siguentes atributos y constructor a la clase `Student` del archivo `estudent.entity.ts`, ubicado en la carpeta `/src/app/learning/model`:
+
+```ts
+id: number;
+name: string;
+age: number;
+address: string;
+constructor() {
+  this.id = 0;
+  this.name = "";
+  this.age = 0;
+  this.address = "";
+}
+```
+
+### Creación del Service Base
+
+**Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear el service `base`:
+
+```bash
+ng generate service shared/services/base --skip-tests=true
+```
+
+**Agregar** los siguentes `import` al archivo `base.service.ts`, ubicado en la carpeta `/src/app/shared/services`:
 ```typescript
 import { environment } from "../../../environments/environment";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { catchError, Observable, retry, throwError } from "rxjs";
 ```
 
-Reemplazar el nombre de la clase `BaseService` por `BaseService<T>`
+**Reemplazar** el nombre de la clase `BaseService` del archivo `base.service.ts` por:
 
-Reemplazar el contenido de la clase `BaseService` con los siguentes atributos, constructor y métodos a la clase `BaseService`:
-```typescript
+```ts
+BaseService<T>
+```
+
+**Reemplazar** el contenido de la clase `BaseService` con el siguiente código, ubicado en el archivo `base.service.ts`:
+
+```ts
   basePath: string = `${environment.serverBasePath}`;
   resourceEndpoint: string = '/resources';
 
@@ -314,36 +583,43 @@ Reemplazar el contenido de la clase `BaseService` con los siguentes atributos, c
     return `${this.basePath}${this.resourceEndpoint}`;
   }
 ```
+### Creación del Service Students
 
-### Service Students
+**Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear el service `students`:
 
-Agregar los siguentes imports a la clase `StudentsService` ubicado en el archivo `students.service.ts` de la carpeta `learning/services`:
-```typescript
+```bash
+ng generate service learning/services/students --skip-tests=true
+```
+
+**Agregar** los siguentes `import` al archivo `students.service.ts`, ubicado en la carpeta `/src/app/learning/services`:
+
+```ts
 import { BaseService } from "../../shared/services/base.service";
 import { HttpClient } from "@angular/common/http";
 import { Student } from "../model/student.entity";
 ```
 
-Aplicar herencia de la clase `BaseService`, agregando la siguiente instrucción a la clase `StudentsService`:
-```typescript
+**Aplicar** herencia de la clase `BaseService` a la clase `StudentsService`, agregando la siguiente instrucción a la clase `StudentsService`:
+
+```ts
 extends BaseService<Student>
 ```
 
-Reemplazar el contenido de la clase `StudentsService` con el constructor:
-```typescript
-  constructor(http: HttpClient) {
-    super(http);
-    this.resourceEndpoint = '/students';
-  }
+**Reemplazar** el contructor de la clase `StudentsService` con el siguiente código, ubicado en el archivo `students.service.ts`:
+
+```ts
+constructor(http: HttpClient) {
+  super(http);
+  this.resourceEndpoint = '/students';
+}
 ```
 
+### Modificación del StudentManagementComponent
 
-### Component StudentManagement
+**Agregar** los siguientes import al archivo `student-management.component.ts`, ubicado en la carpeta `/src/app/learning/pages/student-management`:
 
-Agregar los siguientes imports a la clase `StudentManagementComponent` ubicado en el archivo `student-management.component.ts` de la carpeta `learning/pages/`:
-```typescript
+```ts
 import { AfterViewInit, OnInit, ViewChild} from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -352,24 +628,32 @@ import { StudentsService } from "../../services/students.service";
 import { Student } from "../../model/student.entity";
 import { StudentCreateAndEditComponent } from "../../components/student-create-and-edit/student-create-and-edit.component";
 import { NgClass } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
 ```
 
-Agregar las clases `MatPaginator, MatSort, MatIconModule, StudentCreateAndEditComponent, MatTableModule, NgClass` en la variable `imports` de `@Component` de la clase `StudentManagementComponent`.
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `StudentManagementComponent`, ubicado en el archivo `student-management.component.ts`:
 
-Aplicar implementación de interfaces, agregando la siguiente instrucción a la clase `StudentManagementComponent`:
-```typescript
+```ts
+MatPaginator, MatSort, MatIconModule, StudentCreateAndEditComponent, MatTableModule, NgClass, TranslateModule
+```
+
+**Aplicar** implementación de las interfaces `OnInit` y `AfterViewInit` a las clase `StudentManagementComponent`, agregando la siguiente instrucción a la clase `StudentManagementComponent`:
+
+```ts
 implements OnInit, AfterViewInit 
 ```
 
-Reemplazar el contenido de la clase `StudentManagementComponent` con los siguentes atributos, constructor y métodos:
-```typescript
+**Reemplazar** el contenido de la clase `StudentManagementComponent` con el siguiente código, ubicado en el archivo `student-management.component.ts`:
+
+```ts
   // Attributes
   studentData: Student;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ['id', 'name', 'age', 'address', 'actions'];
+  isEditMode: boolean;
+
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
-  isEditMode: boolean;
 
   // Constructor
   constructor(private studentService: StudentsService) {
@@ -386,37 +670,47 @@ Reemplazar el contenido de la clase `StudentManagementComponent` con los siguent
 
   // CRUD Actions
 
-  private getAllStudents() {
-    this.studentService.getAll().subscribe((response: any) => {
-      this.dataSource.data = response;
-    });
-  };
-
-  private createStudent() {
-    this.studentService.create(this.studentData).subscribe((response: any) => {
-      this.dataSource.data.push({...response});
-      this.dataSource.data = this.dataSource.data.map((student: Student) => { return student; });
-    });
-  };
-
-  private updateStudent() {
-    let studentToUpdate = this.studentData;
-    this.studentService.update(this.studentData.id, studentToUpdate).subscribe((response: any) => {
-      this.dataSource.data = this.dataSource.data.map((student: Student) => {
-        if (student.id === response.id) {
-          return response;
-        }
-        return student;
+  private getAllStudents(): void {
+    this.studentService.getAll()
+      .subscribe((response: any) => {
+        this.dataSource.data = response;
       });
-    });
   };
 
-  private deleteStudent(studentId: number) {
-    this.studentService.delete(studentId).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter((student: Student) => {
-        return student.id !== studentId ? student : false;
+  private createStudent(): void {
+    this.studentService.create(this.studentData)
+      .subscribe((response: any) => {
+        this.dataSource.data.push({...response});
+        // Actualiza el dataSource.data con los students actuales, para que Angular detecte el cambio y actualice la vista.
+        this.dataSource.data = this.dataSource.data
+          .map((student: Student) => {
+            return student;
+          });
       });
-    });
+  };
+
+  private updateStudent(): void {
+    let studentToUpdate: Student = this.studentData;
+    this.studentService.update(this.studentData.id, studentToUpdate)
+      .subscribe((response: any) => {
+        this.dataSource.data = this.dataSource.data
+          .map((student: Student) => {
+            if (student.id === response.id) {
+              return response;
+            }
+            return student;
+          });
+      });
+  };
+
+  private deleteStudent(studentId: number): void {
+    this.studentService.delete(studentId)
+      .subscribe(() => {
+        this.dataSource.data = this.dataSource.data
+          .filter((student: Student) => {
+            return student.id !== studentId ? student : false;
+          });
+      });
   };
 
   // UI Event Handlers
@@ -459,43 +753,51 @@ Reemplazar el contenido de la clase `StudentManagementComponent` con los siguent
   }
 ```
 
-Reemplazar el contenido del archivo `student-management.component.html` de la carpeta `learning/pages/`:
+**Reemplazar** el contenido del archivo `student-management.component.html` con el siguiente código, ubicado en la carpeta `/src/app/learning/pages/student-management`:
+
 ```html
 <!-- Student catalogue -->
 <div class="table-wrapper">
-  <h1>Students</h1>
+  <h3>{{ 'title.students' | translate }}</h3>
 
   <!--Add/Edit Form-->
   <app-student-create-and-edit (editCanceled)="onCancelEdit()"
-                    (studentAdded)="onStudentAdded($event)"
-                    (studentUpdated)="onStudentUpdated($event)"
-                    [editMode] = "isEditMode"
-                    [student]="studentData"/>
+                               (studentAdded)="onStudentAdded($event)"
+                               (studentUpdated)="onStudentUpdated($event)"
+                               [editMode] = "isEditMode"
+                               [student]="studentData"/>
   <!-- Data Table -->
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+         matSort matSortActive="name" matSortDirection="asc">
+
     <ng-container matColumnDef="id">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> #Id</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ 'student.id' | translate }} </th>
       <td *matCellDef="let element" mat-cell>{{ element.id }}</td>
     </ng-container>
+
     <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{ 'student.name' | translate }}</th>
       <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
     </ng-container>
+
     <ng-container matColumnDef="age">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>Age</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{ 'student.age' | translate }}</th>
       <td *matCellDef="let element" mat-cell>{{ element.age }}</td>
     </ng-container>
+
     <ng-container matColumnDef="address">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>Address</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{ 'student.address' | translate }}</th>
       <td *matCellDef="let element" mat-cell>{{ element.address }}</td>
     </ng-container>
+
     <ng-container matColumnDef="actions">
-      <th *matHeaderCellDef mat-header-cell> Actions</th>
+      <th *matHeaderCellDef mat-header-cell> {{ 'student.actions' | translate }}</th>
       <td *matCellDef="let element" mat-cell>
         <a (click)="onEditItem(element)" href="javascript:void(0)"><mat-icon>edit</mat-icon></a>
         <a (click)="onDeleteItem(element)" href="javascript:void(0)"><mat-icon>delete</mat-icon></a>
       </td>
     </ng-container>
+
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
     <tr *matRowDef="let row; columns:displayedColumns" [ngClass]="{'editable-row': studentData.id === row.id }" mat-row></tr>
   </table>
@@ -504,7 +806,8 @@ Reemplazar el contenido del archivo `student-management.component.html` de la ca
 </div>
 ```
 
-Reemplazar el contenido del archivo `student-management.component.css` de la carpeta `learning/pages/`:
+**Reemplazar** el contenido del archivo `student-management.component.css` con el siguiente código, ubicado en la carpeta `/src/app/learning/pages/student-management`:
+
 ```css
 .table-wrapper {
   width: 1024px;
@@ -518,35 +821,37 @@ table {
 tr.editable-row {
   background-color: lightblue;
 }
-
 ```
 
 
-### Component StudentCreateAndEdit
+### Modificación del StudentCreateAndEdit
 
-Agregar los siguientes imports a la clase `StudentCreateAndEditComponent` ubicado en el archivo `student-create-and-edit.component.ts` de la carpeta `learning/components`:
-```typescript
-import {EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {Student} from "../../model/student.entity";
-import {FormsModule, NgForm} from "@angular/forms";
-import {MatFormField} from "@angular/material/form-field";
-import {MatFormFieldControl} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatButtonModule} from "@angular/material/button";
-import {NgIf} from "@angular/common";
+**Agregar** los siguientes `import` al archivo `student-create-and-edit.component.ts`, ubicado en la carpeta `/src/app/learning/components/student-create-and-edit`:
+
+```ts
+import { EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Student } from "../../model/student.entity";
+import { FormsModule, NgForm } from "@angular/forms";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
 ```
 
-Agregar las clases `MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf` en la variable `imports` de `@Component` de la clase `StudentCreateAndEditComponent`.
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `StudentCreateAndEditComponent`, ubicado en el archivo `student-create-and-edit.component.ts`:
 
+```ts
+MatFormField, MatInputModule, MatButtonModule, FormsModule
+```
 
-Reemplazar el contenido de la clase `StudentCreateAndEditComponent` con los siguentes atributos, constructor y métodos:
-```typescript
+**Reemplazar** el contenido de la clase `StudentCreateAndEditComponent` con el siguiente código, ubicado en el archivo `student-create-and-edit.component.ts`:
+
+```ts
   // Attributes
   @Input() student: Student;
-  @Input() editMode = false;
-  @Output() studentAdded = new EventEmitter<Student>();
-  @Output() studentUpdated = new EventEmitter<Student>();
-  @Output() editCanceled = new EventEmitter();
+  @Input() editMode: boolean = false;
+  @Output() studentAdded: EventEmitter<Student> = new EventEmitter<Student>();
+  @Output() studentUpdated: EventEmitter<Student> = new EventEmitter<Student>();
+  @Output() editCanceled: EventEmitter<any> = new EventEmitter();
   @ViewChild('studentForm', {static: false}) studentForm!: NgForm;
 
   // Methods
@@ -555,7 +860,7 @@ Reemplazar el contenido de la clase `StudentCreateAndEditComponent` con los sigu
   }
 
   // Private methods
-  private resetEditState() {
+  private resetEditState(): void {
     this.student = {} as Student;
     this.editMode = false;
     this.studentForm.resetForm();
@@ -563,9 +868,9 @@ Reemplazar el contenido de la clase `StudentCreateAndEditComponent` con los sigu
 
   // Event Handlers
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.studentForm.form.valid) {
-      let emitter = this.editMode ? this.studentUpdated : this.studentAdded;
+      let emitter: EventEmitter<Student> = this.editMode ? this.studentUpdated : this.studentAdded;
       emitter.emit(this.student);
       this.resetEditState();
     } else {
@@ -573,17 +878,19 @@ Reemplazar el contenido de la clase `StudentCreateAndEditComponent` con los sigu
     }
   }
 
-  onCancel() {
+  onCancel(): void {
     this.editCanceled.emit();
     this.resetEditState();
   }
 ```
 
-Reemplazar el contenido del archivo `student-create-and-edit.component.html` de la carpeta `learning/components`:
+**Reemplazar** el contenido del archivo `student-create-and-edit.component.html` con el siguiente código, ubicado en la carpeta `/src/app/learning/components/student-create-and-edit`:
+
 ```html
 <!-- Create and Edit Form -->
-<h2>{{ editMode ? 'Edit Student' : 'New Student' }}</h2>
+<h4>{{ editMode ? 'Edit Student' : 'New Student' }}</h4>
 <div class="form-section">
+
   <form (submit)="onSubmit()" #studentForm='ngForm' class="form-row">
     <mat-form-field>
       <input matInput placeholder="Name" name="name" required [(ngModel)]="student.name">
@@ -594,19 +901,22 @@ Reemplazar el contenido del archivo `student-create-and-edit.component.html` de 
     <mat-form-field>
       <input matInput placeholder="Address" name="address" required [(ngModel)]="student.address">
     </mat-form-field>
-    <ng-container *ngIf="editMode; else elseTemplate">
-      <button mat-raised-button color="primary">Update</button>
-      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+    <ng-container>
+      @if (editMode === true) {
+        <button mat-raised-button color="primary">Update</button>
+        <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+      }
+      @else {
+        <button mat-raised-button color="primary">Add</button>
+      }
     </ng-container>
-    <ng-template #elseTemplate>
-      <button mat-raised-button color="primary">Add</button>
-    </ng-template>
   </form>
-</div>
 
+</div>
 ```
 
-Reemplazar el contenido del archivo `student-create-and-edit.component.css` de la carpeta `learning/components`:
+**Reemplazar** el contenido del archivo `student-create-and-edit.component.css` con el siguiente código, ubicado en la carpeta `/src/app/learning/components/student-create-and-edit`:
+
 ```css
 .form-section {
   display: table;
@@ -629,8 +939,6 @@ Reemplazar el contenido del archivo `student-create-and-edit.component.css` de l
   margin-right: 8px;
   width: 15%;
 }
-
-
 ```
 
 

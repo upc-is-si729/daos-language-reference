@@ -1,6 +1,6 @@
 # Proyecto Fake-store
-
-## Creación del proyecto y agregando Material Design
+ 
+## Creación del proyecto, agregando Material Design e Internationalization en/es
 
 > [!CAUTION]
 > **En el caso de estar en un equipo MAC:**
@@ -164,12 +164,14 @@ Dentro de la carpeta :file_folder: `i18n` crear los siguientes archivos `en.json
 ### Información del HttpClient y provideHttpClient
 
 **HttpClient**: 
-Performs HTTP requests. This service is available as an injectable class, with methods to perform HTTP requests. Each request method has multiple signatures, and the return type varies based on the signature that is called (mainly the values of observe and responseType).
+
+Realiza HTTP requests. Este servicio está disponible como un injectable class, con métodos para realizar HTTP requests. Cada request method tiene múltiples signatures y el return type varía según el signatures que el llamado (principalmente los valores de observe y responseType).
 
 Más información en: https://angular.dev/api/common/http/HttpClient
 
 **provideHttpClient**:
-Configures Angular's HttpClient service to be available for injection.
+
+Configura el servicio HttpClient de Angular para que esté disponible para injection.
 
 Más información en: https://angular.dev/api/common/http/provideHttpClient
 
@@ -224,7 +226,7 @@ En la carpeta :file_folder: `app` ubicado dentro de la carpeta `src`, **crear** 
       - 📁 components
 ```
 
-Cargue el Terminal del IDE y agregue un nuevo `Tab`.
+**Cargar** el `Terminal` del IDE y agregue un nuevo `Tab`.
 
 **Ejecute** los siguientes comandos para la creación de los componentes: `header-content, footer-content, language-switcher, product-list` (Ejecute los comandos uno a la vez):
 ```bash
@@ -485,12 +487,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Product } from "../../model/product.entity";
 import { FakestoreApiService } from '../../services/fakestore-api.service';
+import { TranslateModule } from "@ngx-translate/core";
 ```
 
 **Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductListComponent` del archivo `product-list.component.ts`:
 
 ```
-MatFormFieldModule, MatInputModule, MatTableModule, MatCardModule
+MatFormFieldModule, MatInputModule, MatTableModule, MatCardModule, TranslateModule
 ```
 
 **Reemplazar** el contenido de la clase `ProductListComponent` ubicado en el archivo `product-list.component.ts` con el siguiente código:
