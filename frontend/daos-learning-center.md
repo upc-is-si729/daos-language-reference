@@ -16,7 +16,7 @@ A continuación se detalla las intrucciones para crear un nuevo `workspace` e `i
 **Cargar** el `Terminal`, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
 
 ```bash
-ng new daos-learning-center
+ng new daos-si729-learning-center
 ```
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
@@ -44,7 +44,7 @@ A continuación se detalla las intrucciones para instalar `Angular Material` a l
 
 **Ejecutar** los siguientes commands:
 ```
-cd daos-learning-center
+cd daos-si729-learning-center
 ng add @angular/material
 ```
 
@@ -100,7 +100,7 @@ npm install -g json-server@0.17.4
 ```
 cd ..
 ls -l
-sudo chown -R alumnos ./daos-learning-center
+sudo chown -R alumnos ./daos-si729-learning-center
 ls -l
 ```
 
@@ -119,7 +119,7 @@ ng serve --port 4200
 **Crear** la carpeta `server` en la carpeta raiz del proyecto:
 
 ```markdown
-- 📂 daos-learning-center
+- 📂 daos-si729-learning-center
   - 📁 server
 ```
 
