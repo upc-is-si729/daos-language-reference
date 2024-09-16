@@ -326,6 +326,7 @@ importProvidersFrom(
       - 📁 pages
       - 📁 services
     - 📂 public
+      - 📁 components
       - 📁 pages
     - 📂 shared
       - 📁 services
@@ -339,9 +340,9 @@ importProvidersFrom(
 ```bash
 ng generate component learning/components/student-create-and-edit --skip-tests=true
 ng generate component learning/pages/student-management --skip-tests=true
+ng generate component public/components/language-switcher --skip-tests=true
 ng generate component public/pages/about --skip-tests=true
 ng generate component public/pages/home --skip-tests=true
-ng generate component public/pages/language-switcher --skip-tests=true
 ng generate component public/pages/page-not-found --skip-tests=true
 ```
 
@@ -368,7 +369,7 @@ import { StudentManagementComponent } from "./learning/pages/student-management/
 
 ## Modificación del LanguageSwitcherComponent
 
-**Agregar** los siguientes `import` al archivo `language-switcher.component.ts`, ubicado en la carpeta `/src/app/public/pages/language-switcher`:
+**Agregar** los siguientes `import` al archivo `language-switcher.component.ts`, ubicado en la carpeta `/src/app/public/components/language-switcher`:
 
 ```ts
 import { TranslateService } from "@ngx-translate/core";
@@ -418,7 +419,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateService } from "@ngx-translate/core";
-import { LanguageSwitcherComponent } from "./public/pages/language-switcher/language-switcher.component";
+import { LanguageSwitcherComponent } from "./public/components/language-switcher/language-switcher.component";
 ```
 
 **Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `AppComponent`, ubicado en el archivo `app.component.ts`
@@ -475,7 +476,7 @@ constructor(translate: TranslateService) {
 
 ### Analizando el endpoint de students
 
-Dirijase al endpoint: http://localhost:3000/students y **evaluar** el json de respuesta:
+Dirijase al endpoint: http://localhost:3000/api/v1/students y **evaluar** el json de respuesta:
 
 ```json
 {
