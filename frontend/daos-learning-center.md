@@ -414,36 +414,66 @@ useLanguage(language: string) : void {
 **Agregar** los siguientes `import` al archivo `app.component.ts`, ubicado en la carpeta `/src/app`:
 
 ```ts
+import { OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from "@angular/material/divider";
+import { MatListModule } from "@angular/material/list";
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { TranslateService } from "@ngx-translate/core";
-import { LanguageSwitcherComponent } from "./public/components/language-switcher/language-switcher.component";
+import { LanguageSwitcherComponent } from "./public/pages/language-switcher/language-switcher.component";
 ```
 
 **Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `AppComponent`, ubicado en el archivo `app.component.ts`
 
 ```ts
-RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, LanguageSwitcherComponent
+RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, 
+MatSidenavModule, MatDividerModule, MatListModule, LanguageSwitcherComponent
 ```
 
-**Agregar** el atributo `options` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
+**Aplicar** implementación de la interface `OnInit` a la clase `AppComponent`, agregando la siguiente instrucción a la clase `AppComponent`:
 
 ```ts
+implements OnInit 
+```
+
+**Agregar** los atributos `sidenav` y `options` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
+
+```ts
+@ViewChild(MatSidenav, {static: true}) sidenav!: MatSidenav;
 options = [
-  { path: '/home', title: 'Home'},
-  { path: '/learning/students', title: 'Students'},
-  {path:'/about', title: 'About'}
+  { icon: 'home', path: '/home', title: 'Home'},
+  { icon: 'person', path: '/learning/students', title: 'Students'},
+  { icon: 'info', path:'/about', title: 'About'}
 ];
 ```
 
 **Agregar** el siguiente `constructor` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
 
 ```ts
-constructor(translate: TranslateService) {
-  translate.setDefaultLang('en');
-  translate.use('en');
+constructor(private translate: TranslateService, private observer: BreakpointObserver) {
+    translate.setDefaultLang('en');
+    translate.use('en');
+  }
+```
+
+**Agregar** el método `ngOnInit()` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
+
+```ts
+ngOnInit(): void {
+  this.observer.observe(['(max-width: 1280px)']) // Observa el ancho de la pantalla
+    .subscribe((response) => {  // Se suscribe a los cambios en el ancho de la pantalla
+      if (response.matches) { // Si el ancho de la pantalla es menor a 1280px
+        this.sidenav.mode = 'over'; // Se despliega sobre el contenido
+        this.sidenav.close(); // Se cierra
+      } else {
+        this.sidenav.mode = 'side'; // Se despliega al lado del contenido
+        this.sidenav.open();  // Se abre
+      }
+    });
 }
 ```
 
@@ -451,19 +481,47 @@ constructor(translate: TranslateService) {
 
 ```html
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
+  @if (sidenav.mode === 'over') {
+    <button mat-icon-button (click)="sidenav.toggle()" >
+      @if (sidenav.opened) {
+        <mat-icon>close</mat-icon>
+      } @else {
+        <mat-icon>menu</mat-icon>
+      }
+    </button>
+  }
+  <mat-icon matListItemIcon>rocket_launch</mat-icon>
   <span>Learning Center</span>
   <span class="mat-spacer"></span>
   @for(option of options; track option.title) {
     <a mat-button [routerLink]="option.path">{{ option.title }}</a>
   }
+  <button mat-icon-button>
+    <mat-icon>share</mat-icon>
+  </button>
   <span>
     <app-language-switcher/>
   </span>
 </mat-toolbar>
-<router-outlet/>
+
+<mat-sidenav-container>
+  <mat-sidenav>
+    <mat-nav-list>
+      @for(option of options; track option.title) {
+        <mat-list-item (click)="sidenav.mode === 'over' && sidenav.toggle()" [routerLink]="option.path">
+          <mat-icon matListItemIcon>{{ option.icon }}</mat-icon>
+          {{ option.title }}
+        </mat-list-item>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content">
+      <router-outlet />
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
 ```
 
 **Reemplazar** el contenido del archivo `app.component.css` con el siguiente código, ubicado en la carpeta `/src/app`:
@@ -472,6 +530,24 @@ constructor(translate: TranslateService) {
 .mat-spacer {
   flex: 1 1 auto;
 }
+mat-sidenav {
+  width: 200px;
+  border-right: none;
+  padding: 16px 0;
+}
+.content {
+  height: calc(100svh - 98px);
+  border-radius: 10px;
+  padding: 16px;
+  max-width: 1520px;
+  margin: 0 auto;
+  font-size: 16px;
+  background: #fff;
+}
+mat-sidenav-container {
+  height: calc(100svh - 65px);
+}
+
 ```
 
 ### Analizando el endpoint de students
