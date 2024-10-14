@@ -360,11 +360,11 @@ import { StudentManagementComponent } from "./learning/pages/student-management/
 **Agregar** los siguientes valores a la constante `routes` del archivo `app.routes.ts`:
 
 ```ts
-  { path: 'home', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'learning/students', component: StudentManagementComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+{ path: 'home', component: HomeComponent },
+{ path: 'about', component: AboutComponent },
+{ path: 'learning/students', component: StudentManagementComponent },
+{ path: '', redirectTo: 'home', pathMatch: 'full' },
+{ path: '**', component: PageNotFoundComponent }
 ```
 
 ## Modificación del LanguageSwitcherComponent
@@ -396,7 +396,7 @@ useLanguage(language: string) : void {
   this.translate.use(language);
 }
 ```
-**Reemplazar** el contenido del archivo `language-switcher.component.html` con el siguiente código, ubicado en la carpeta `/src/app/public/pages/language-switcher`:
+**Reemplazar** el contenido del archivo `language-switcher.component.html` con el siguiente código, ubicado en la carpeta `/src/app/public/components/language-switcher`:
 
 ```html
 <mat-button-toggle-group [value]="currentLang" appearance="standard" aria-label="Preferred Language" name="language">
@@ -424,7 +424,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatListModule } from "@angular/material/list";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { TranslateService } from "@ngx-translate/core";
-import { LanguageSwitcherComponent } from "./public/pages/language-switcher/language-switcher.component";
+import { LanguageSwitcherComponent } from "./public/components/language-switcher/language-switcher.component";
 ```
 
 **Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `AppComponent`, ubicado en el archivo `app.component.ts`
@@ -455,9 +455,9 @@ options = [
 
 ```ts
 constructor(private translate: TranslateService, private observer: BreakpointObserver) {
-    translate.setDefaultLang('en');
-    translate.use('en');
-  }
+  translate.setDefaultLang('en');
+  translate.use('en');
+}
 ```
 
 **Agregar** el método `ngOnInit()` a la clase `AppComponent`, ubicado en el archivo `app.component.ts`:
