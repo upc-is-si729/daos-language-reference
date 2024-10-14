@@ -326,7 +326,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import pe.edu.upc.center.platform.profiles.domain.model.commands.CreateProfileCommand;
+//import pe.edu.upc.center.platform.profiles.domain.model.commands.CreateProfileCommand;
 import pe.edu.upc.center.platform.profiles.domain.model.valueobjects.StreetAddress;
 import pe.edu.upc.center.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
@@ -370,7 +370,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     return address.street();
   }
   //---------------------------------------------------
-  public Profile(CreateProfileCommand command) {
+  /*public Profile(CreateProfileCommand command) {
     this.fullName = command.fullName();
     this.age = command.age();
     this.address = new StreetAddress(command.street());
@@ -381,7 +381,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     this.age = age;
     this.address = new StreetAddress(street);
     return this;
-  }
+  }*/
 }
 ```
 
