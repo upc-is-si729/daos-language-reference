@@ -4,8 +4,11 @@
 - [Guide Proyecto Fake-store](frontend/daos-fakestore-products.md)
 - [Guide Learning Center](frontend/daos-learning-center.md)
 
-## Platform
+## Platform Mini
 
+- [Guide Learning Center Platform mini](platform/daos-learning-center-platform-mini-v2402.md)
+
+## Platform
 - [Guide Learning Center Platform - Part 1](platform/daos-learning-center-platform-1.md)
 - [Guide Learning Center Platform - Part 2](platform/daos-learning-center-platform-2.md)
 - [Guide Learning Center Platform - Part 3](platform/daos-learning-center-platform-3.md)

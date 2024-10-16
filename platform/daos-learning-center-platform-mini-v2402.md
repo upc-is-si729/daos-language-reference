@@ -501,6 +501,12 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
 }
 ```
 
+## Generación de las Tablas en la Base de datos
+
+### 
+
+Ejecute el proyecto y Verifique que se ha generado las tablas en la base de datos: `learningmini`.
+
 ## Profile Bounded Context
 
 ### Package domain . model . queries
@@ -580,6 +586,33 @@ public interface ProfileQueryService {
 }
 ```
 
+### Package domain . model . aggregates
+
+En el package `aggregates` en la clase `Profile` quite el comentario de las siguientes lineas de código:
+
+En los imports:
+```java
+//import pe.edu.upc.center.platform.profiles.domain.model.commands.CreateProfileCommand;
+```
+
+Al final del archivo:
+```java
+  //---------------------------------------------------
+  /*public Profile(CreateProfileCommand command) {
+    this.fullName = command.fullName();
+    this.age = command.age();
+    this.address = new StreetAddress(command.street());
+  }
+
+  public Profile updateInformation(String fullName, int age, String street) {
+    this.fullName = fullName;
+    this.age = age;
+    this.address = new StreetAddress(street);
+    return this;
+  }*/
+}
+```
+
 ### Package infrastructure.persistence.jpa.repositories
 
 En el package `repositories` crear el interface `ProfileRepository` con el siguiente contenido:
@@ -607,7 +640,7 @@ import pe.edu.upc.center.platform.profiles.domain.model.aggregates.Profile;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetProfileByFullNameQuery;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetProfileByIdQuery;
-import pe.edu.upc.center.platform.profiles.domain.model.services.ProfileQueryService;
+import pe.edu.upc.center.platform.profiles.domain.services.ProfileQueryService;
 import pe.edu.upc.center.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 
 import java.util.List;
@@ -648,7 +681,7 @@ import pe.edu.upc.center.platform.profiles.domain.model.aggregates.Profile;
 import pe.edu.upc.center.platform.profiles.domain.model.commands.CreateProfileCommand;
 import pe.edu.upc.center.platform.profiles.domain.model.commands.DeleteProfileCommand;
 import pe.edu.upc.center.platform.profiles.domain.model.commands.UpdateProfileCommand;
-import pe.edu.upc.center.platform.profiles.domain.model.services.ProfileCommandService;
+import pe.edu.upc.center.platform.profiles.domain.services.ProfileCommandService;
 import pe.edu.upc.center.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 
 import java.util.Optional;
@@ -782,8 +815,8 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.center.platform.profiles.domain.model.commands.DeleteProfileCommand;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetProfileByIdQuery;
-import pe.edu.upc.center.platform.profiles.domain.model.services.ProfileCommandService;
-import pe.edu.upc.center.platform.profiles.domain.model.services.ProfileQueryService;
+import pe.edu.upc.center.platform.profiles.domain.services.ProfileCommandService;
+import pe.edu.upc.center.platform.profiles.domain.services.ProfileQueryService;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.resources.CreateProfileResource;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.resources.ProfileResource;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
@@ -879,8 +912,8 @@ import pe.edu.upc.center.platform.profiles.domain.model.commands.DeleteProfileCo
 import pe.edu.upc.center.platform.profiles.domain.model.commands.UpdateProfileCommand;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetProfileByFullNameQuery;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetProfileByIdQuery;
-import pe.edu.upc.center.platform.profiles.domain.model.services.ProfileCommandService;
-import pe.edu.upc.center.platform.profiles.domain.model.services.ProfileQueryService;
+import pe.edu.upc.center.platform.profiles.domain.services.ProfileCommandService;
+import pe.edu.upc.center.platform.profiles.domain.services.ProfileQueryService;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.resources.ProfileResource;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
 
@@ -1071,7 +1104,7 @@ import pe.edu.upc.center.platform.learning.domain.model.queries.GetAllStudentsQu
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByIdQuery;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByProfileIdQuery;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByStudentCodeQuery;
-import pe.edu.upc.center.platform.learning.domain.model.services.StudentQueryService;
+import pe.edu.upc.center.platform.learning.domain.services.StudentQueryService;
 import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.repositories.StudentRepository;
 
 import java.util.List;
@@ -1181,7 +1214,7 @@ import pe.edu.upc.center.platform.learning.domain.model.aggregates.Student;
 import pe.edu.upc.center.platform.learning.domain.model.commands.CreateStudentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.commands.DeleteStudentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.commands.UpdateStudentCommand;
-import pe.edu.upc.center.platform.learning.domain.model.services.StudentCommandService;
+import pe.edu.upc.center.platform.learning.domain.services.StudentCommandService;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentCode;
 import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.repositories.StudentRepository;
 
@@ -1313,8 +1346,8 @@ import pe.edu.upc.center.platform.learning.application.internal.outboundservices
 import pe.edu.upc.center.platform.learning.domain.model.commands.DeleteStudentCommand;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetAllStudentsQuery;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetStudentByStudentCodeQuery;
-import pe.edu.upc.center.platform.learning.domain.model.services.StudentCommandService;
-import pe.edu.upc.center.platform.learning.domain.model.services.StudentQueryService;
+import pe.edu.upc.center.platform.learning.domain.services.StudentCommandService;
+import pe.edu.upc.center.platform.learning.domain.services.StudentQueryService;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentCode;
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateStudentResource;
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.StudentResource;
