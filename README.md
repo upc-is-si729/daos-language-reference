@@ -3,6 +3,7 @@
 ## Frontend
 - [Guide Proyecto Fake-store](frontend/daos-fakestore-products.md)
 - [Guide Learning Center](frontend/daos-learning-center.md)
+- [Guide Learning Cente - iam](frontend/daos-learning-center-iam.md)
 
 ## Platform Mini
 
