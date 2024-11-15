@@ -18,7 +18,7 @@
 
 **Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
 
-**Ejecutar** los siguientes CLI commands para la creación de los componentes: `authentication-section`, `sign-in`, `sign-up` (Ejecute los comandos uno a la vez):
+**Ejecutar** los siguientes CLI commands para la creación de los componentes: `authentication-section`, `sign-in`, `sign-up` (_Ejecute los comandos uno a la vez_):
 
 ```bash
 ng generate component iam/components/authentication-section --skip-tests=true
@@ -37,7 +37,7 @@ ng generate class iam/model/sign-up --type=request --skip-tests=true
 ng generate class iam/model/sign-up --type=response --skip-tests=true
 ```
 
-**Reemplazar** los siguentes atributos y constructor a la clase `SignInRequest` del archivo `sign-in.request.ts`, ubicado en la carpeta `/src/app/iam/model`:
+**Reemplazar** el contenido del archivo `sign-in.request.ts` ubicado en la carpeta `/src/app/iam/model`, con la siguiente clase `SignInRequest`:
 
 ```ts
 export class SignInRequest {
@@ -51,7 +51,7 @@ export class SignInRequest {
 }
 ```
 
-**Reemplazar** los siguentes atributos y constructor a la clase `SignInResponse` del archivo `sign-in.response.ts`, ubicado en la carpeta `/src/app/iam/model`:
+**Reemplazar** el contenido del archivo `sign-in.response.ts` ubicado en la carpeta `/src/app/iam/model`, con la siguiente clase `SignInResponse` :
 
 ```ts
 export class SignInResponse {
@@ -67,7 +67,7 @@ export class SignInResponse {
 }
 ```
 
-**Reemplazar** los siguentes atributos y constructor a la clase `SignUpRequest` del archivo `sign-up.request.ts`, ubicado en la carpeta `/src/app/iam/model`:
+**Reemplazar** el contenido del archivo `sign-up.request.ts` ubicado en la carpeta `/src/app/iam/model`, con la clase `SignUpRequest`:
 
 ```ts
 export class SignUpRequest {
@@ -81,7 +81,7 @@ export class SignUpRequest {
 }
 ```
 
-**Reemplazar** los siguentes atributos y constructor a la clase `SignUpResponse` del archivo `sign-up.response.ts`, ubicado en la carpeta `/src/app/iam/model`:
+**Reemplazar** el contenido del archivo `sign-up.response.ts`, ubicado en la carpeta `/src/app/iam/model`, con la clase `SignUpResponse` :
 
 ```ts
 export class SignUpResponse {
@@ -104,7 +104,7 @@ export class SignUpResponse {
 ng generate service iam/services/authentication --skip-tests=true
 ```
 
-**Reemplazar** el contenido de la clase `AuthenticationService` del archivo `autehntication.service.ts`, ubicado en la carpeta `/src/app/iam/services`:
+**Reemplazar** el contenido del archivo `autehntication.service.ts` ubicado en la carpeta `/src/app/iam/services`, con el siguiente código de la clase `AuthenticationService`:
 
 ```ts
 import { Injectable } from '@angular/core';
@@ -212,7 +212,7 @@ export class AuthenticationService {
 ng generate guard iam/services/authentication --skip-tests=true
 ```
 
-**Reemplazar** el contenido del const `authenticationGuard` del archivo `authentication.guard.ts`, ubicado en la carpeta `/src/app/iam/services`:
+**Reemplazar** el contenido del archivo `authentication.guard.ts` ubicado en la carpeta `/src/app/iam/services`, con el siguiente código del const `authenticationGuard`:
 
 ```ts
 import {CanActivateFn, Router} from '@angular/router';
@@ -223,9 +223,12 @@ import {map, take} from "rxjs";
 export const authenticationGuard: CanActivateFn = () => {
   const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
+  
   return authenticationService.isSignedIn.pipe(
     take(1), map(isSignedIn => {
-      if (isSignedIn) return true; else {
+      if (isSignedIn)
+        return true;
+      else {
         router.navigate(['/sign-in']).then();
         return false;
       }
@@ -242,7 +245,7 @@ export const authenticationGuard: CanActivateFn = () => {
 ng generate interceptor iam/services/authentication --skip-tests=true
 ```
 
-**Reemplazar** el contenido del const `authenticationInterceptor` del archivo `authentication.interceptor.ts`, ubicado en la carpeta `/src/app/iam/services`:
+**Reemplazar** el contenido del archivo `authentication.interceptor.ts` ubicado en la carpeta `/src/app/iam/services`, con el siguiente código del const `authenticationInterceptor`:
 
 ```ts
 import {HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
@@ -275,16 +278,18 @@ import {SignUpComponent} from "./iam/pages/sign-up/sign-up.component";
   { path: 'sign-up', component: SignUpComponent},
 ```
 
-**Agregar** la propiedad `canActivate` con el valor `authenticationGuard` al path `learning/students`, quedando el path dela siguiente manera:
+**Agregar** la propiedad `canActivate` con el valor `authenticationGuard` al path `learning/students`, quedando el path de la siguiente manera:
+
 ```ts
   { path: 'learning/students', component: StudentManagementComponent, canActivate: [authenticationGuard] },
 ```
 
-## Modificación de componentes
 
-### Creación del component: BaseFormComponent
+## Creación del component base: BaseFormComponent
 
-**Crear** el siguiente archivo: `base-form.component.ts` con el siguiente contenido:
+**Crear** la carpeta `components` dentro de la carpeta `/src/app/shared`.
+
+**Crear** el archivo `base-form.component.ts` dentro de la carpeta `components` con el siguiente código de la clase `BaseFormComponent`:
 
 ```ts
 import {FormGroup} from "@angular/forms";
@@ -340,9 +345,11 @@ export class BaseFormComponent {
 
 ```
 
+## Modificación de componentes
+
 ### Modificación del componente: AuthenticationSectionComponent
 
-**Reemplazar** el contenido de la clase `AuthenticationSectionComponent` del archivo `authentication-section.component.ts`, ubicado en la carpeta `/src/app/iam/components/authentication-section`:
+**Reemplazar** el contenido del archivo `authentication-section.component.ts` ubicado en la carpeta `/src/app/iam/components/authentication-section` con el siguiente código de la clase `AuthenticationSectionComponent` :
 
 ```ts
 import { Component } from '@angular/core';
@@ -401,7 +408,7 @@ export class AuthenticationSectionComponent {
 }
 ```
 
-**Reemplazar** el contenido del archivo `authentication-section.component.html`, ubicado en la carpeta `/src/app/iam/components/authentication-section`:
+**Reemplazar** el contenido del archivo `authentication-section.component.html`, ubicado en la carpeta `/src/app/iam/components/authentication-section` con el siguiente código:
 
 ```html
 <!-- Authentication Section information content depends on signed-in status -->
@@ -414,13 +421,11 @@ export class AuthenticationSectionComponent {
 <ng-template #anonymous>
   <button mat-button (click)="onSignIn()">Sign In</button> | <button mat-button (click)="onSignUp()">Sign Up</button>
 </ng-template>
-
-
 ```
 
 ### Modificación del componente: SignUpComponent
 
-**Reemplazar** el contenido de la clase `SignUpComponent` del archivo `sign-up.component.ts`, ubicado en la carpeta `/src/app/iam/pages/sign-up`:
+**Reemplazar** el contenido del archivo `sign-up.component.ts` ubicado en la carpeta `/src/app/iam/pages/sign-up` con el siguiente código de la clase `SignUpComponent`:
 
 ```ts
 import {Component, OnInit} from '@angular/core';
@@ -457,8 +462,6 @@ export class SignUpComponent extends BaseFormComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-
-
   constructor(private builder: FormBuilder, private authenticationService: AuthenticationService) {
     super();
   }
@@ -481,7 +484,7 @@ export class SignUpComponent extends BaseFormComponent implements OnInit {
 }
 ```
 
-**Reemplazar** el contenido del archivo `sign-up.component.html`, ubicado en la carpeta `/src/app/iam/pages/sign-up`:
+**Reemplazar** el contenido del archivo `sign-up.component.html` ubicado en la carpeta `/src/app/iam/pages/sign-up` con el siguiente código:
 
 ```ts
 <div class="sign-up-content">
@@ -507,7 +510,7 @@ export class SignUpComponent extends BaseFormComponent implements OnInit {
 ```
 
 
-**Reemplazar** el contenido del archivo `sign-up.component.css`, ubicado en la carpeta `/src/app/iam/pages/sign-up`:
+**Reemplazar** el contenido del archivo `sign-up.component.css` ubicado en la carpeta `/src/app/iam/pages/sign-up` con el siguiente código:
 
 ```css
 .sign-up-content {
@@ -520,7 +523,7 @@ export class SignUpComponent extends BaseFormComponent implements OnInit {
 
 ### Modificación del componente: SignInComponent
 
-**Reemplazar** el contenido de la clase `SignInComponent` del archivo `sign-in.component.ts`, ubicado en la carpeta `/src/app/iam/pages/sign-in`:
+**Reemplazar** el contenido del archivo `sign-in.component.ts` ubicado en la carpeta `/src/app/iam/pages/sign-in` con el siguiente código de la clase `SignInComponent`:
 
 ```ts
 import {Component, OnInit} from '@angular/core';
@@ -581,7 +584,7 @@ export class SignInComponent extends BaseFormComponent implements OnInit {
 
 ```
 
-**Reemplazar** el contenido del archivo `sign-in.component.html`, ubicado en la carpeta `/src/app/iam/pages/sign-in`:
+**Reemplazar** el contenido del archivo `sign-in.component.html` ubicado en la carpeta `/src/app/iam/pages/sign-in` con el siguiente código:
 
 ```ts
 <div class="sign-in-content">
@@ -606,7 +609,40 @@ export class SignInComponent extends BaseFormComponent implements OnInit {
 </div>
 ```
 
+### Modificar el AppComponent
 
+**Agregar** el siguiente `import` al archivo `app.component.ts`, ubicado en la carpeta `/src/app`:
 
+```ts
+import { AuthenticationSectionComponent } from "./iam/components/authentication-section/authentication-section.component";
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `AppComponent`, ubicado en el archivo `app.component.ts`
+
+```ts
+AuthenticationSectionComponent
+```
+
+**Agregar** el siguiente código despues del `for` de los options en el archivo: `app.component.html`:
+
+```ts
+| <app-authentication-section/>
+```
+
+## Configuración del appConfig
+
+A continuación se detalla las instrucciones para agregar el `authenticationInterceptor` al config.
+
+**Agregar** el siguiente import al archivo `app.config.ts` ubicado en la carpeta `/src/app`:
+
+```ts
+import { authenticationInterceptor } from "./iam/services/authentication.interceptor";
+```
+
+**Agregar** la function `withInterceptors([authenticationInterceptor])` como parámetro del `provideHttpClient`, tal como se muestra a continuación:
+
+```ts
+provideHttpClient( withInterceptors([authenticationInterceptor]) ),
+```
 
 
