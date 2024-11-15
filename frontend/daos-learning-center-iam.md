@@ -31,7 +31,7 @@ ng generate component iam/pages/sign-up --skip-tests=true
 **Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear los modelos `sign-in` y `sign-up`:
 
 ```bash
-ng generate class iam/model/sign-in- --type=request --skip-tests=true
+ng generate class iam/model/sign-in --type=request --skip-tests=true
 ng generate class iam/model/sign-in --type=response --skip-tests=true
 ng generate class iam/model/sign-up --type=request --skip-tests=true
 ng generate class iam/model/sign-up --type=response --skip-tests=true
@@ -609,6 +609,17 @@ export class SignInComponent extends BaseFormComponent implements OnInit {
 </div>
 ```
 
+**Reemplazar** el contenido del archivo `sign-in.component.css` ubicado en la carpeta `/src/app/iam/pages/sign-in` con el siguiente código:
+
+```css
+.sign-in-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+```
+
 ### Modificar el AppComponent
 
 **Agregar** el siguiente `import` al archivo `app.component.ts`, ubicado en la carpeta `/src/app`:
@@ -636,6 +647,7 @@ A continuación se detalla las instrucciones para agregar el `authenticationInte
 **Agregar** el siguiente import al archivo `app.config.ts` ubicado en la carpeta `/src/app`:
 
 ```ts
+import { withInterceptors } from "@angular/common/http";
 import { authenticationInterceptor } from "./iam/services/authentication.interceptor";
 ```
 
