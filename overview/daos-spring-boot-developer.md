@@ -172,26 +172,31 @@ public class DeveloperAssembler {
 }
 ```
 
-En el package `assemblers` crear la clase `DeveloperAssembler` con el siguiente contenido:
+En el package `assemblers` crear la clase `GreetDeveloperAssembler` con el siguiente contenido:
 
 ```java
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import pe.edu.upc.hello.platform.generic.domain.model.entity.Developer;
 import pe.edu.upc.hello.platform.generic.interfaces.rest.resources.GreetDeveloperRequest;
+import org.apache.commons.lang3.ObjectUtils;
 
-public class DeveloperAssembler {
+public class GreetDeveloperAssembler {
 
-  public static Developer toEntityFromRequest(GreetDeveloperRequest request) {
-    if (ObjectUtils.isEmpty(request) ||
-        StringUtils.isAnyBlank(request.firstName(), request.lastName())) {
-      return null;
+  public static GreetDeveloperResponse toResourceFromEntity(Developer developer) {
+    if (isDeveloperNullOrEmptyNamed(developer)) {
+      return new GreetDeveloperResponse("Welcome Anonymous Spring Boot Developer");
     }
 
-    return Developer.builder()
-        .firstName(request.firstName())
-        .lastName(request.lastName())
-        .build();
+    return new GreetDeveloperResponse(
+      developer.getId(),
+      developer.getFullName(),
+      "Congrats " + developer.getFullName() + "! You are a Spring Boot Developer"
+    );
+  }
+
+  private static boolean isDeveloperNullOrEmptyNamed(Developer developer) {
+    return ObjectUtils.isEmpty(developer) ||
+            developer.isAnyNameBlank() ||
+            developer.isAnyNameEmpty();
   }
 }
 ```
