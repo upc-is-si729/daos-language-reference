@@ -8,7 +8,7 @@
 
 Cargar el navegador y generar un proyecto Spring a partir del siguiente enlace:
 
-https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.3.10&packaging=jar&jvmVersion=21&groupId=pe.edu.upc.hello.platform&artifactId=hello-spring-boot-developer&name=hello-spring-boot-developer&description=Demo%20project%20for%20Spring%20Boot&packageName=pe.edu.upc.hello.platform&dependencies=web,devtools,lombok
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.4.4&packaging=jar&jvmVersion=21&groupId=pe.edu.upc.hello.platform&artifactId=hello-spring-boot-developer&name=hello-spring-boot-developer&description=Demo%20project%20for%20Spring%20Boot&packageName=pe.edu.upc.hello.platform&dependencies=web,devtools,lombok
 
 Generar el project Spring, Guardarlo en la carpeta `IdeaProjects` y luego abrirlo el `IntelliJ IDEA`.
 
@@ -45,8 +45,6 @@ En el archivo `pom.xml` y agregar la siguiente linea: `<version>${lombok.version
 				</configuration>
 			</plugin>    
 ```
-
-<version>${lombok.version}</version>
 
 ### application.properties
 
