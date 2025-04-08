@@ -176,7 +176,7 @@ En el package `assemblers` crear la clase `GreetDeveloperAssembler` con el sigui
 
 ```java
 import pe.edu.upc.hello.platform.generic.domain.model.entity.Developer;
-import pe.edu.upc.hello.platform.generic.interfaces.rest.resources.GreetDeveloperRequest;
+import pe.edu.upc.hello.platform.generic.interfaces.rest.resources.GreetDeveloperResponse;
 import org.apache.commons.lang3.ObjectUtils;
 
 public class GreetDeveloperAssembler {
