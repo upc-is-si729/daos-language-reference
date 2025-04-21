@@ -4,7 +4,8 @@
 - [Guide Spring Boot Hello Developer](overview/daos-spring-boot-developer.md)
 
 ## Frontend
-- [Guide Proyecto Fake-store](frontend/daos-fakestore-products.md)
+- [Guide Proyecto Fake-store (Deprecated)](frontend/daos-fakestore-products.md)
+- [Guide News API](frontend/daos-catch-up.md)
 - [Guide Learning Center](frontend/daos-learning-center.md)
 - [Guide Learning Cente - iam](frontend/daos-learning-center-iam.md)
 
