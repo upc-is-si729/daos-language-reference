@@ -18,7 +18,7 @@ A continuación se detalla las intrucciones para crear un nuevo `workspace` e `i
 **Cargar** el `Terminal` del sistema Operativo, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
 
 ```bash
-ng new daos-catch-up
+ng new daos-new-fakestore-products
 ```
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
