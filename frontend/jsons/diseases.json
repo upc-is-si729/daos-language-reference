@@ -1,0 +1,182 @@
+[
+  {
+    "diseaseName": "Influenza",
+    "category": "Infectious Disease",
+    "causativeAgent": "Influenza virus",
+    "commonSymptoms": "Fever, Cough, Sore throat",
+    "transmissionMethod": "Airborne droplets",
+    "preventionMethods": "Vaccination, Hand hygiene",
+    "diagnosis": {
+      "methods": "Clinical evaluation, Rapid influenza diagnostic tests",
+      "commonIndicators": "Fever > 100.4°F, Positive nasal swab, Myalgia",
+      "differentialDiagnosis": "Common cold, Strep throat, Bronchitis"
+    },
+    "treatment": {
+      "primaryApproach": "Antiviral medications",
+      "supportiveCare": "Rest, Fluids, Pain relievers",
+      "durationDays": 7
+    },
+    "mortalityRatePercent": 0.1,
+    "incidenceRatePer100k": 500
+  },
+  {
+    "diseaseName": "Hypertension",
+    "category": "Cardiovascular Disease",
+    "causativeAgent": "Multifactorial",
+    "commonSymptoms": "Often asymptomatic",
+    "transmissionMethod": "Non-infectious",
+    "preventionMethods": "Healthy diet, Exercise, Low sodium intake",
+    "diagnosis": {
+      "methods": "Repeated blood pressure measurements",
+      "commonIndicators": "Systolic BP >= 130 mmHg, Diastolic BP >= 80 mmHg, Consistent readings",
+      "differentialDiagnosis": "White coat hypertension, Secondary hypertension"
+    },
+    "treatment": {
+      "primaryApproach": "Antihypertensive medications",
+      "supportiveCare": "Lifestyle modifications, Regular monitoring",
+      "targetBloodPressure": 130
+    },
+    "mortalityRatePercent": 0.5,
+    "incidenceRatePer100k": 3000
+  },
+  {
+    "diseaseName": "GastroesophagealRefluxDisease",
+    "category": "Gastrointestinal Disease",
+    "causativeAgent": "Weakened lower esophageal sphincter",
+    "commonSymptoms": "Heartburn, Regurgitation",
+    "transmissionMethod": "Non-infectious",
+    "preventionMethods": "Avoid trigger foods, Elevate head of bed",
+    "diagnosis": {
+      "methods": "Endoscopy, pH monitoring, Symptom evaluation",
+      "commonIndicators": "Esophageal inflammation, Abnormal acid exposure, Classic symptoms",
+      "differentialDiagnosis": "Peptic ulcer disease, Esophagitis, Angina"
+    },
+    "treatment": {
+      "primaryApproach": "Proton pump inhibitors",
+      "supportiveCare": "Antacids, Lifestyle changes",
+      "durationWeeks": 4
+    },
+    "mortalityRatePercent": 0,
+    "incidenceRatePer100k": 2000
+  },
+  {
+    "diseaseName": "Osteoarthritis",
+    "category": "Musculoskeletal Disease",
+    "causativeAgent": "Cartilage degeneration",
+    "commonSymptoms": "Joint pain, Stiffness",
+    "transmissionMethod": "Non-infectious",
+    "preventionMethods": "Maintain healthy weight, Regular exercise",
+    "diagnosis": {
+      "methods": "Physical exam, X-rays",
+      "commonIndicators": "Joint space narrowing, Osteophytes, Crepitus",
+      "differentialDiagnosis": "Rheumatoid arthritis, Gout, Septic arthritis"
+    },
+    "treatment": {
+      "primaryApproach": "Pain relievers, Physical therapy",
+      "supportiveCare": "Joint injections, Assistive devices",
+      "painScaleMax": 7
+    },
+    "mortalityRatePercent": 0,
+    "incidenceRatePer100k": 1500
+  },
+  {
+    "diseaseName": "Migraine",
+    "category": "Neurological Disorder",
+    "causativeAgent": "Neurovascular disorder",
+    "commonSymptoms": "Throbbing headache, Nausea, Sensitivity to light",
+    "transmissionMethod": "Non-infectious",
+    "preventionMethods": "Avoid triggers, Prophylactic medications",
+    "diagnosis": {
+      "methods": "Clinical history, Neurological exam",
+      "commonIndicators": "Unilateral headache, Pulsating quality, Photophobia",
+      "differentialDiagnosis": "Tension headache, Cluster headache, Sinusitis"
+    },
+    "treatment": {
+      "primaryApproach": "Triptans, NSAIDs",
+      "supportiveCare": "Rest in a dark room, Cold compress",
+      "frequencyPerMonth": 2
+    },
+    "mortalityRatePercent": 0,
+    "incidenceRatePer100k": 1000
+  },
+  {
+    "diseaseName": "ChronicObstructivePulmonaryDisease",
+    "category": "Respiratory Disease",
+    "causativeAgent": "Smoking, Air pollution",
+    "commonSymptoms": "Chronic cough, Shortness of breath",
+    "transmissionMethod": "Non-infectious",
+    "preventionMethods": "Smoking cessation, Avoid irritants",
+    "diagnosis": {
+      "methods": "Spirometry",
+      "commonIndicators": "Reduced FEV1/FVC ratio",
+      "differentialDiagnosis": "Asthma, Bronchiectasis, Heart failure"
+    },
+    "treatment": {
+      "primaryApproach": "Bronchodilators, Inhaled corticosteroids",
+      "supportiveCare": "Pulmonary rehabilitation, Oxygen therapy",
+      "fev1PredictedPercent": 60
+    },
+    "mortalityRatePercent": 5,
+    "incidenceRatePer100k": 800
+  },
+  {
+    "diseaseName": "UrinaryTractInfection",
+    "category": "Infectious Disease",
+    "causativeAgent": "Bacteria (E. coli)",
+    "commonSymptoms": "Painful urination, Frequent urination",
+    "transmissionMethod": "Ascending infection",
+    "preventionMethods": "Good hygiene, Adequate fluid intake",
+    "diagnosis": {
+      "methods": "Urine analysis",
+      "commonIndicators": "Pyuria, Bacteriuria, Nitrites positive",
+      "differentialDiagnosis": "Vaginitis, Urethritis, Interstitial cystitis"
+    },
+    "treatment": {
+      "primaryApproach": "Antibiotics",
+      "supportiveCare": "Increased fluid intake, Pain relievers",
+      "durationDays": 5
+    },
+    "mortalityRatePercent": 0.01,
+    "incidenceRatePer100k": 1200
+  },
+  {
+    "diseaseName": "AnxietyDisorder",
+    "category": "Mental Health Disorder",
+    "causativeAgent": "Genetic and environmental factors",
+    "commonSymptoms": "Excessive worry, Restlessness",
+    "transmissionMethod": "Non-infectious",
+    "preventionMethods": "Stress management, Therapy",
+    "diagnosis": {
+      "methods": "Clinical interview, Psychological assessments",
+      "commonIndicators": "Persistent worry, Avoidance behavior",
+      "differentialDiagnosis": "Depressive disorder, Panic disorder"
+    },
+    "treatment": {
+      "primaryApproach": "Cognitive behavioral therapy",
+      "supportiveCare": "Medications (SSRIs, SNRIs)",
+      "severityScaleMax": 10
+    },
+    "mortalityRatePercent": 0,
+    "incidenceRatePer100k": 1500
+  },
+  {
+    "diseaseName": "AllergicRhinitis",
+    "category": "Immune Disorder",
+    "causativeAgent": "Allergens (pollen, dust mites)",
+    "commonSymptoms": "Sneezing, Runny nose, Itchy eyes",
+    "transmissionMethod": "Environmental exposure",
+    "preventionMethods": "Avoid allergens, Air purifiers",
+    "diagnosis": {
+      "methods": "Skin prick test, Allergy blood test",
+      "commonIndicators": "Positive allergy tests, Nasal congestion",
+      "differentialDiagnosis": "Common cold, Sinusitis, Non-allergic rhinitis"
+    },
+    "treatment": {
+      "primaryApproach": "Antihistamines, Nasal corticosteroids",
+      "supportiveCare": "Nasal saline rinse",
+      "symptomScoreMax": 5
+    },
+    "mortalityRatePercent": 0,
+    "incidenceRatePer100k": 2500
+  }
+]
