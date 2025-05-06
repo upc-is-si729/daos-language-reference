@@ -6,7 +6,7 @@
 ## Frontend
 - [Guide News API](frontend/daos-catch-up.md)
 - [Guide Proyecto New Fake-store](frontend/daos-new-fakestore-products.md)
-- [Guide Learning Center](frontend/daos-learning-center.md)
+- [Guide Learning Center](frontend/daos-new-learning-center.md)
 - [Guide Learning Cente - iam](frontend/daos-learning-center-iam.md)
 
 ## Platform Mini
