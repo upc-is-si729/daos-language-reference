@@ -1,4 +1,4 @@
-# Learning Center Platform Mini - Documentation
+# Learning Center Platform Mini v2510 - Documentation 
 
 ## Table of contents
 
