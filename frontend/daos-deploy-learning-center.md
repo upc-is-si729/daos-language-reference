@@ -8,6 +8,32 @@ Ingrese a la siguiente url:
 https://beeceptor.com/
 ```
 
+Hace click en **sign in**
+
+Hacer click en Sing up with email and passoword
+
+Ingresar los datos solicitados. y hacer click en Sign UP
+
+Setear los sigueintes datos:
+- student, luego Next
+-  Seleccionamos: Rapid prototype of new APISs, luego Next
+- Seleccionamos Solo Developer. Luego Finish
+
+Luego seleccionar 
+
+Ingresar a Stateful CRUD APIs
+
+lUego ingresar el siguiente endpoint: `/api/v1/students`, luego hacer click en **Create CRUD API**
+
+Para agregar mas endpoint dentro de un Base URL:
+
+
+Ir a Mocking Rules
+
+- Create a New CFRUD ROUTE
+- ingresar el API Path: 
+- Save CRUD
+
 ### Modificando el environments
 
 Cargar el IntelliJ IDEA y abra el proyecto ubicado en la carpeta de su preferencia.
