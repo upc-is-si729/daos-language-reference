@@ -292,23 +292,10 @@ A continuación se visualiza el `Profile Bounded Context`:
 
 ```markdown
 - 📁 profiles
-  - 📁 application.internal
-    - 📁 commandservices
-    - 📁 queryservices
   - 📁 domain
-    - 📁 exceptions
     - 📁 model
       - 📁 aggregates
-      - 📁 commands      
-      - 📁 queries
       - 📁 valueobjects
-    - 📁 services
-  - 📁 infrastructure.persistence.jpa.repositories
-  - 📁 interfaces
-    - 📁 acl
-    - 📁 rest
-      - 📁 resources
-      - 📁 transform
 ```
 
 ### Package domain . model . valueobjects
@@ -407,29 +394,14 @@ A continuación se visualiza el `Learning Bounded Context`:
 
 ### Project structur for Learning Bounded Context
 
-Crear la siguiente estructura para el Bounded Context `learning`:
+**Crear** la siguiente estructura para el Bounded Context `learning`:
 
 ```markdown
 - 📁 learning
-  - 📁 application.internal
-    - 📁 commandservices
-    - 📁 eventhandlers
-    - 📁 outboundservices.acl
-    - 📁 queryservices
   - 📁 domain
-    - 📁 exceptions
     - 📁 model
       - 📁 aggregates
-      - 📁 commands
-      - 📁 entities
-      - 📁 events
-      - 📁 queries
       - 📁 valueobjects
-    - 📁 services
-  - 📁 infrastructure.persistence.jpa.repositories
-  - 📁 interfaces.rest
-    - 📁 resources
-    - 📁 transform
 ```
 
 ### Package domain . model . valueobjects
@@ -526,6 +498,29 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
 Ejecute el proyecto y Verifique que se ha generado las tablas en la base de datos: `learningmini`.
 
 ## Profile Bounded Context
+
+**Crear** la siguiente estructura para el Bounded Context `profiles`:
+
+```markdown
+- 📁 profiles
+  - 📁 application.internal
+    - 📁 commandservices
+    - 📁 queryservices
+  - 📁 domain
+    - 📁 exceptions
+    - 📁 model
+      - 📁 aggregates
+      - 📁 commands      
+      - 📁 queries
+      - 📁 valueobjects
+    - 📁 services
+  - 📁 infrastructure.persistence.jpa.repositories
+  - 📁 interfaces
+    - 📁 acl
+    - 📁 rest
+      - 📁 resources
+      - 📁 transform
+```
 
 ### Package domain . model . queries
 
@@ -1004,6 +999,31 @@ public class ProfilesContextFacade {
 
 
 ## Learning Bounded Context
+
+**Crear** la siguiente estructura para el Bounded Context `learning`:
+
+```markdown
+- 📁 learning
+  - 📁 application.internal
+    - 📁 commandservices
+    - 📁 eventhandlers
+    - 📁 outboundservices.acl
+    - 📁 queryservices
+  - 📁 domain
+    - 📁 exceptions
+    - 📁 model
+      - 📁 aggregates
+      - 📁 commands
+      - 📁 entities
+      - 📁 events
+      - 📁 queries
+      - 📁 valueobjects
+    - 📁 services
+  - 📁 infrastructure.persistence.jpa.repositories
+  - 📁 interfaces.rest
+    - 📁 resources
+    - 📁 transform
+```
 
 ### Package domain . model . queries
 
