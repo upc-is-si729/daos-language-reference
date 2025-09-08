@@ -4,6 +4,7 @@
 - [Guide Spring Boot Hello Developer](overview/daos-spring-boot-developer.md)
 
 ## Frontend
+- [Guide Hello Angular](frontend/daos-hello-angular.md)
 - [Guide News API](frontend/daos-catch-up.md)
 - [Guide Proyecto New Fake-store](frontend/daos-new-fakestore-products.md)
 - [Guide Learning Center](frontend/daos-new-learning-center.md)
