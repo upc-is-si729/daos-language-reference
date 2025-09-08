@@ -118,21 +118,30 @@ ng serve --port 4201
       - 📁 services
 ```
 
+
+### Creación del model developer tipo entity
+
+**Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear el modelo `student`:
+
+```bash
+ng generate class greetings/model/developer --type=entity --skip-tests=true
+```
+
 ### Creación de componentes
 
 **Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
 
 **Ejecutar** los siguientes CLI commands para la creación de los componentes: `developer-home`:
 ```bash
-ng generate component public/pages/developer-home --skip-tests=true
+ng generate component greetings/pages/developer-home --skip-tests=true
 ```
 
 `developer-registration`:
 ```bash
-ng generate component learning/components/developer-registration --skip-tests=true
+ng generate component greetings/components/developer-registration --skip-tests=true
 ```
 
 `developer-greeting`:
 ```bash
-ng generate component learning/components/developer-greeting --skip-tests=true
+ng generate component greetings/components/developer-greeting --skip-tests=true
 ```
