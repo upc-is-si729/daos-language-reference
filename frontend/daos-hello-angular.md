@@ -147,6 +147,24 @@ ng serve --port 4201
 ng generate class greetings/model/developer --type=entity --skip-tests=true
 ```
 
+**Agregar** los siguentes atributos y constructor a la clase `Developer` del archivo `developer.entity.ts`, ubicado en la carpeta `/src/app/greetings/model`:
+
+```ts
+private readonly _firstName: string;
+private readonly _lastName: string;
+
+constructor(firstName?: string, lastName?: string) {
+  this._firstName = firstName?.trim() ?? '';
+  this._lastName = lastName?.trim() ?? '';
+}
+get fullName(): string {
+  return `${this._firstName} ${this._lastName}`.trim();
+}
+isEmpty(): boolean {
+  return this._firstName === '' && this._lastName === '';
+}
+```
+
 ### Creación de componentes
 
 **Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
@@ -164,4 +182,351 @@ ng generate component greetings/components/developer-registration --skip-tests=t
 `developer-greeting`:
 ```bash
 ng generate component greetings/components/developer-greeting --skip-tests=true
+```
+
+### Modificación del App Compnent
+
+**Agregar** los siguientes `import` al archivo `app.ts`, ubicado en la carpeta `/src/app`:
+
+```ts
+import { DeveloperHome } from './greetings/pages/developer-home/developer-home';
+```
+
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `AppComponent`, ubicado en el archivo `app.component.ts`
+
+```ts
+DeveloperHome
+```
+
+**Reemplazar** el contenido del archivo `app.html` con el siguiente código, ubicado en la carpeta `/src/app`:
+
+```html
+<app-developer-home/>
+<router-outlet />
+```
+
+### Información de Angular Signals
+
+**¿Qué son los signals?**: 
+
+
+Un `signal` es un contenedor que envuelve un valor y notifica a los usuarios interesados ​​cuando este cambia. Los `Signals` pueden contener cualquier valor, desde primitivos hasta estructuras de datos complejas.
+
+El valor de un `signal` se lee llamando a su función getter, lo que permite a Angular rastrear dónde se utiliza. Los `Signals` pueden ser de solo lectura o de escritura.
+
+Más información en: https://angular.dev/guide/signals
+
+
+### Modificación del DeveloperHome Component
+
+**Agregar** los siguientes `import` al archivo `developer-home.ts`, ubicado en la carpeta `/src/app/greetings/pages/developer-home`:
+
+```ts
+import { signal, WritableSignal } from '@angular/core';
+import { DeveloperRegistration } from '../../components/developer-registration/developer-registration';
+import { DeveloperGreeting } from '../../components/developer-greeting/developer-greeting';
+import { Developer } from '../../model/developer.entity';
+```
+
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `DeveloperHome`, ubicado en el archivo `developer-home.ts`
+
+```ts
+DeveloperRegistration, DeveloperGreeting
+```
+
+**Agregar** los atributos firstName y lastName tipo `WritableSignal` a la clase `DeveloperHome`:
+
+```ts
+public developer: WritableSignal<Developer>;
+public language: WritableSignal<string>;
+```
+
+**Agregar** el siguiente `constructor` a la clase `DeveloperHome`:
+
+```ts
+constructor() {
+  this.developer = signal(new Developer());
+  this.language = signal('');
+}
+```
+
+**Agregar** los siguientes métodos a la clase `DeveloperHome`:
+
+```ts
+public updateRegisteredDeveloper(developer: Developer, language: string): void {
+  this.developer.set(developer);
+  this.language.set(language);
+}
+public resetRegisteredDeveloper(): void {
+  this.developer = signal(new Developer());
+  this.language = signal('');
+}
+```
+
+**Reemplazar** el contenido del archivo `developer-home.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/pages/developer-home`:
+
+```html
+<app-developer-registration
+  (registerDeveloper)="updateRegisteredDeveloper($event.developer, $event.language)"
+  (dropDeveloper)="resetRegisteredDeveloper()"/>
+<app-developer-greeting
+  [developer]="developer()"
+  [language]="language()"/>
+```
+
+**Reemplazar** el contenido del archivo `developer-home.css` con el siguiente código, ubicado en la carpeta `/src/app/greetings/pages/developer-home`:
+
+```css
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Spacing below the registration form */
+app-developer-registration {
+  margin-bottom: 20px;
+}
+```
+
+### Modificación del DeveloperRegistration Component
+
+**Agregar** los siguientes `import` al archivo `developer-registration.ts`, ubicado en la carpeta `/src/app/greetings/components/developer-registration`:
+
+```ts
+import { output, OutputEmitterRef } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Developer } from '../../model/developer.entity';
+```
+
+**Agregar** los output registerDeveloper y dropDeveloper tipo `OutputEmitterRef` en la clase `DeveloperRegistration`:
+
+```ts
+public registerDeveloper = output<{developer: Developer, language: string}>();
+public dropDeveloper: OutputEmitterRef<void> = output<void>();
+```
+
+**Agregar** el atributo developerFormGroup tipo `FormGroup` en la clase `DeveloperRegistration`:
+
+```ts
+public developerFormGroup = new FormGroup({
+  firstNameFC: new FormControl('', [Validators.required, Validators.minLength(2)]),
+  lastNameFC: new FormControl('', [Validators.required, Validators.minLength(2)]),
+  languageFC: new FormControl('', [Validators.required, Validators.minLength(2)])
+});
+```
+
+**Agregar** los siguientes métodos a la clase `DeveloperRegistration`:
+
+```ts
+public submitRegistrationRequest(): void {
+  if (this.developerFormGroup.valid) {
+    const firstName = this.developerFormGroup.value.firstNameFC?.valueOf() ?? '';
+    const lastName = this.developerFormGroup.value.lastNameFC?.valueOf() ?? '';
+    const language = this.developerFormGroup.value.languageFC?.valueOf() ?? '';
+    const developer = new Developer(firstName, lastName);
+
+    this.registerDeveloper.emit({ developer, language });
+    this.developerFormGroup.reset();
+  }
+}
+
+public dropRegistration(): void {
+  this.dropDeveloper.emit();
+  this.developerFormGroup.reset();
+}
+
+public clearForm(): void {
+  this.developerFormGroup.reset();
+}
+```
+
+**Reemplazar** el contenido del archivo `developer-registration.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-registration`:
+
+```html
+<h1>New Developer</h1>
+
+<!-- Form to input developer details, submits on Register -->
+<form [formGroup]="developerFormGroup" (ngSubmit)="submitRegistrationRequest()">
+  <!-- First Name input with label -->
+  <label for="first-name">First Name: </label>
+  <input id="first-name" type="text" formControlName="firstNameFC">
+    <!-- Validation errors for firstName -->
+    @if (developerFormGroup.get('firstNameFC')?.touched && developerFormGroup.get('firstNameFC')?.invalid) {
+      @if (developerFormGroup.get('firstNameFC')?.errors?.['required']) {
+        <div class="error">First name is required.</div>
+      }
+      @if (developerFormGroup.get('firstNameFC')?.errors?.['minlength']) {
+        <div class="error">First name must be at least 2 characters.</div>
+      }
+    }
+
+  <!-- Last Name input with label -->
+  <label for="last-name">Last Name: </label>
+  <input id="last-name" type="text" formControlName="lastNameFC">
+    <!-- Validation errors for lastName -->
+    @if (developerFormGroup.get('lastNameFC')?.touched && developerFormGroup.get('lastNameFC')?.invalid) {
+      @if (developerFormGroup.get('lastNameFC')?.errors?.['required']) {
+        <div class="error">Last name is required.</div>
+      }
+      @if (developerFormGroup.get('lastNameFC')?.errors?.['minlength']) {
+        <div class="error">Last name must be at least 2 characters.</div>
+      }
+    }
+
+  <!-- Language input with label -->
+  <label for="language">Programming Language : </label>
+  <input id="language" type="text" formControlName="languageFC">
+    <!-- Validation errors for language -->
+    @if (developerFormGroup.get('languageFC')?.touched && developerFormGroup.get('languageFC')?.invalid) {
+      @if (developerFormGroup.get('languageFC')?.errors?.['required']) {
+        <div class="error">Language is required.</div>
+      }
+      @if (developerFormGroup.get('languageFC')?.errors?.['minlength']) {
+        <div class="error">Language must be at least 2 characters.</div>
+      }
+    }
+
+  <!-- Button group for form actions -->
+  <div class="button-group">
+    <button type="submit" [disabled]="developerFormGroup.invalid">Register</button>
+    <button type="button" (click)="dropRegistration()">Unregister</button>
+    <button type="button" (click)="clearForm()">Clear Form</button>
+  </div>
+</form>
+```
+
+**Reemplazar** el contenido del archivo `developer-registration.css` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-registration`:
+
+```css
+/* Styles for the registration form layout */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+}
+
+/* Bold labels for input fields */
+label {
+  font-weight: bold;
+}
+
+/* Input field styling with a light border */
+input {
+  padding: 5px;
+  border: 1px solid silver; /* Light gray border */
+  border-radius: 4px;
+}
+
+/* Container for action buttons */
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Base button styles */
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white; /* White text for contrast */
+}
+
+/* Register button: green when enabled */
+button[type="submit"] {
+  background-color: green;
+}
+
+/* Disabled Register button: grayed out */
+button[type="submit"]:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* Later button: goldenrod for deferring */
+button:nth-child(2) {
+  background-color: goldenrod;
+}
+
+/* Hover effect for Later button */
+button:nth-child(2):hover {
+  background-color: darkgoldenrod;
+}
+
+/* Clear button: red for resetting */
+button:nth-child(3) {
+  background-color: red;
+}
+
+/* Hover effect for Clear button */
+button:nth-child(3):hover {
+  background-color: darkred;
+}
+
+/* Error message styling */
+.error {
+  color: red; /* Red text for visibility */
+  font-size: 0.9em;
+}
+```
+
+### Modificación del DeveloperGreeting Component
+
+**Agregar** los siguientes `import` al archivo `developer-greeting.ts`, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+
+```ts
+import { computed } from '@angular/core';
+import { input, InputSignal } from '@angular/core';
+import { Developer } from '../../model/developer.entity';
+```
+
+**Agregar** los atributos developer y language tipo `InputSignal` en la clase `DeveloperGreeting`:
+
+```ts
+public developer: InputSignal<Developer> = input.required<Developer>();
+public language =  input.required<string>();
+```
+
+**Agregar** los atributos fullName y isRegistered tipo `Signal` en la clase `DeveloperGreeting`:
+
+```ts
+readonly fullName: Signal<string> = computed(() => {
+  if (this.developer().isEmpty() && this.language().trim() == '')
+    return 'Anonymous Developer';
+  return `${this.developer().fullName}`;
+});
+
+readonly isRegistered = computed(() =>
+  !this.developer().isEmpty() && this.language().trim() !== ''
+);
+```
+
+**Reemplazar** el contenido del archivo `developer-greeting.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+
+```html
+<p>Hello {{ fullName() }}.
+  <br>
+  @if(isRegistered())  {
+    <span>Now You are a Developer in </span>
+    {{ language() }} Language!
+  }
+</p>
+```
+
+**Reemplazar** el contenido del archivo `developer-greeting.css` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+
+```css
+/* Styles for the greeting paragraph */
+p {
+  font-size: 1.2em;
+  color: darkslategray; /* Dark text for readability */
+}
+
+/* Ensures the conditional span stays inline */
+span {
+  display: inline;
+}
 ```
