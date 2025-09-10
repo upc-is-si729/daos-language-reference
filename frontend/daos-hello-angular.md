@@ -362,8 +362,8 @@ http://localhost:4200/
 
 ```ts
 constructor() {
-  this.developer = signal(new Developer('Jorge', 'Silva'));
-  this.language = signal('TypeScript');
+  this.developer = signal(new Developer());
+  this.language = signal('');
 }
 ```
 
