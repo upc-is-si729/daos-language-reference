@@ -13,15 +13,18 @@
 
 Para instalar `Angular CLI` en tu equipo, necesitas instalar Node.js https://nodejs.org/.  `Angular CLI` usa Node y está asociado al package manager `npm`, para instalar y ejecutar JavaScript fuera del navegador.
 
-A continuación se detalla las intrucciones para instalar el `command line interface (CLI) tools` de Angular. Más información en: https://angular.dev/installation
+A continuación se detalla la intrucción para instalar la herramienta `Command Line Interface (CLI)` de Angular. Más información en: https://angular.dev/installation
 
 ```bash
-npm install -g @angular/cli
+npm install -g @angular/cli@latest
+```
+
+Verifica la versión del Angular ejecutando la siguiente instrucción:
+```bash
+ng version
 ```
 
 ## Creación del proyecto
-
-
 
 A continuación se detalla las intrucciones para crear un nuevo `workspace` e `initial starter app` de Angular. Más información en: https://angular.dev/tools/cli/setup-local
 
@@ -30,7 +33,7 @@ A continuación se detalla las intrucciones para crear un nuevo `workspace` e `i
 **Cargar** el `Terminal` del sistema Operativo, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
 
 ```bash
-ng new daos-hello-angular
+ng new daos-hello-angular-v2520
 ```
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
@@ -73,7 +76,7 @@ A continuación se detalla las intrucciones para instalar `Angular Material` al 
 
 **Ingresar** a la carpeta creada con el mismo nombre que el proyecto **ejecutando** el siguiente command:
 ```
-cd daos-hello-angular
+cd daos-hello-angular-v2520
 ```
 
 **Agregar** Angula material a la aplicación, **ejecute** el siguiente CLI command:
@@ -107,7 +110,7 @@ cd ..
 ```
 
 ```
-sudo chown -R alumnos ./daos-hello-angular
+sudo chown -R alumnos ./daos-hello-angular-v2520
 ```
 
 ```
@@ -117,11 +120,11 @@ ls -l
 
 ## Desarrollo del proyecto
 
-**Cargar** el IntelliJ IDEA y **abrir** el proyecto ubicado en la carpeta de su preferencia.
+**Cargar** el IntelliJ IDEA y **abrir** el proyecto `daos-hello-angular-v2520` ubicado en la carpeta donde la creo.
 
 **Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command:
 ```
-ng serve --port 4201
+ng serve --port 4200
 ```
 
 ### Creación de la estructura del proyecto
@@ -184,7 +187,7 @@ ng generate component greetings/components/developer-registration --skip-tests=t
 ng generate component greetings/components/developer-greeting --skip-tests=true
 ```
 
-### Modificación del App Compnent
+### Modificación del App Component
 
 **Agregar** los siguientes `import` al archivo `app.ts`, ubicado en la carpeta `/src/app`:
 
@@ -208,7 +211,6 @@ DeveloperHome
 ### Información de Angular Signals
 
 **¿Qué son los signals?**: 
-
 
 Un `signal` es un contenedor que envuelve un valor y notifica a los usuarios interesados ​​cuando este cambia. Los `Signals` pueden contener cualquier valor, desde primitivos hasta estructuras de datos complejas.
 
@@ -245,8 +247,8 @@ public language: WritableSignal<string>;
 
 ```ts
 constructor() {
-  this.developer = signal(new Developer());
-  this.language = signal('');
+  this.developer = signal(new Developer('Jorge', 'Silva'));
+  this.language = signal('TypeScript');
 }
 ```
 
@@ -266,9 +268,7 @@ public resetRegisteredDeveloper(): void {
 **Reemplazar** el contenido del archivo `developer-home.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/pages/developer-home`:
 
 ```html
-<app-developer-registration
-  (registerDeveloper)="updateRegisteredDeveloper($event.developer, $event.language)"
-  (dropDeveloper)="resetRegisteredDeveloper()"/>
+<app-developer-registration/>
 <app-developer-greeting
   [developer]="developer()"
   [language]="language()"/>
@@ -290,6 +290,94 @@ app-developer-registration {
 }
 ```
 
+### Modificación del DeveloperGreeting Component
+
+**Agregar** los siguientes `import` al archivo `developer-greeting.ts`, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+
+```ts
+import { computed } from '@angular/core';
+import { input, InputSignal } from '@angular/core';
+import { Developer } from '../../model/developer.entity';
+```
+
+**Agregar** los atributos developer y language tipo `InputSignal` en la clase `DeveloperGreeting`:
+
+```ts
+public developer: InputSignal<Developer> = input.required<Developer>();
+public language =  input.required<string>();
+```
+
+**Agregar** los atributos fullName y isRegistered tipo `Signal` en la clase `DeveloperGreeting`:
+
+```ts
+readonly fullName: Signal<string> = computed(() => {
+  if (this.developer().isEmpty() && this.language().trim() == '')
+    return 'Anonymous Developer';
+  return `${this.developer().fullName}`;
+});
+
+readonly isRegistered = computed(() =>
+  !this.developer().isEmpty() && this.language().trim() !== ''
+);
+```
+
+**Reemplazar** el contenido del archivo `developer-greeting.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+
+```html
+<p>Hello {{ fullName() }}.
+  <br>
+  @if(isRegistered())  {
+    <span>Now You are a Developer in </span>
+    {{ language() }} Language!
+  }
+</p>
+```
+
+**Reemplazar** el contenido del archivo `developer-greeting.css` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+
+```css
+/* Styles for the greeting paragraph */
+p {
+  font-size: 1.2em;
+  color: darkslategray; /* Dark text for readability */
+}
+
+/* Ensures the conditional span stays inline */
+span {
+  display: inline;
+}
+```
+
+### Visualizando el resultado del código
+
+**Cargar** el Navegador y **abrir** la siguiente dirección:
+
+```
+http://localhost:4200/
+```
+
+### Modificación del DeveloperHome Component
+
+**Reemplazar** el `constructor` de la clase `DeveloperHome` con el siguiente código:
+
+```ts
+constructor() {
+  this.developer = signal(new Developer('Jorge', 'Silva'));
+  this.language = signal('TypeScript');
+}
+```
+
+**Reemplazar** el contenido del archivo `developer-home.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/pages/developer-home`:
+
+```html
+<app-developer-registration
+  (registerDeveloper)="updateRegisteredDeveloper($event.developer, $event.language)"
+  (dropDeveloper)="resetRegisteredDeveloper()"/>
+<app-developer-greeting
+  [developer]="developer()"
+  [language]="language()"/>
+```
+
 ### Modificación del DeveloperRegistration Component
 
 **Agregar** los siguientes `import` al archivo `developer-registration.ts`, ubicado en la carpeta `/src/app/greetings/components/developer-registration`:
@@ -298,6 +386,12 @@ app-developer-registration {
 import { output, OutputEmitterRef } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Developer } from '../../model/developer.entity';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `DeveloperRegistration`:
+
+```ts
+ReactiveFormsModule
 ```
 
 **Agregar** los output registerDeveloper y dropDeveloper tipo `OutputEmitterRef` en la clase `DeveloperRegistration`:
@@ -473,60 +567,10 @@ button:nth-child(3):hover {
 }
 ```
 
-### Modificación del DeveloperGreeting Component
+### Visualizando el resultado del código
 
-**Agregar** los siguientes `import` al archivo `developer-greeting.ts`, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
+**Cargar** el Navegador y **abrir** la siguiente dirección:
 
-```ts
-import { computed } from '@angular/core';
-import { input, InputSignal } from '@angular/core';
-import { Developer } from '../../model/developer.entity';
 ```
-
-**Agregar** los atributos developer y language tipo `InputSignal` en la clase `DeveloperGreeting`:
-
-```ts
-public developer: InputSignal<Developer> = input.required<Developer>();
-public language =  input.required<string>();
-```
-
-**Agregar** los atributos fullName y isRegistered tipo `Signal` en la clase `DeveloperGreeting`:
-
-```ts
-readonly fullName: Signal<string> = computed(() => {
-  if (this.developer().isEmpty() && this.language().trim() == '')
-    return 'Anonymous Developer';
-  return `${this.developer().fullName}`;
-});
-
-readonly isRegistered = computed(() =>
-  !this.developer().isEmpty() && this.language().trim() !== ''
-);
-```
-
-**Reemplazar** el contenido del archivo `developer-greeting.html` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
-
-```html
-<p>Hello {{ fullName() }}.
-  <br>
-  @if(isRegistered())  {
-    <span>Now You are a Developer in </span>
-    {{ language() }} Language!
-  }
-</p>
-```
-
-**Reemplazar** el contenido del archivo `developer-greeting.css` con el siguiente código, ubicado en la carpeta `/src/app/greetings/components/developer-greeting`:
-
-```css
-/* Styles for the greeting paragraph */
-p {
-  font-size: 1.2em;
-  color: darkslategray; /* Dark text for readability */
-}
-
-/* Ensures the conditional span stays inline */
-span {
-  display: inline;
-}
+http://localhost:4200/
 ```
