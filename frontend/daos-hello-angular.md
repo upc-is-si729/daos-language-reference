@@ -260,8 +260,8 @@ public updateRegisteredDeveloper(developer: Developer, language: string): void {
   this.language.set(language);
 }
 public resetRegisteredDeveloper(): void {
-  this.developer = signal(new Developer());
-  this.language = signal('');
+  this.developer.set(new Developer());
+  this.language.set('');
 }
 ```
 
