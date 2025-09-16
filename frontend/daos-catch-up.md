@@ -237,8 +237,9 @@ A continuación se detalla las instrucciones para agregar los providers: `provid
 **Agregar** los siguientes imports al archivo `app.config.ts` ubicado en la carpeta `/src/app`:
 
 ```ts
+import { provideAppInitializer, inject } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 ```
 
@@ -247,7 +248,12 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 provideHttpClient(),
 provideTranslateService({
   loader: provideTranslateHttpLoader({prefix: './assets/i18n/', suffix: '.json'}),
+  lang: 'en',
   fallbackLang: 'en'
+}),
+provideAppInitializer(() => {
+  const translate = inject(TranslateService);
+  translate.use(translate.getBrowserLang() || "en");
 })
 ```
 
@@ -701,3 +707,466 @@ set currentSource(value: Source) {
 ### Creación de componentes
 
 **Cargar** el `Terminal` del IDE y **agregar** un nuevo `Tab`.
+
+**Ejecutar** los siguientes CLI commands para la creación de los componentes (Ejecute los comandos uno a la vez):
+```bash
+ng generate component shared/presentation/components/footer --skip-tests=true
+```
+```bash
+ng generate component shared/presentation/components/language-switcher --skip-tests=true
+```
+```bash
+ng generate component shared/presentation/components/layout --skip-tests=true
+```
+
+```bash
+ng generate component news/presentation/components/article-item --skip-tests=true
+```
+```bash
+ng generate component news/presentation/components/article-list --skip-tests=true
+```
+```bash
+ng generate component news/presentation/components/source-item --skip-tests=true
+```
+```bash
+ng generate component news/presentation/components/source-list --skip-tests=true
+```
+
+
+### Modificación del LanguageSwitcher Component
+
+**Agregar** los siguientes `import` al archivo `language-switcher.ts`, ubicado en la carpeta `/src/app/shared/presentation/components/language-switcher`:
+
+```ts
+import { TranslateService } from '@ngx-translate/core';
+import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `LanguageSwitcher`:
+
+```
+MatButtonToggleGroup, MatButtonToggle
+```
+
+**Reemplazar** el contenido de la clase `LanguageSwitcher` con el siguiente código, ubicado en el archivo `language-switcher.ts`:
+
+```ts
+currentLang = 'en';
+languages = ['en', 'es'];
+
+constructor(private translate: TranslateService) {
+  this.currentLang = translate.getCurrentLang();
+}
+
+useLanguage(language: string) {
+  this.translate.use(language);
+}
+```
+
+**Reemplazar** el contenido del archivo `language-switcher.component.html` con el siguiente código, ubicado en la carpeta `/src/app/public/components/language-switcher`:
+
+```html
+<mat-button-toggle-group [value]="currentLang" appearance="standard" aria-label="Preferred Language" name="language">
+  @for (language of languages; track language) {
+    <mat-button-toggle (click)="useLanguage(language)"
+                       [aria-label]="language"
+                       [value]="language">{{ language.toUpperCase() }}
+    </mat-button-toggle>
+  }
+</mat-button-toggle-group>
+```
+
+### Modificación del Footer Component
+
+**Agregar** el siguiente `import` a la clase `Footer` del archivo `footer.ts` ubicado en la carpeta `/src/app/shared/presentation/components/footer`:
+
+```ts
+import { TranslateModule } from "@ngx-translate/core";
+```
+
+**Agregar** la siguiente clase en el array `imports` del `@Component` de la clase `Footer`:
+
+```
+TranslateModule
+```
+
+**Reemplazar** el contenido del archivo `footer.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/footer`:
+
+```html
+<div class="footer-content">
+  <p>{{ 'footer.rights' | translate: {api: 'News API'} }}</p>
+  <p>
+    {{ 'footer.intro' | translate }}
+    {{ 'footer.author' | translate: {team: 'DAOS'} }}
+  </p>
+</div>
+```
+
+**Reemplazar** el contenido del archivo `footer.css` con el siguiente código, ubicado en la carpeta `/src/app/public/components/footer-content`:
+
+```css
+.footer-content {
+  bottom: 0;
+  width: 100%;
+  height: 90px;
+  background-color: #3f51b5;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+}
+```
+
+### Modificación del Layout Component
+
+**Agregar** los siguientes `import` al archivo `layout.ts`, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
+
+```ts
+import {inject, OnInit, Signal} from '@angular/core';
+import {NewsStore} from '../../../../news/application/news-store';
+import {Source} from '../../../../news/domain/model/source.entity';
+import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
+import {MatToolbar} from '@angular/material/toolbar';
+import {SourceList} from '../../../../news/presentation/components/source-list/source-list';
+import {MatIcon} from '@angular/material/icon';
+import {LanguageSwitcher} from '../language-switcher/language-switcher';
+import {ArticleList} from '../../../../news/presentation/components/article-list/article-list';
+import {Footer} from '../footer/footer';
+import {MatIconButton} from '@angular/material/button';
+import {Article} from '../../../../news/domain/model/article.entity';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `Layout`:
+
+```
+MatSidenavContainer, MatToolbar, MatSidenav, SourceList, MatSidenavContent, MatIcon,
+LanguageSwitcher, ArticleList, Footer, MatIconButton
+```
+
+**Agregar** la interface `OnInit` a la clase `Layout`: 
+
+```
+implements OnInit
+```
+
+**Reemplazar** el contenido de la clase `Layout` con el siguiente código:
+
+```ts
+protected store = inject(NewsStore);
+protected readonly sources: Signal<Source[]> = this.store.sources;
+protected readonly articles: Signal<Article[]> = this.store.currentSourceArticles;
+
+ngOnInit(): void {
+  this.store.loadSources();
+}
+
+updateArticlesBySource(source: Source): void {
+  this.store.currentSource = source;
+  this.store.loadArticlesForCurrentSource();
+}
+```
+
+**Reemplazar** el contenido del archivo `layout.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
+
+```html
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport>
+    <mat-toolbar>Sources</mat-toolbar>
+    <app-source-list (sourceSelected)="updateArticlesBySource($event);drawer.toggle();" [sources]="sources()"/>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button (click)="drawer.toggle()"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              type="button">
+        <mat-icon aria-label="Sidenav toggle icon">menu</mat-icon>
+      </button>
+      <span>CatchUp</span>
+      <span class="spacer"></span>
+      <span>
+        <app-language-switcher/>
+      </span>
+    </mat-toolbar>
+
+    <app-article-list [articles]="articles()"/>
+    <app-footer/>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+```
+
+**Reemplazar** el contenido del archivo `layout.css` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
+
+```css
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 300px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+```
+
+### Modificación del SourceItem Component
+
+**Agregar** los siguientes `import` al archivo `source-item.ts`, ubicado en la carpeta `/src/app/news/presentation/components/source-item`:
+
+```ts
+import {input, InputSignal, output, OutputEmitterRef} from '@angular/core';
+import {Source} from '../../../domain/model/source.entity';
+import {MatListItem} from '@angular/material/list';
+```
+
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `SourceItem`:
+
+```ts
+MatListItem
+```
+
+**Reemplazar** el contenido de la clase `SourceItem` con el siguiente código:
+
+```ts
+source: InputSignal<Source>  = input.required<Source>();
+sourceSelected: OutputEmitterRef<Source> = output<Source>();
+
+emitSourceSelectedEvent() {
+  this.sourceSelected.emit(this.source());
+}
+```
+
+**Reemplazar** el contenido del archivo `source-item.html` con el siguiente código, ubicado en la carpeta `/src/app/news/presentation/components/source-item`:
+
+```html
+<mat-list-item (click)="emitSourceSelectedEvent()" style="margin: 10px; padding: 10px; cursor: pointer; align-items: center;">
+  <img matListItemAvatar class="avatar" [alt]="source().name" [src]="source().urlToLogo"/>>
+  <p matListItemLine><span>{{ source().name }}</span></p>
+</mat-list-item>
+```
+
+**Reemplazar** el contenido del archivo `source-item.component.css` con el siguiente código, ubicado en la carpeta `/src/app/news/presentation/components/source-item`:
+
+```css
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+```
+
+### Modificación del SourceList Component
+
+**Agregar** los siguientes `import` al archivo `source-list.ts`, ubicado en la carpeta `/src/app/news/presentation/components/source-list`:
+
+```ts
+import {input, output} from '@angular/core';
+import {Source} from '../../../domain/model/source.entity';
+import {MatNavList} from '@angular/material/list';
+import {SourceItem} from '../source-item/source-item';
+```
+
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `SourceList`, ubicado en el archivo `source-list.ts`:
+
+```ts
+MatNavList, SourceItem
+```
+
+**Reemplazar** el contenido de la clase `SourceList` con el siguiente código, ubicado en el archivo `source-list.ts`:
+
+```ts
+sources = input<Source[]>();
+sourceSelected = output<Source>();
+
+emitSourceSelectedEvent(source: Source) {
+  this.sourceSelected.emit(source);
+}
+```
+
+**Reemplazar** el contenido del archivo `source-list.html` con el siguiente código, ubicado en la carpeta `/src/app/news/presentation/components/source-list`:
+
+```html
+<mat-nav-list>
+  @for (source of sources(); track source.name) {
+    <app-source-item (sourceSelected)="emitSourceSelectedEvent($event);"
+                     [source]="source"/>
+  }
+</mat-nav-list>
+```
+
+
+### Modificación del ArticleItem Component
+
+**Agregar** los siguientes `import` al archivo `article-item.ts`, ubicado en la carpeta `/src/app/news/presentation/components/article-item`:
+
+```ts
+import {inject, input, InputSignal} from '@angular/core';
+import {Article} from '../../../domain/model/article.entity';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader } from '@angular/material/card';
+import {MatCardImage, MatCardSubtitle, MatCardTitle, MatCardTitleGroup } from '@angular/material/card';
+import {DatePipe} from '@angular/common';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {TranslatePipe} from '@ngx-translate/core';
+import {MatIcon} from '@angular/material/icon';
+```
+
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `ArticleItem`:
+
+```ts
+MatCard, MatCardHeader, MatCardTitleGroup, MatCardTitle, MatCardSubtitle, 
+DatePipe, MatCardContent, MatCardActions, MatButton, MatCardImage, 
+TranslatePipe, MatIconButton, MatIcon
+```
+
+**Reemplazar** el contenido de la clase `ArticleItem` con el siguiente código:
+
+```ts
+private snackBar = inject(MatSnackBar);
+article: InputSignal<Article> = input.required<Article>();
+
+async shareArticle() {
+  const articleShareInfo = {
+    title: this.article()?.title,
+    url: this.article()?.url
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(articleShareInfo);
+      this.snackBar.open('Article shared successfully!', 'Close', { duration: 3000 });
+    } catch (error) {
+      this.snackBar.open('Sharing failed.', 'Close', { duration: 3000 });
+    }
+  } else {
+    try {
+      if (articleShareInfo.url) {
+        await navigator.clipboard.writeText(articleShareInfo.url);
+        this.snackBar.open('Article URL copied to clipboard!', 'Close', { duration: 3000 });
+      }
+    } catch (error) {
+      this.snackBar.open('Failed to copy URL.', 'Close', { duration: 3000 });
+    }
+  }
+}
+```
+
+**Reemplazar** el contenido del archivo `article-item.html` con el siguiente código, ubicado en la carpeta `/src/app/news/presentation/components/article-item`:
+
+```html
+<mat-card class="article-card">
+  <img mat-card-image [alt]="article().title" [src]="article().urlToImage"/>
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>{{ article().title }}</mat-card-title>
+      <mat-card-subtitle> {{ article().publishedAt | date:'medium'  }} </mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content>
+    <p> {{ article().description }}</p>
+  </mat-card-content>
+  <mat-card-actions class="actions-section">
+    <a [href]="article().url" class="action-button" color="primary"
+       mat-button
+       target="_blank">{{ 'article.read-more' | translate }}</a>
+    <span class="default-spacer"></span>
+    <a [href]="article().source.url" class="action-button"
+       mat-button
+       target="_blank">{{ article().source.name }}</a>
+    <button aria-label="Comments" color="white" mat-icon-button>
+      <mat-icon>comment</mat-icon>
+    </button>
+    <button (click)="shareArticle()" aria-label="Share Article" color="white" mat-icon-button>
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
+```
+
+**Reemplazar** el contenido del archivo `article-item.css` con el siguiente código, ubicado en la carpeta `/src/app/news/presentation/components/article-item`:
+
+```css
+.article-card {
+  margin: 4px;
+}
+
+.actions-section {
+  padding-top: 10px;
+  display: flex;
+}
+
+.action-button {
+  font-size: large;
+}
+
+.default-spacer {
+  flex: 1 1 auto;
+}
+```
+
+### Modificación del ArticleList Component
+
+**Agregar** los siguientes `import` al archivo `article-list.ts`, ubicado en la carpeta `/src/app/news/presentation/components/article-list`:
+
+```ts
+import {input, InputSignal} from '@angular/core';
+import {Article} from '../../../domain/model/article.entity';
+import {ArticleItem} from '../article-item/article-item';
+```
+
+**Agregar** las siguientes clases en el array `imports` del decorator `@Component` de la clase `ArticleList`, ubicado en el archivo `article-list.ts`:
+
+```ts
+ArticleItem
+```
+
+**Reemplazar** el contenido de la clase `ArticleList` con el siguiente código, ubicado en el archivo `article-list.component.ts`:
+
+```ts
+articles: InputSignal<Article[]> = input.required<Array<Article>>();
+```
+
+**Reemplazar** el contenido del archivo `article-list.html` con el siguiente código, ubicado en la carpeta `/src/app/news/presentation/components/article-list`:
+
+```html
+@for (article of articles(); track article.title) {
+  <app-article-item [article]="article"/>
+}
+```
+
+
+### Modificación del App
+
+**Agregar** los siguientes `import` al archivo `app.ts`, ubicado en la carpeta `/src/app`:
+
+```ts
+import { Layout } from './shared/presentation/components/layout/layout';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `App`, ubicado en el archivo `app.ts`
+
+```ts
+Layout
+```
+
+**Reemplazar** el contenido del archivo `app.html` con el siguiente código, ubicado en la carpeta `/src/app`:
+
+```html
+<app-layout/>
+<router-outlet />
+```
+
