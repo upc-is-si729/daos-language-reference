@@ -1101,7 +1101,7 @@ async shareArticle() {
 
 ```css
 .article-card {
-  margin: 4px;
+  margin: 50px;
 }
 
 .actions-section {
