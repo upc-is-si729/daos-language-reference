@@ -645,7 +645,7 @@ getArticlesBySourceId(sourceId: string): Observable<Article[]> {
 ng generate service news/application/news-store --skip-tests=true
 ```
 
-**Agregar** los siguentes `import` al archivo `logo-api.ts`, ubicado en la carpeta `/src/app/shared/infrastructure`:
+**Agregar** los siguentes `import` al archivo `news-store.ts`, ubicado en la carpeta `/src/app/news/application`:
 ```typescript
 import { computed, inject, signal } from '@angular/core';
 import { Source } from '../domain/model/source.entity';
@@ -763,7 +763,7 @@ useLanguage(language: string) {
 }
 ```
 
-**Reemplazar** el contenido del archivo `language-switcher.component.html` con el siguiente código, ubicado en la carpeta `/src/app/public/components/language-switcher`:
+**Reemplazar** el contenido del archivo `language-switcher.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/language-switcher`:
 
 ```html
 <mat-button-toggle-group [value]="currentLang" appearance="standard" aria-label="Preferred Language" name="language">
@@ -802,7 +802,7 @@ TranslateModule
 </div>
 ```
 
-**Reemplazar** el contenido del archivo `footer.css` con el siguiente código, ubicado en la carpeta `/src/app/public/components/footer-content`:
+**Reemplazar** el contenido del archivo `footer.css` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/footer-content`:
 
 ```css
 .footer-content {
