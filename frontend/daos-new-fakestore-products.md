@@ -568,7 +568,7 @@ constructor() {
   this.id = 0;
   this.userId = 0;
   this.date = '';
-  this.cartDetails = new CartDetail[];
+  this.cartDetails = [];
   this.__v = 0;
 }
 ```
@@ -620,7 +620,7 @@ ng generate service sales/infrastructure/fakestore-api --skip-tests=true
 
 **Agregar** los siguentes `import` al archivo `fakestore-api.ts`, ubicado en la carpeta `/src/app/sales/infrastructure`:
 ```typescript
-iimport { inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -657,58 +657,25 @@ ng generate service sales/application/fakestore-app --skip-tests=true
 **Agregar** los siguentes `import` al archivo `fakestore-app.ts`, ubicado en la carpeta `/src/app/sales/application`:
 ```typescript
 import { computed, inject, signal } from '@angular/core';
-import { Source } from '../domain/model/source.entity';
-import { Article } from '../domain/model/article.entity';
-import { NewsApi } from '../infrastructure/news-api';
-import { LogoApi } from '../../shared/infrastructure/logo-api';
+import { Product } from '../domain/model/product.entity';
+import { FakestoreApi } from '../infrastructure/fakestore-api';
 ```
 
 **Reemplazar** el contenido de la clase `FakestoreApp` con el siguiente código, ubicado en el archivo `fakestore-app.ts`:
 
 ```ts
-private sourcesSignal = signal<Source[]>([]);
-private articlesSignal = signal<Record<string, Article[]>>({});
-private newsApi = inject(NewsApi);
-private logoApi = inject(LogoApi);
+private productsSignal = signal<Product[]>([]);
+private fakestoreApi = inject(FakestoreApi);
 
-readonly sources = computed(() => this.sourcesSignal());
-readonly articles = computed(() => this.articlesSignal());
-public currentSourceArticles = computed(() => this.articlesSignal()[this.currentSource?.id] ?? []);
-private _currentSource!: Source;
+readonly products = computed(() => this.productsSignal());
 
-loadSources() {
-  if (this.sourcesSignal().length === 0) {
-    this.newsApi.getSources().subscribe(sources => {
-      sources.forEach(source => source.urlToLogo = this.logoApi.getUrlToLogo(source));
-      this.sourcesSignal.set(sources);
-      this.currentSource = sources[0];
-      this.loadArticlesForCurrentSource();
-    });
-  }
-}
-
-loadArticlesForCurrentSource() {
-  console.log(this.currentSource);
-  const current = this.articlesSignal() ?? {};
-  const source = this._currentSource;
-  if (!current[source.id]) {
-    this.newsApi.getArticlesBySourceId(source.id).subscribe(articles => {
-      articles.forEach(article => {
-        article.source.urlToLogo = source.urlToLogo;
-        article.source.url = source.url;
+loadProducts(): void {
+  if (this.productsSignal().length == 0) {
+    this.fakestoreApi.getProducts()
+      .subscribe(products => {
+        this.productsSignal.set(products);
       });
-      this.articlesSignal.set({ ...current, [source.id]: articles });
-    });
   }
-}
-
-get currentSource(): Source {
-  return this._currentSource;
-}
-
-set currentSource(value: Source) {
-  this._currentSource = value;
-  this.loadArticlesForCurrentSource();
 }
 ```
 
@@ -733,6 +700,9 @@ ng generate component shared/presentation/components/layout --skip-tests=true
 ```
 ```bash
 ng generate component sales/presentation/components/product-list --skip-tests=true
+```
+```bash
+ng generate component sales/presentation/components/product-item --skip-tests=true
 ```
 
 ### Modificación del LanguageSwitcherComponent
@@ -894,7 +864,6 @@ protected fakestoreApp = inject(FakestoreApp);
 protected readonly products: Signal<Product[]> = this.fakestoreApp.products;
 
 ngOnInit(): void {
-  console.log("init layout");
   this.fakestoreApp.loadProducts();
 }
 ```
@@ -912,115 +881,91 @@ ngOnInit(): void {
 
 **Agregar** los siguientes imports a la clase `ProductList` del archivo `product-list.ts` ubicado en la carpeta `/src/app/sales/presentation/components/product-list`:
 ```ts
-import { input, output} from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { TranslateModule } from "@ngx-translate/core";
+import { input } from '@angular/core';
 import { Product } from '../../../domain/model/product.entity';
+import { ProductItem } from '../product-item/product-item';
+import { MatGridListModule } from '@angular/material/grid-list';
 ```
 
-**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductListComponent` del archivo `product-list.component.ts`:
+**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductList` del archivo `product-list.ts`:
 
 ```
-MatFormFieldModule, MatInputModule, MatTableModule, MatCardModule, TranslateModule
+ProductItem,MatGridListModule
 ```
 
-**Reemplazar** el contenido de la clase `ProductListComponent` ubicado en el archivo `product-list.component.ts` con el siguiente código:
+**Reemplazar** el contenido de la clase `ProductList` ubicado en el archivo `product-list.ts` con el siguiente código:
 
 ```ts
-products = input<Product[]>();
-
-displayedColumns: string[] = ['id', 'title', 'price', 'description', 'category', 'image'];
-//dataSource = new MatTableDataSource(this.products);
-dataSource = new MatTableDataSource(this.products());
-
-constructor() {
-  console.log("constructor product-list");
-  console.log(this.products());
-}
-
-applyFilter(event: Event) {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+products = input.required<Product[]>();
 ```
 
-**Reemplazar** el contenido del archivo `product-list.component.html` con el siguiente código:
+**Reemplazar** el contenido del archivo `product-list.html` con el siguiente código:
 ```html
-<mat-card>
-  <mat-card-content>
-
-    <mat-form-field>
-      <mat-label>{{ 'filter.label' | translate }}</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'filter.placeholder' | translate }}" #input>
-    </mat-form-field>
-
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.id' | translate }}</th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.title' | translate }} </th>
-        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.price' | translate }} </th>
-        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.description' | translate }} </th>
-        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.category' | translate }} </th>
-        <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.image' | translate }} </th>
-        <td mat-cell *matCellDef="let element"><img  width="50px" height="50px" src="{{element.image}}">   </td>
-      </ng-container>
-
-      <ng-container matColumnDef="rate">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.rate' | translate }} </th>
-        <td mat-cell *matCellDef="let element"> {{element.rating.rate}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="count">
-        <th mat-header-cell *matHeaderCellDef> {{ 'product.count' | translate }} </th>
-        <td mat-cell *matCellDef="let element"> {{element.rating.count}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
-    </table>
-
-  </mat-card-content>
-</mat-card>
+<mat-grid-list cols="4" rowHeight="500px" gutterSize="10px">
+  @for (product of products(); track product.title) {
+    <mat-grid-tile>
+    <app-product-item [product]="product"/>
+    </mat-grid-tile>
+  }
+</mat-grid-list>
 ```
 
-**Reemplazar** el contenido del archivo `product-list.component.css` con el siguiente código:
-```css
-table {
-  width: 100%;
-}
 
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
+### Modificación del ProductItem Component
+
+**Agregar** los siguientes imports a la clase `ProductItem` del archivo `product-item.ts` ubicado en la carpeta `/src/app/sales/presentation/components/product-item`:
+```ts
+import {input, InputSignal} from '@angular/core';
+import {Product} from '../../../domain/model/product.entity';
+import {ChangeDetectionStrategy} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+```
+
+**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductList` del archivo `product-list.ts`:
+
+```
+MatCardModule, MatButtonModule
+```
+
+**Agregar** el siguiente elemento en el `@Component` de la clase `ProductItem` del archivo `product-item.ts`:
+
+```
+changeDetection: ChangeDetectionStrategy.OnPush
+```
+
+**Reemplazar** el contenido de la clase `ProductItem` ubicado en el archivo `product-item.ts` con el siguiente código:
+
+```ts
+product: InputSignal<Product> = input.required<Product>();
+```
+
+**Reemplazar** el contenido del archivo `product-item.html` con el siguiente código:
+```html
+<mat-card class="product-card" appearance="outlined">
+  <img mat-card-image class="product-image" [alt]="product().title" [src]="product().image" />
+  <mat-card-content>
+    <p><strong> {{product().title}} </strong></p>
+    <p><strong>Category: </strong> {{product().category}}</p>
+    <p><strong>Price: </strong> {{product().price}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button matButton>Add to cart</button>
+  </mat-card-actions>
+</mat-card>
+
+```
+
+**Reemplazar** el contenido del archivo `product-item.css` con el siguiente código:
+```css
+.product-card {
+  max-width: 300px;
+  margin: 20px;
+}
+.product-image {
+  height: 280px;
+  object-fit: scale-down;
+  padding: 20px;
 }
 ```
 
@@ -1049,4 +994,5 @@ Layout
 
 ## Actividad
 
-**Modificar** el `ProductListComponent` para incluir los atributos `rate` y `count` del modelo **Rating**.
+- **Agregar** todos los campos del endpoint en el front.
+- **Agregar** el funcionamiento de los demás endpoints.
