@@ -1,0 +1,742 @@
+{
+  "transactions": [
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-09-22",
+      "merchantName": "Corner Cafe",
+      "amount": 75.50,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Food & Beverage",
+        "description": "Dinner for two",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 75.50,
+          "paymentDate": "2025-10-22",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-09-21",
+      "merchantName": "Urban Apparel Store",
+      "amount": 1200.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Clothing",
+        "description": "Cotton t-shirt and denim pants",
+        "quantity": 2
+      },
+      "totalInstallments": 3,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 400.00,
+          "paymentDate": "2025-10-21",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 400.00,
+          "paymentDate": "2025-11-21",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 3,
+          "installmentAmount": 400.00,
+          "paymentDate": "2025-12-21",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-09-20",
+      "merchantName": "The Wise Bookstore",
+      "amount": 35.75,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Books & Stationery",
+        "description": "Mystery novel",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 35.75,
+          "paymentDate": "2025-10-20",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-09-19",
+      "merchantName": "Wholesale Supermarket",
+      "amount": 500.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Groceries",
+        "description": "Monthly food shopping",
+        "quantity": 1
+      },
+      "totalInstallments": 2,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-10-19",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-11-19",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-09-18",
+      "merchantName": "Tech Gadget Store",
+      "amount": 850.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Electronics",
+        "description": "Wireless headphones",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 850.00,
+          "paymentDate": "2025-10-18",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-09-17",
+      "merchantName": "Gourmet Restaurant",
+      "amount": 250.75,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Food & Beverage",
+        "description": "Special dinner celebration",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 250.75,
+          "paymentDate": "2025-10-17",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-09-16",
+      "merchantName": "Online Cinema Tickets",
+      "amount": 45.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Entertainment",
+        "description": "Movie tickets for family",
+        "quantity": 4
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 45.00,
+          "paymentDate": "2025-10-16",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-09-15",
+      "merchantName": "Home Depot",
+      "amount": 750.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Home Improvement",
+        "description": "Power drill and tool set",
+        "quantity": 1
+      },
+      "totalInstallments": 3,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-10-15",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-11-15",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 3,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-12-15",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-09-14",
+      "merchantName": "Local Pharmacy",
+      "amount": 85.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Health",
+        "description": "Prescription medication",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 85.00,
+          "paymentDate": "2025-10-14",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-09-13",
+      "merchantName": "Gym Membership",
+      "amount": 60.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Services",
+        "description": "Monthly gym fee",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 60.00,
+          "paymentDate": "2025-10-13",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-09-12",
+      "merchantName": "Online Books",
+      "amount": 25.50,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Books & Stationery",
+        "description": "E-book purchase",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 25.50,
+          "paymentDate": "2025-10-12",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-09-11",
+      "merchantName": "Toy Store",
+      "amount": 150.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Toys",
+        "description": "Birthday gift for a child",
+        "quantity": 1
+      },
+      "totalInstallments": 2,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 75.00,
+          "paymentDate": "2025-10-11",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 75.00,
+          "paymentDate": "2025-11-11",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-09-10",
+      "merchantName": "Auto Repair Shop",
+      "amount": 350.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Automotive",
+        "description": "Oil change and tire rotation",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 350.00,
+          "paymentDate": "2025-10-10",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-09-09",
+      "merchantName": "Pet Store",
+      "amount": 90.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Pets",
+        "description": "Dog food and toys",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 90.00,
+          "paymentDate": "2025-10-09",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-09-08",
+      "merchantName": "Music Streaming Service",
+      "amount": 10.99,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Subscription",
+        "description": "Monthly music subscription",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 10.99,
+          "paymentDate": "2025-10-08",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-09-07",
+      "merchantName": "Beauty Salon",
+      "amount": 120.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Services",
+        "description": "Haircut and styling",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 120.00,
+          "paymentDate": "2025-10-07",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-09-06",
+      "merchantName": "Online Gaming Store",
+      "amount": 59.99,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Entertainment",
+        "description": "Video game download",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 59.99,
+          "paymentDate": "2025-10-06",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-09-05",
+      "merchantName": "Flower Shop",
+      "amount": 75.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Gifts",
+        "description": "Bouquet of roses",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 75.00,
+          "paymentDate": "2025-10-05",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-09-04",
+      "merchantName": "Electronics Megastore",
+      "amount": 900.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Electronics",
+        "description": "New tablet",
+        "quantity": 1
+      },
+      "totalInstallments": 4,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 225.00,
+          "paymentDate": "2025-10-04",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 225.00,
+          "paymentDate": "2025-11-04",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 3,
+          "installmentAmount": 225.00,
+          "paymentDate": "2025-12-04",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 4,
+          "installmentAmount": 225.00,
+          "paymentDate": "2026-01-04",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-09-03",
+      "merchantName": "Home Furniture",
+      "amount": 1500.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Home Goods",
+        "description": "New sofa",
+        "quantity": 1
+      },
+      "totalInstallments": 6,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-10-03",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-11-03",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 3,
+          "installmentAmount": 250.00,
+          "paymentDate": "2025-12-03",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 4,
+          "installmentAmount": 250.00,
+          "paymentDate": "2026-01-03",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 5,
+          "installmentAmount": 250.00,
+          "paymentDate": "2026-02-03",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 6,
+          "installmentAmount": 250.00,
+          "paymentDate": "2026-03-03",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-09-02",
+      "merchantName": "Online Grocer",
+      "amount": 120.50,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Groceries",
+        "description": "Weekly food delivery",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 120.50,
+          "paymentDate": "2025-10-02",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-09-01",
+      "merchantName": "Car Wash",
+      "amount": 25.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Services",
+        "description": "Full service car wash",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 25.00,
+          "paymentDate": "2025-10-01",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-08-31",
+      "merchantName": "Apparel Boutique",
+      "amount": 200.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Clothing",
+        "description": "Dress and shoes",
+        "quantity": 2
+      },
+      "totalInstallments": 2,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 100.00,
+          "paymentDate": "2025-09-30",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 100.00,
+          "paymentDate": "2025-10-31",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-08-30",
+      "merchantName": "Coffee Shop",
+      "amount": 15.75,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Food & Beverage",
+        "description": "Coffee and pastry",
+        "quantity": 2
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 15.75,
+          "paymentDate": "2025-09-30",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-08-29",
+      "merchantName": "Supermarket",
+      "amount": 350.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Groceries",
+        "description": "Weekly grocery run",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 350.00,
+          "paymentDate": "2025-09-29",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-08-28",
+      "merchantName": "Hardware Store",
+      "amount": 80.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Home Improvement",
+        "description": "Paint and brushes",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 80.00,
+          "paymentDate": "2025-09-28",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "4567890123456789",
+      "transactionDate": "2025-08-27",
+      "merchantName": "Restaurant",
+      "amount": 150.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Food & Beverage",
+        "description": "Dinner with friends",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 150.00,
+          "paymentDate": "2025-09-27",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "5432109876543210",
+      "transactionDate": "2025-08-26",
+      "merchantName": "Online Ticket Service",
+      "amount": 250.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Entertainment",
+        "description": "Concert tickets",
+        "quantity": 2
+      },
+      "totalInstallments": 2,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 125.00,
+          "paymentDate": "2025-09-26",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 125.00,
+          "paymentDate": "2025-10-26",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "9876543210987654",
+      "transactionDate": "2025-08-25",
+      "merchantName": "Book Club",
+      "amount": 30.00,
+      "currency": "USD",
+      "productDetails": {
+        "productType": "Books & Stationery",
+        "description": "Monthly book subscription",
+        "quantity": 1
+      },
+      "totalInstallments": 1,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 30.00,
+          "paymentDate": "2025-09-25",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "cardNumber": "1234567890123456",
+      "transactionDate": "2025-08-24",
+      "merchantName": "Electronics Store",
+      "amount": 650.00,
+      "currency": "PEN",
+      "productDetails": {
+        "productType": "Electronics",
+        "description": "Smartphone accessories",
+        "quantity": 3
+      },
+      "totalInstallments": 3,
+      "schedule": [
+        {
+          "installmentNumber": 1,
+          "installmentAmount": 216.67,
+          "paymentDate": "2025-09-24",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 2,
+          "installmentAmount": 216.67,
+          "paymentDate": "2025-10-24",
+          "status": "pending"
+        },
+        {
+          "installmentNumber": 3,
+          "installmentAmount": 216.66,
+          "paymentDate": "2025-11-24",
+          "status": "pending"
+        }
+      ]
+    }
+  ]
+}
