@@ -1,0 +1,220 @@
+{
+  "zodiacsigns": [
+    {
+      "name": "Aries",
+      "dates": "March 21 - April 19",
+      "element": "Fire",
+      "modality": "Cardinal",
+      "rulingPlanet": "Mars",
+      "traits": [
+        {"name": "Courage", "type": "Strength"},
+        {"name": "Initiative", "type": "Strength"},
+        {"name": "Impulsiveness", "type": "Weakness"},
+        {"name": "Temper", "type": "Weakness"}
+      ],
+      "deepPersonality": "Natural pioneers, always ready for action. Their energy is contagious, but they must learn to moderate their temper and consider consequences before acting.",
+      "loveCompatibility": {
+        "optimal": ["Leo", "Sagittarius", "Gemini", "Aquarius"],
+        "challenging": ["Cancer", "Capricorn"]
+      }
+    },
+    {
+      "name": "Taurus",
+      "dates": "April 20 - May 20",
+      "element": "Earth",
+      "modality": "Fixed",
+      "rulingPlanet": "Venus",
+      "traits": [
+        {"name": "Stability", "type": "Strength"},
+        {"name": "Loyalty", "type": "Strength"},
+        {"name": "Stubbornness", "type": "Weakness"},
+        {"name": "Materialism", "type": "Weakness"}
+      ],
+      "deepPersonality": "They value security and material comfort. They're loyal and reliable, though their famous stubbornness can make change or adapting to new ideas difficult.",
+      "loveCompatibility": {
+        "optimal": ["Virgo", "Capricorn", "Cancer", "Pisces"],
+        "challenging": ["Leo", "Aquarius"]
+      }
+    },
+    {
+      "name": "Gemini",
+      "dates": "May 21 - June 20",
+      "element": "Air",
+      "modality": "Mutable",
+      "rulingPlanet": "Mercury",
+      "traits": [
+        {"name": "Communication", "type": "Strength"},
+        {"name": "Adaptability", "type": "Strength"},
+        {"name": "Inconstancy", "type": "Weakness"},
+        {"name": "Superficiality", "type": "Weakness"}
+      ],
+      "deepPersonality": "They are the communicators of the zodiac, quick-witted and always seeking information. Their dual nature can make them seem inconsistent or superficial to those who don't understand their need for variety.",
+      "loveCompatibility": {
+        "optimal": ["Libra", "Aquarius", "Aries", "Leo"],
+        "challenging": ["Virgo", "Pisces"]
+      }
+    },
+    {
+      "name": "Cancer",
+      "dates": "June 21 - July 22",
+      "element": "Water",
+      "modality": "Cardinal",
+      "rulingPlanet": "Moon",
+      "traits": [
+        {"name": "Intuition", "type": "Strength"},
+        {"name": "Protectiveness", "type": "Strength"},
+        {"name": "Susceptibility", "type": "Weakness"},
+        {"name": "Clinging to the past", "type": "Weakness"}
+      ],
+      "deepPersonality": "They are deeply connected to their emotions and home. They are protective and empathetic but can be prone to moodiness and hiding in their shell when hurt.",
+      "loveCompatibility": {
+        "optimal": ["Scorpio", "Pisces", "Taurus", "Virgo"],
+        "challenging": ["Aries", "Libra"]
+      }
+    },
+    {
+      "name": "Leo",
+      "dates": "July 23 - August 22",
+      "element": "Fire",
+      "modality": "Fixed",
+      "rulingPlanet": "Sun",
+      "traits": [
+        {"name": "Generosity", "type": "Strength"},
+        {"name": "Leadership", "type": "Strength"},
+        {"name": "Egocentricity", "type": "Weakness"},
+        {"name": "Vanity", "type": "Weakness"}
+      ],
+      "deepPersonality": "They radiate confidence and need to be the center of attention. They are generous and loyal, but their need for admiration can lead them to be perceived as self-centered or dramatic.",
+      "loveCompatibility": {
+        "optimal": ["Aries", "Sagittarius", "Gemini", "Libra"],
+        "challenging": ["Taurus", "Scorpio"]
+      }
+    },
+    {
+      "name": "Virgo",
+      "dates": "August 23 - September 22",
+      "element": "Earth",
+      "modality": "Mutable",
+      "rulingPlanet": "Mercury",
+      "traits": [
+        {"name": "Analysis", "type": "Strength"},
+        {"name": "Helpfulness", "type": "Strength"},
+        {"name": "Excessive perfectionism", "type": "Weakness"},
+        {"name": "Criticism", "type": "Weakness"}
+      ],
+      "deepPersonality": "They seek perfection and utility in everything they do. They're meticulous and practical, but their constant need to analyze and criticize (themselves and others) can generate anxiety.",
+      "loveCompatibility": {
+        "optimal": ["Taurus", "Capricorn", "Cancer", "Scorpio"],
+        "challenging": ["Gemini", "Sagittarius"]
+      }
+    },
+    {
+      "name": "Libra",
+      "dates": "September 23 - October 22",
+      "element": "Air",
+      "modality": "Cardinal",
+      "rulingPlanet": "Venus",
+      "traits": [
+        {"name": "Diplomacy", "type": "Strength"},
+        {"name": "Search for harmony", "type": "Strength"},
+        {"name": "Indecision", "type": "Weakness"},
+        {"name": "Conflict avoidance", "type": "Weakness"}
+      ],
+      "deepPersonality": "They are natural mediators, always seeking balance and justice. Their charm is undeniable, but their aversion to conflict and need to weigh all options make them incredibly indecisive.",
+      "loveCompatibility": {
+        "optimal": ["Gemini", "Aquarius", "Leo", "Sagittarius"],
+        "challenging": ["Cancer", "Capricorn"]
+      }
+    },
+    {
+      "name": "Scorpio",
+      "dates": "October 23 - November 21",
+      "element": "Water",
+      "modality": "Fixed",
+      "rulingPlanet": "Mars and Pluto",
+      "traits": [
+        {"name": "Intensity", "type": "Strength"},
+        {"name": "Transformation", "type": "Strength"},
+        {"name": "Possessiveness", "type": "Weakness"},
+        {"name": "Secretiveness", "type": "Weakness"}
+      ],
+      "deepPersonality": "They live life with profound intensity and do nothing halfway. They are strategic and transformative, but their reserved nature and difficulty forgiving can make them seem dark or vengeful.",
+      "loveCompatibility": {
+        "optimal": ["Cancer", "Pisces", "Virgo", "Capricorn"],
+        "challenging": ["Leo", "Aquarius"]
+      }
+    },
+    {
+      "name": "Sagittarius",
+      "dates": "November 22 - December 21",
+      "element": "Fire",
+      "modality": "Mutable",
+      "rulingPlanet": "Jupiter",
+      "traits": [
+        {"name": "Optimism", "type": "Strength"},
+        {"name": "Spirit of freedom", "type": "Strength"},
+        {"name": "Lack of tact", "type": "Weakness"},
+        {"name": "Irresponsibility", "type": "Weakness"}
+      ],
+      "deepPersonality": "They are the eternal explorers, guided by the search for truth and knowledge. Their optimism is inspiring, but their need for freedom can lead them to be unreliable or overly direct (lacking tact).",
+      "loveCompatibility": {
+        "optimal": ["Aries", "Leo", "Libra", "Aquarius"],
+        "challenging": ["Virgo", "Pisces"]
+      }
+    },
+    {
+      "name": "Capricorn",
+      "dates": "December 22 - January 19",
+      "element": "Earth",
+      "modality": "Cardinal",
+      "rulingPlanet": "Saturn",
+      "traits": [
+        {"name": "Discipline", "type": "Strength"},
+        {"name": "Ambition", "type": "Strength"},
+        {"name": "Pessimism", "type": "Weakness"},
+        {"name": "Rigidity", "type": "Weakness"}
+      ],
+      "deepPersonality": "They have a highly developed sense of duty and responsibility. They are masters of self-discipline, but can be perceived as cold or overly focused on success and status.",
+      "loveCompatibility": {
+        "optimal": ["Taurus", "Virgo", "Scorpio", "Pisces"],
+        "challenging": ["Aries", "Libra"]
+      }
+    },
+    {
+      "name": "Aquarius",
+      "dates": "January 20 - February 18",
+      "element": "Air",
+      "modality": "Fixed",
+      "rulingPlanet": "Uranus and Saturn",
+      "traits": [
+        {"name": "Innovation", "type": "Strength"},
+        {"name": "Independence", "type": "Strength"},
+        {"name": "Emotional detachment", "type": "Weakness"},
+        {"name": "Rebellion without cause", "type": "Weakness"}
+      ],
+      "deepPersonality": "They are visionaries with a strong social and humanitarian focus. They love freedom and unconventionality, but their suppressed emotionality and need for distance can complicate intimate relationships.",
+      "loveCompatibility": {
+        "optimal": ["Gemini", "Libra", "Aries", "Sagittarius"],
+        "challenging": ["Taurus", "Scorpio"]
+      }
+    },
+    {
+      "name": "Pisces",
+      "dates": "February 19 - March 20",
+      "element": "Water",
+      "modality": "Mutable",
+      "rulingPlanet": "Neptune and Jupiter",
+      "traits": [
+        {"name": "Empathy", "type": "Strength"},
+        {"name": "Imagination", "type": "Strength"},
+        {"name": "Reality evasion", "type": "Weakness"},
+        {"name": "Naivety", "type": "Weakness"}
+      ],
+      "deepPersonality": "They are dreamers, guided by empathy and intuition. Their nature is compassionate and artistic, though they may struggle with setting boundaries or distinguishing between fantasy and reality.",
+      "loveCompatibility": {
+        "optimal": ["Cancer", "Scorpio", "Taurus", "Capricorn"],
+        "challenging": ["Gemini", "Sagittarius"]
+      }
+    }
+  ]
+}
