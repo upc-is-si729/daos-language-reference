@@ -1847,6 +1847,7 @@ deleteCategory(id: number) {
 
 **Agregar** los siguientes imports a la clase `CategoryForm` del archivo `category-form.ts` ubicado en la carpeta `/src/app/learning/presentation/components/category-form`:
 ```ts
+import {inject} from '@angular/core';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LearningStore} from '../../../application/learning-store';
@@ -1907,7 +1908,7 @@ submit() {
 }
 ```
 
-**Reemplazar** el contenido del archivo `product-item.html` con el siguiente código:
+**Reemplazar** el contenido del archivo `category-form.html` con el siguiente código:
 ```html
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-form-field>
@@ -1924,7 +1925,225 @@ submit() {
 </form>
 ```
 
-**Reemplazar** el contenido del archivo `product-item.css` con el siguiente código:
+**Reemplazar** el contenido del archivo `category-form.css` con el siguiente código:
+```css
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 16px;
+}
+```
+
+### Modificación del CourseList Component
+
+**Agregar** los siguientes imports a la clase `CourseList` del archivo `course-list.ts` ubicado en la carpeta `/src/app/learning/presentation/components/course-list`:
+```ts
+import {inject} from '@angular/core';
+import {LearningStore} from '../../../application/learning-store';
+import {Router} from '@angular/router';
+import {MatError} from '@angular/material/form-field';
+import {MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable} from '@angular/material/table';
+import {MatButton} from '@angular/material/button';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
+```
+
+**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `CourseList` del archivo `course-list.ts`:
+
+```
+MatError, MatTable, MatHeaderCellDef, MatCellDef, MatColumnDef, MatHeaderCell,
+    MatCell, MatHeaderRowDef, MatRowDef, MatButton, MatHeaderRow, MatRow, MatProgressSpinner
+```
+
+**Reemplazar** el contenido de la clase `CourseList` ubicado en el archivo `course-list.ts` con el siguiente código:
+
+```ts
+readonly store = inject(LearningStore);
+protected router = inject(Router);
+
+displayedColumns: string[] = ['id', 'title', 'description', 'category', 'actions'];
+
+editCourse(id: number) {
+  this.router.navigate(['learning/courses/edit', id]).then();
+}
+
+deleteCourse(id: number) {
+  this.store.deleteCourse(id);
+}
+```
+
+**Reemplazar** el contenido del archivo `course-list.html` con el siguiente código:
+```html
+@if (store.loading()) {
+  <mat-spinner diameter="40"></mat-spinner>
+}
+@if (store.error()) {
+  <mat-error>{{ store.error() }}</mat-error>
+}
+<table mat-table [dataSource]="store.courses()" class="mat-elevation-z8">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let course"> {{ course.id }} </td>
+  </ng-container>
+
+  <!-- Title Column -->
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef> Title </th>
+    <td mat-cell *matCellDef="let course"> {{ course.title }} </td>
+  </ng-container>
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let course"> {{ course.description }} </td>
+  </ng-container>
+
+  <!-- Category Column -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef> Category </th>
+    <td mat-cell *matCellDef="let course"> {{ course.category?.name ?? 'None' }} </td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let course">
+      <button mat-button (click)="editCourse(course.id)">Edit</button>
+      <button mat-button (click)="deleteCourse(course.id)">Delete</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<button mat-raised-button color="primary" (click)="router.navigate(['learning/courses/new'])">Add Course</button>
+```
+
+**Reemplazar** el contenido del archivo `course-list.css` con el siguiente código:
+```css
+.mat-table {
+  width: 100%;
+  margin-bottom: 16px;
+}
+```
+
+### Modificación del CourseForm Component
+
+**Agregar** los siguientes imports a la clase `CourseForm` del archivo `course-form.ts` ubicado en la carpeta `/src/app/learning/presentation/components/course-form`:
+```ts
+import {inject} from '@angular/core';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LearningStore} from '../../../application/learning-store';
+import {Course} from '../../../domain/model/course.entity';
+import {Category} from '../../../domain/model/category.entity';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInput} from '@angular/material/input';
+```
+
+**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `CourseForm` del archivo `course-form.ts`:
+
+```
+ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule, MatInput
+```
+
+**Reemplazar** el contenido de la clase `CourseForm` ubicado en el archivo `course-form.ts` con el siguiente código:
+
+```ts
+private fb = inject(FormBuilder);
+private route = inject(ActivatedRoute);
+private router = inject(Router);
+private store = inject(LearningStore);
+
+form = this.fb.group({
+  title: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+  description: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+  categoryId: new FormControl<number | null>(null)
+});
+categories = this.store.categories;
+isEdit = false;
+courseId: number | null = null;
+
+constructor() {
+  this.route.params.subscribe(params => {
+    this.courseId = params['id'] ? +params['id'] : null;
+    this.isEdit = !!this.courseId;
+    if (this.isEdit) {
+      const course = this.store.courses().find(c => c.id === this.courseId);
+      if (course) {
+        this.form.patchValue({
+          title: course.title,
+          description: course.description,
+          categoryId: course.categoryId
+        });
+      }
+    }
+  });
+}
+
+submit() {
+  if (this.form.invalid) return;
+  const category: Category | null = this.store.getCategoryById(this.form.value.categoryId)() ?? null;
+  const course: Course = new Course({
+    id: this.courseId ?? 0,
+    title: this.form.value.title!,
+    description: this.form.value.description!,
+    categoryId: this.form.value.categoryId ?? 0,
+    category: category ?? null
+  });
+
+  if (this.isEdit) {
+    this.store.updateCourse(course);
+  } else {
+    this.store.addCourse(course);
+  }
+
+  this.router.navigate(['learning/courses']).then();
+}
+```
+
+**Reemplazar** el contenido del archivo `course-form.html` con el siguiente código:
+```html
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" required>
+    @if (form.get('title')?.touched && form.get('title')!.hasError('required')) {
+      <mat-error>Title is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input matInput formControlName="description" required>
+    @if (form.get('description')?.touched && form.get('description')!.hasError('required')) {
+      <mat-error>Description is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="categoryId">
+      <mat-option [value]="null">None</mat-option>
+      @for (category of categories(); track category.id) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+    {{ isEdit ? 'Update' : 'Add' }} Course
+  </button>
+</form>
+```
+
+**Reemplazar** el contenido del archivo `course-form.css` con el siguiente código:
 ```css
 form {
   display: flex;
