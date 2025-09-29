@@ -1260,3 +1260,130 @@ deleteCategory(id: number): Observable<void> {
   return this.categoriesEndpoint.delete(id);
 }
 ```
+
+## Application layer 
+
+### Creación del Service LearningStore
+
+**Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear el service `learning-store`:
+
+```bash
+ng generate service learning/application/learning-store --skip-tests=true
+```
+
+**Agregar** los siguentes `import` al archivo `learning-store.ts`, ubicado en la carpeta `/src/app/sales/application`:
+```typescript
+import {computed, Signal, signal} from '@angular/core';
+import {Course} from '../domain/model/course.entity';
+import {Category} from '../domain/model/category.entity';
+import {LearningApi} from '../infrastructure/learning-api';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {retry} from 'rxjs';
+```
+
+**Reemplazar** el contenido de la clase `LearningStore` con el siguiente código, ubicado en el archivo `learning-store.ts`:
+
+```ts
+private productsSignal = signal<Product[]>([]);
+private fakestoreApi = inject(FakestoreApi);
+
+readonly products = computed(() => this.productsSignal());
+
+loadProducts(): void {
+  if (this.productsSignal().length == 0) {
+    this.fakestoreApi.getProducts()
+      .subscribe(products => {
+        this.productsSignal.set(products);
+      });
+  }
+}
+```
+
+
+## Creación de componentes
+
+**Cargar** el `Terminal` del IDE y agregue un nuevo `Tab`.
+
+**Ejecute** los siguientes comandos para la creación de los componentes y views:
+
+```bash
+ng generate component shared/presentation/components/footer-content --skip-tests=true
+```
+```bash
+ng generate component shared/presentation/components/language-switcher --skip-tests=true
+```
+```bash
+ng generate component shared/presentation/components/layout --skip-tests=true
+```
+
+```bash
+ng generate component shared/presentation/views/about --skip-tests=true
+```
+```bash
+ng generate component shared/presentation/views/home --skip-tests=true
+```
+```bash
+ng generate component shared/presentation/views/page-not-found --skip-tests=true
+```
+
+```bash
+ng generate component learning/presentation/views/category-form --skip-tests=true
+```
+```bash
+ng generate component learning/presentation/views/category-list --skip-tests=true
+```
+```bash
+ng generate component learning/presentation/views/course-form --skip-tests=true
+```
+```bash
+ng generate component learning/presentation/views/course-list --skip-tests=true
+```
+
+## Configuración del Routes
+
+## Crear y configurar el learning.routes
+
+**Crear** el archivo `learning.routes.ts` aen la carpeta `learning/presentation/views` con el siguiente contenido:
+
+```ts
+import {Routes} from '@angular/router';
+
+const courseList = () => import('./course-list/course-list').then(m => m.CourseList);
+const courseForm = () => import('./course-form/course-form').then(m => m.CourseForm);
+const categoryList = () => import('./category-list/category-list').then(m => m.CategoryList);
+const categoryForm = () => import('./category-form/category-form').then(m => m.CategoryForm);
+
+export const learningRoutes: Routes = [
+  { path: 'courses',              loadComponent: courseList },
+  { path: 'courses/new',          loadComponent: courseForm },
+  { path: 'courses/edit/:id',     loadComponent: courseForm },
+  { path: 'categories',           loadComponent: categoryList },
+  { path: 'categories/new',       loadComponent: categoryForm },
+  { path: 'categories/edit/:id',  loadComponent: categoryForm }
+];
+```
+## configuración del Routes app.routes
+
+**Agregar** los siguientes `import` al archivo `app.routes.ts` ubicado en la carpeta `/src/app`:
+
+```ts
+import {Home} from './shared/presentation/views/home/home';
+```
+
+**Agregar** los siguientes `const`, despuest del `import` y antes de la constante `routes` al archivo `app.routes.ts`
+
+```ts
+const about = () => import('./shared/presentation/views/about/about').then(m => m.About);
+const pageNotFound = () => import('./shared/presentation/views/page-not-found/page-not-found').then(m => m.PageNotFound);
+const baseTitle = 'ACME Learning Center';
+```
+
+**Agregar** los siguientes valores a la constante `routes` del archivo `app.routes.ts`:
+
+```ts
+{ path: 'home', component: Home, title: `${baseTitle} - Home`  },
+{ path: 'about', loadComponent: about, title: `${baseTitle} - About`  },
+{ path: 'learning', loadChildren: () => import('./learning/presentation/views/learning.routes').then(m => m.learningRoutes)},
+{ path: '', redirectTo: '/home', pathMatch: 'full'  },
+{ path: '**', loadComponent:  pageNotFound, title: `${baseTitle} - Page Not Found`  },
+```
