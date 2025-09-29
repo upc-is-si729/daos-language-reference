@@ -714,16 +714,10 @@ export interface CategoriesResponse extends BaseResponse {
  * Represents the API resource/DTO for a category.
  */
 export interface CategoryResource extends BaseResource {
-  /**
-   * The unique identifier for the category.
-   */
   id: number;
-
-  /**
-   * The name of the category.
-   */
   name: string;
 }
+
 ```
 
 ### Creación del class Category tipo entity (model)
@@ -749,33 +743,23 @@ export class Category implements BaseEntity
 **Agregar** los siguentes atributos y constructor a la clase `Category` del archivo `category.entity.ts` con el siguiente código:
 
 ```typescript
+private _id: number;
+private _name: string;
+
 constructor(category: { id: number; name: string }) {
   this._id = category.id;
   this._name = category.name;
 }
 
-/**
- * The unique identifier for the category.
- */
-private _id: number;
-
 get id(): number {
   return this._id;
 }
-
 set id(value: number) {
   this._id = value;
 }
-
-/**
- * The name of the category.
- */
-private _name: string;
-
 get name(): string {
   return this._name;
 }
-
 set name(value: string) {
   this._name = value;
 }
@@ -1284,18 +1268,214 @@ import {retry} from 'rxjs';
 **Reemplazar** el contenido de la clase `LearningStore` con el siguiente código, ubicado en el archivo `learning-store.ts`:
 
 ```ts
-private productsSignal = signal<Product[]>([]);
-private fakestoreApi = inject(FakestoreApi);
+private readonly coursesSignal = signal<Course[]>([]);
+private readonly categoriesSignal = signal<Category[]>([]);
 
-readonly products = computed(() => this.productsSignal());
+readonly courses = this.coursesSignal.asReadonly();
+readonly categories = this.categoriesSignal.asReadonly();
 
-loadProducts(): void {
-  if (this.productsSignal().length == 0) {
-    this.fakestoreApi.getProducts()
-      .subscribe(products => {
-        this.productsSignal.set(products);
-      });
+private readonly loadingSignal = signal<boolean>(false);
+readonly loading = this.loadingSignal.asReadonly();
+
+private readonly errorSignal = signal<string | null>(null);
+readonly error = this.errorSignal.asReadonly();
+
+readonly courseCount = computed(() => this.courses().length);
+readonly categoryCount = computed(() => this.categories().length);
+
+constructor(private learningApi: LearningApi) {
+  this.loadCategories();
+  this.loadCourses();
+}
+
+/**
+ * Retrieves a category by its ID as a signal.
+ * @param id - The ID of the category.
+ * @returns A Signal containing the Category object or undefined if not found.
+ */
+getCategoryById(id: number | null | undefined): Signal<Category | undefined> {
+  return computed(() => id ? this.categories().find(c => c.id === id) : undefined);
+}
+
+/**
+ * Adds a new course.
+ * @param course - The course to add.
+ */
+addCourse(course: Course): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.createCourse(course).pipe(retry(2)).subscribe({
+    next: createdCourse => {
+      //this.assignCategoryToCourse(createdCourse);
+      this.coursesSignal.update(courses => [...courses, createdCourse]);
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to create course'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Updates an existing course.
+ * @param updatedCourse - The course to update.
+ */
+updateCourse(updatedCourse: Course): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.updateCourse(updatedCourse).pipe(retry(2)).subscribe({
+    next: course => {
+      //this.assignCategoryToCourse(course);
+      this.coursesSignal.update(courses =>
+        courses.map(c => c.id === course.id ? course : c)
+      );
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to update course'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Deletes a course by ID.
+ * @param id - The ID of the course to delete.
+ */
+deleteCourse(id: number): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.deleteCourse(id).pipe(retry(2)).subscribe({
+    next: () => {
+      this.coursesSignal.update(courses => courses.filter(c => c.id !== id));
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to delete course'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Adds a new category.
+ * @param category - The category to add.
+ */
+addCategory(category: Category): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.createCategory(category).pipe(retry(2)).subscribe({
+    next: createdCategory => {
+      this.categoriesSignal.update(categories => [...categories, createdCategory]);
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to create category'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Updates an existing category.
+ * @param updatedCategory - The category to update.
+ */
+updateCategory(updatedCategory: Category): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.updateCategory(updatedCategory).pipe(retry(2)).subscribe({
+    next: category => {
+      this.categoriesSignal.update(categories =>
+        categories.map(c => c.id === category.id ? category : c)
+      );
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to update category'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Deletes a category by ID.
+ * @param id - The ID of the category to delete.
+ */
+deleteCategory(id: number): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.deleteCategory(id).pipe(retry(2)).subscribe({
+    next: () => {
+      this.categoriesSignal.update(categories => categories.filter(c => c.id !== id));
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to delete category'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Loads all courses from the API.
+ */
+private loadCourses(): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.getCourses().pipe(takeUntilDestroyed()).subscribe({
+    next: courses => {
+      console.log(courses);
+      this.coursesSignal.set(courses);
+      this.loadingSignal.set(false);
+      //this.assignCategoriesToCourses();
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to load courses'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+/**
+ * Loads all categories from the API.
+ */
+private loadCategories(): void {
+  this.loadingSignal.set(true);
+  this.errorSignal.set(null);
+  this.learningApi.getCategories().pipe(takeUntilDestroyed()).subscribe({
+    next: categories => {
+      this.categoriesSignal.set(categories);
+      this.loadingSignal.set(false);
+    },
+    error: err => {
+      this.errorSignal.set(this.formatError(err, 'Failed to load categories'));
+      this.loadingSignal.set(false);
+    }
+  });
+}
+
+private assignCategoriesToCourses(): void {
+  this.coursesSignal.update(courses => courses.map(course => this.assignCategoryToCourse(course)));
+}
+
+private assignCategoryToCourse(course: Course): Course {
+  const categoryId = course.categoryId ?? 0;
+  const category = categoryId ? this.categories().find(cat => cat.id === categoryId) ?? null : null;
+  return {...course, category} as Course;
+}
+
+/**
+ * Formats error messages for user-friendly display.
+ * @param error - The error object.
+ * @param fallback - The fallback error message.
+ * @returns A formatted error message.
+ */
+private formatError(error: any, fallback: string): string {
+  if (error instanceof Error) {
+    return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
   }
+  return fallback;
 }
 ```
 
@@ -1386,4 +1566,371 @@ const baseTitle = 'ACME Learning Center';
 { path: 'learning', loadChildren: () => import('./learning/presentation/views/learning.routes').then(m => m.learningRoutes)},
 { path: '', redirectTo: '/home', pathMatch: 'full'  },
 { path: '**', loadComponent:  pageNotFound, title: `${baseTitle} - Page Not Found`  },
+```
+
+## Modificación de componentes
+
+### Modificación del LanguageSwitcherComponent
+
+**Agregar** los siguientes `import` al archivo `language-switcher.ts`, ubicado en la carpeta `/src/app/shared/presentation/components/language-switcher`:
+
+```ts
+import {inject} from '@angular/core';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {TranslateService} from '@ngx-translate/core';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `LanguageSwitcher`:
+
+```
+MatButtonToggleGroup, MatButtonToggle
+```
+
+**Reemplazar** el contenido de la clase `LanguageSwitcher` con el siguiente código, ubicado en el archivo `language-switcher.ts`:
+
+```ts
+protected currentLang: string = 'en';
+
+/** List of available language codes */
+protected languages: string[] = ['en', 'es'];
+/** Translation service instance */
+private translate: TranslateService;
+
+/**
+ * Creates an instance of LanguageSwitcherComponent.
+ * Initializes the current language from the translation service.
+ */
+constructor() {
+  this.translate = inject(TranslateService);
+  this.currentLang = this.translate.getCurrentLang();
+}
+
+/**
+ * Changes the application's current language.
+ * Updates both the translation service and the component's local state.
+ *
+ * @param language - The language code to switch to (e.g., 'en', 'es')
+ */
+useLanguage(language: string) {
+  this.translate.use(language);
+  this.currentLang = language;
+}
+```
+
+**Reemplazar** el contenido del archivo `language-switcher.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/language-switcher`:
+
+```html
+<mat-button-toggle-group [value]="currentLang"
+                         appearance="standard"
+                         aria-label="Preferred language"
+                         name="language">
+  @for (language of languages; track language) {
+    <mat-button-toggle [value]="language"
+                       [aria-label]="language"
+                       (click)="useLanguage(language)">
+        {{ language.toUpperCase() }}
+    </mat-button-toggle>
+  }
+</mat-button-toggle-group>
+```
+
+### Modificación del FooterContent Component
+
+**Agregar** el siguiente `import` a la clase `FooterContent` del archivo `footer-content.ts` ubicado en la carpeta `/src/app/shared/presentation/components/footer-content`:
+
+```ts
+import {TranslatePipe} from '@ngx-translate/core';
+```
+
+**Agregar** la siguiente clase en el array `imports` del `@Component` de la clase `Footer`:
+
+```
+TranslatePipe
+```
+
+**Reemplazar** el contenido del archivo `footer.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/footer`:
+
+```html
+<div class="footer-content">
+  <p>Copyright &copy; 2025 ACME Studios. {{ 'footer.rights' | translate}}</p>
+  <p>{{ 'footer.powered-by'|translate }} <a href="https://material.angular.dev/" target="_blank">Angular Material</a> {{'footer.and'|translate}}
+    <a href="https://ngx-translate.org/" target="_blank">ngx-translate</a> </p>
+</div>
+```
+
+**Reemplazar** el contenido del archivo `footer.css` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/footer-content`:
+
+```css
+.footer-content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background-color: slategray;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+}
+```
+
+### Modificación del Layout Component
+
+**Agregar** los siguientes `import` al archivo `layout.ts`, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
+
+```ts
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
+import {MatButton} from '@angular/material/button';
+import {TranslatePipe} from '@ngx-translate/core';
+import {LanguageSwitcher} from '../language-switcher/language-switcher';
+import {FooterContent} from '../footer-content/footer-content';
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `Layout`:
+
+```
+RouterOutlet, RouterLink, MatToolbarRow, MatToolbar, MatButton, RouterLinkActive,
+    TranslatePipe, LanguageSwitcher, FooterContent
+```
+
+**Reemplazar** el contenido de la clase `Layout` con el siguiente código:
+
+```ts
+options = [
+  {link: '/home', label: 'option.home'},
+  {link: '/about', label: 'option.about'},
+  {link: '/learning/categories', label: 'option.categories'},
+  {link: '/learning/courses', label: 'option.courses'}
+];
+```
+
+**Reemplazar** el contenido del archivo `layout.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
+
+```html
+<mat-toolbar>
+  <mat-toolbar-row>
+    <h1>ACME Learning Center</h1>
+    <div class="mat-spacer"></div>
+    @for (option of options; track option.label) {
+      <a mat-button [routerLink]="option.link" routerLinkActive="active">{{ option.label | translate }}</a>
+    }
+    <app-language-switcher/>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet/>
+<app-footer-content/>
+```
+
+**Reemplazar** el contenido del archivo `layout.css` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
+
+```css
+.mat-spacer {
+  flex: 1 1 auto;
+}
+```
+
+### Modificación del App
+
+**Eliminar** el siguiente `import` del archivo `app.ts`, ubicado en la carpeta `/src/app`:
+
+```ts
+import { RouterOutlet } from '@angular/router';
+```
+
+**Agregar** los siguientes `import` al archivo `app.ts`, ubicado en la carpeta `/src/app`:
+
+```ts
+import { Layout } from './shared/presentation/components/layout/layout';
+```
+
+**Eliminar** la siguiente clase del array `imports` del decorator `@Component` de la clase `App`, ubicado en el archivo `app.ts`
+
+```ts
+RouterOutlet
+```
+
+**Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `App`, ubicado en el archivo `app.ts`
+
+```ts
+Layout
+```
+
+**Reemplazar** el contenido del archivo `app.html` con el siguiente código, ubicado en la carpeta `/src/app`:
+
+```html
+<app-layout/>
+```
+
+### Modificación del CategoryList Component
+
+**Agregar** los siguientes imports a la clase `CategoryList` del archivo `category-list.ts` ubicado en la carpeta `/src/app/learning/presentation/components/category-list`:
+```ts
+import {inject} from '@angular/core';
+import {Router} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import {LearningStore} from '../../../application/learning-store';
+import {MatError} from '@angular/material/form-field';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
+```
+
+**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `CategoryList` del archivo `category-list.ts`:
+
+```
+MatTableModule, MatButtonModule, MatError, MatProgressSpinner
+```
+
+**Reemplazar** el contenido de la clase `CategoryList` ubicado en el archivo `category-list.ts` con el siguiente código:
+
+```ts
+readonly store = inject(LearningStore);
+protected router = inject(Router);
+
+displayedColumns: string[] = ['id', 'name', 'actions'];
+
+editCategory(id: number) {
+  this.router.navigate(['learning/categories/edit', id]).then();
+}
+
+deleteCategory(id: number) {
+  this.store.deleteCategory(id);
+}
+```
+
+**Reemplazar** el contenido del archivo `category-list.html` con el siguiente código:
+```html
+@if (store.loading()) {
+  <mat-spinner diameter="40"></mat-spinner>
+}
+@if (store.error()) {
+  <mat-error>{{ store.error() }}</mat-error>
+}
+<table mat-table [dataSource]="store.categories()" class="mat-elevation-z8">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let category"> {{ category.id }} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let category"> {{ category.name }} </td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let category">
+      <button mat-button (click)="editCategory(category.id)">Edit</button>
+      <button mat-button (click)="deleteCategory(category.id)">Delete</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<button mat-raised-button color="primary" (click)="router.navigate(['learning/categories/new'])">Add Category</button>
+```
+
+**Reemplazar** el contenido del archivo `category-list.css` con el siguiente código:
+```css
+.mat-table {
+  width: 100%;
+  margin-bottom: 16px;
+}
+```
+
+### Modificación del CategoryForm Component
+
+**Agregar** los siguientes imports a la clase `CategoryForm` del archivo `category-form.ts` ubicado en la carpeta `/src/app/learning/presentation/components/category-form`:
+```ts
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LearningStore} from '../../../application/learning-store';
+import {Category} from '../../../domain/model/category.entity';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+```
+
+**Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `CategoryForm` del archivo `category-form.ts`:
+
+```
+MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule
+```
+
+**Reemplazar** el contenido de la clase `CategoryForm` ubicado en el archivo `category-form.ts` con el siguiente código:
+
+```ts
+private fb = inject(FormBuilder);
+private route = inject(ActivatedRoute);
+private router = inject(Router);
+private store = inject(LearningStore);
+
+form = this.fb.group({
+  name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] })
+});
+isEdit = false;
+categoryId: number | null = null;
+
+constructor() {
+  this.route.params.subscribe(params => {
+    this.categoryId = params['id'] ? +params['id'] : null;
+    this.isEdit = !!this.categoryId;
+    if (this.isEdit) {
+      const category = this.store.getCategoryById(this.categoryId)();
+      if (category) {
+        this.form.patchValue({ name: category.name });
+      }
+    }
+  });
+}
+
+submit() {
+  if (this.form.invalid) return;
+
+  const category: Category = new Category({
+    id: this.categoryId ?? 0,
+    name: this.form.value.name!
+  });
+
+  if (this.isEdit) {
+    this.store.updateCategory(category);
+  } else {
+    this.store.addCategory(category);
+  }
+
+  this.router.navigate(['learning/categories']).then();
+}
+```
+
+**Reemplazar** el contenido del archivo `product-item.html` con el siguiente código:
+```html
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" required>
+    @if (form.get('name')!.touched && form.get('name')!.hasError('required')) {
+      <mat-error>Name is required</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+    {{ isEdit ? 'Update' : 'Add' }} Category
+  </button>
+</form>
+```
+
+**Reemplazar** el contenido del archivo `product-item.css` con el siguiente código:
+```css
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 16px;
+}
 ```
