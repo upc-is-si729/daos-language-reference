@@ -62,8 +62,9 @@ Haga click en `sign in` ubicada en la parte superior derecha de la pantalla. lue
 
 Siga los siguientes pasos para crear un nuevo `Firebase projects`:
 - Haga click en `Go to console` ubicada en la parte superior derecha de la pantalla.
-- Haga click en `Add project` ubicada en la parte media de la pantalla.
+- Haga click en `Create a new Firebase project` ubicada en la parte media de la pantalla.
 - Ingrese el nombre del proyecto: `daos-codigo-learning-center` y haga click en `Continue`.
+- Desmarque el check `Enable Gemini in Firebase` y haga click en `Continue`.
 - Desmarque el check `Enable Google Analytics for this project` y haga click en `Create project`.
 - Espere mientras se crea el proyecto.
 - Le mostrará el mensaje `Your Firebase project is ready` y finalmente haga click `Continue`.
@@ -78,7 +79,7 @@ Siga los siguientes pasos para crear el Hosting:
 
 Cargar el `Terminal` del IDE y ejecutar la siguiente instrucción: 
 ```
-sudo npm install -g firebase-tools
+npm install -g firebase-tools
 ```
 
 En el `Terminal` del IDE ejecute la siguiente instrucción: 
