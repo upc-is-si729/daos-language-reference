@@ -13,8 +13,8 @@
 
 ## Platform Mini
 
-- [Documentation Learning Center Platform mini](platform/daos-learning-center-platform-mini-doc-v2520.md)
-- [Guide Learning Center Platform mini](platform/daos-learning-center-platform-mini-v2510.md)
+- [Documentation Learning Center Platform mini](platform/daos-learning-center-platform-mini-doc-v2510.md)
+- [Guide Learning Center Platform mini](platform/daos-learning-center-platform-mini-v2520.md)
 
 ## Platform
 - [Guide Learning Center Platform - Part 1](platform/daos-learning-center-platform-1.md)
