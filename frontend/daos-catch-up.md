@@ -1,11 +1,11 @@
-# Catch Up Project
+# Catch Up Project v2610
 
 ## Creación del proyecto
 
 > [!CAUTION]
 > **En el caso de estar en un equipo MAC:**
 > - Debe anteceder el comando `sudo` al ejecutar las instrucciones: `ng` y `chown`, y luego ingresar la contraseña del Administrador (`d3v3l0p3rUPC`).
-> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/1asi0729/2025-20` o en otra de su preferencia.
+> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/1asi0729/2026-10` o en otra de su preferencia.
 
 > [!CAUTION]
 > **En el caso de estar en un equipo Windows:**
@@ -18,7 +18,7 @@ A continuación se detalla las intrucciones para crear un nuevo `workspace` e `i
 **Cargar** el `Terminal` del sistema Operativo, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
 
 ```bash
-ng new daos-catch-up-v2520
+ng new daos-catch-up-v2610
 ```
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
@@ -61,7 +61,7 @@ A continuación se detalla las intrucciones para instalar `Angular Material` al 
 
 **Ingresar** a la carpeta creada con el mismo nombre que el proyecto **ejecutando** el siguiente command:
 ```
-cd daos-catch-up-v2520
+cd daos-catch-up-v2610
 ```
 
 **Agregar** Angula material a la aplicación, **ejecute** el siguiente CLI command:
@@ -106,7 +106,7 @@ cd ..
 ```
 
 ```
-sudo chown -R alumnos ./daos-catch-up-v2520
+sudo chown -R alumnos ./daos-catch-up-v2610
 ```
 
 ```
@@ -151,7 +151,7 @@ ng serve --port 4200
     "read-more": "Read more"
   },
   "footer": {
-    "rights": "Copyright © 2025 {{ api }}, All rights reserved",
+    "rights": "Copyright © 2026 {{ api }}, All rights reserved",
     "intro": "Powered by NewsAPI.org and Clearbit Logo API ",
     "author": "and {{ team }} Team"
   }
@@ -174,7 +174,7 @@ ng serve --port 4200
     "read-more": "Leer más"
   },
   "footer": {
-    "rights": "Derechos de autor © 2025 {{ api }}, Todos los derechos reservados",
+    "rights": "Derechos de autor © 2026 {{ api }}, Todos los derechos reservados",
     "intro": "Desarrollado por NewsAPI.org y Clearbit Logo API y ",
     "author": "por el Equipo {{ team }}"
   }
@@ -200,8 +200,9 @@ production: false,
 newsProviderApiBaseUrl: 'https://newsapi.org/v2',
 newsProviderNewsEndpointPath: '/top-headlines',
 newsProviderSourcesEndpointPath: '/sources',
-newsProviderApiKey: '8a86875d83d94cc5acb05de9cfd89940jjj',
-logoProviderApiBaseUrl: 'https://logo.clearbit.com/'
+newsProviderApiKey: 'fecf4feeffa64e4da682e7d268612ce5',
+logoProviderApiBaseUrl: 'https://img.logo.dev/',
+logoProviderPublishableKey: 'pk_H1j_uA9GRFizL2ikMw4qwQ'
 ```
 
 **Agregar** los siguientes valores a la constante `environment` del archivo `environment.ts` ubicado en la carpeta `environments`:
@@ -211,8 +212,9 @@ production: true,
 newsProviderApiBaseUrl: 'https://newsapi.org/v2',
 newsProviderNewsEndpointPath: '/top-headlines',
 newsProviderSourcesEndpointPath: '/sources',
-newsProviderApiKey: '8a86875d83d94cc5acb05de9cfd89940jjj',
-logoProviderApiBaseUrl: 'https://logo.clearbit.com/'
+newsProviderApiKey: 'fecf4feeffa64e4da682e7d268612ce5',
+logoProviderApiBaseUrl: 'https://img.logo.dev/',
+logoProviderPublishableKey: 'pk_H1j_uA9GRFizL2ikMw4qwQ'
 ```
 
 ### Información del HttpClient y provideHttpClient
@@ -478,7 +480,7 @@ Genera la url que permite obtener el logotipo de una web, ejemplo: https://logo.
 **Cargar** el `Terminal` del IDE y **ejecutar** el siguiente CLI command para crear el service `logo-api`:
 
 ```bash
-ng generate service shared/infrastructure/logo-api --skip-tests=true
+ng generate service shared/infrastructure/logo-dev-api --skip-tests=true
 ```
 
 **Agregar** los siguentes `import` al archivo `logo-api.ts`, ubicado en la carpeta `/src/app/shared/infrastructure`:
@@ -491,12 +493,13 @@ import { Source } from '../../news/domain/model/source.entity';
 
 ```ts
 baseUrl = environment.logoProviderApiBaseUrl;
+apiKey = environment.logoProviderPublishableKey;
 
 constructor() { }
 
 getUrlToLogo(source: Source) {
-  console.log('getUrlToLogo', source);
-  return `${this.baseUrl}${new URL(source.url).hostname}`;
+  //console.log('getUrlToLogo', source);
+  return `${this.baseUrl}${new URL(source.url).hostname}?token=${this.apiKey}`;
 }
 ```
 
@@ -510,16 +513,17 @@ ng generate class news/infrastructure/source-assembler --skip-tests=true
 
 **Agregar** los siguentes `import` al archivo `source-assembler.ts`, ubicado en la carpeta `/src/app/news/infrastructure`:
 ```typescript
-import { LogoApi } from '../../shared/infrastructure/logo-api';
-import { SourceResource, SourcesResponse } from './sources-response';
-import { Source } from '../domain/model/source.entity';
+import {SourceResource, SourcesResponse} from './sources-response';
+import {LogoDevApi} from '../../shared/infrastructure/logo-dev-api';
+import {Source} from '../domain/model/source.entity';
 ```
 
 **Reemplazar** el contenido de la clase `SourceAssembler` con el siguiente código, ubicado en el archivo `source-assembler.ts`:
 
 ```ts
-static logoApi: LogoApi;
-static withLogoApi(logoApi: LogoApi) {
+static logoApi: LogoDevApi;
+
+static withLogoApi(logoApi: LogoDevApi) {
   this.logoApi = logoApi;
   return this;
 }
@@ -531,7 +535,6 @@ static toEntityFromResource(resource: SourceResource): Source {
     urlToLogo: this.logoApi.getUrlToLogo(resource)
   };
 }
-
 static toEntitiesFromResponse(response: SourcesResponse): Source[] {
   return response.sources.map(source => this.toEntityFromResource(source));
 }
@@ -547,16 +550,17 @@ ng generate class news/infrastructure/article-assembler --skip-tests=true
 
 **Agregar** los siguentes `import` al archivo `article-assembler.ts`, ubicado en la carpeta `/src/app/news/infrastructure`:
 ```typescript
-import { LogoApi } from '../../shared/infrastructure/logo-api';
-import { ArticleResource, TopHeadlinesResponse } from './top-headlines-response';
-import { Article } from '../domain/model/article.entity';
+import {ArticleResource, TopHeadlinesResponse} from './top-headlines-response';
+import {Article} from '../domain/model/article.entity';
+import {LogoDevApi} from '../../shared/infrastructure/logo-dev-api';
 ```
 
 **Reemplazar** el contenido de la clase `ArticleAssembler` con el siguiente código, ubicado en el archivo `article-assembler.ts`:
 
 ```ts
-static logoApi: LogoApi;
-static withLogoApi(logoApi: LogoApi) {
+static logoApi: LogoDevApi;
+
+static withLogoApi(logoApi: LogoDevApi) {
   this.logoApi = logoApi;
   return this;
 }
@@ -576,7 +580,6 @@ static toEntityFromResource(resource: ArticleResource): Article {
     publishedAt: resource.publishedAt
   };
 }
-
 static toEntitiesFromResponse(response: TopHeadlinesResponse): Article[] {
   return response.articles.map(article => this.toEntityFromResource(article));
 }
@@ -597,7 +600,7 @@ ng generate service news/infrastructure/news-api --skip-tests=true
 ```typescript
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LogoApi } from '../../shared/infrastructure/logo-api';
+import {LogoDevApi} from '../../shared/infrastructure/logo-dev-api';
 import { map, Observable } from 'rxjs';
 import { Source } from '../domain/model/source.entity';
 import { SourcesResponse } from './sources-response';
@@ -616,14 +619,13 @@ private newsEndpoint = environment.newsProviderNewsEndpointPath;
 private sourcesEndpoint = environment.newsProviderSourcesEndpointPath;
 private apiKey = environment.newsProviderApiKey;
 private http = inject(HttpClient);
-private logoApi = inject(LogoApi);
+private logoApi = inject(LogoDevApi);
 
 getSources(): Observable<Source[]> {
   return this.http.get<SourcesResponse>(`${this.baseUrl}${this.sourcesEndpoint}`, {
     params: { apiKey: this.apiKey }
   }).pipe(
-    map(response => SourceAssembler.withLogoApi(this.logoApi)
-        .toEntitiesFromResponse(response))
+    map(response => SourceAssembler.withLogoApi(this.logoApi).toEntitiesFromResponse(response))
   );
 }
 
@@ -631,8 +633,7 @@ getArticlesBySourceId(sourceId: string): Observable<Article[]> {
   return this.http.get<TopHeadlinesResponse>(`${this.baseUrl}${this.newsEndpoint}`, {
     params: { apiKey: this.apiKey, sources: sourceId }
   }).pipe(
-    map(response => ArticleAssembler.withLogoApi(this.logoApi)
-        .toEntitiesFromResponse(response))
+    map(response => ArticleAssembler.withLogoApi(this.logoApi).toEntitiesFromResponse(response))
   );
 }
 ```
@@ -651,20 +652,26 @@ import { computed, inject, signal } from '@angular/core';
 import { Source } from '../domain/model/source.entity';
 import { Article } from '../domain/model/article.entity';
 import { NewsApi } from '../infrastructure/news-api';
-import { LogoApi } from '../../shared/infrastructure/logo-api';
+import {LogoDevApi} from '../../shared/infrastructure/logo-dev-api';
 ```
 
 **Reemplazar** el contenido de la clase `NewsStore` con el siguiente código, ubicado en el archivo `news-store.ts`:
 
 ```ts
+/** Internal signal containing all available sources. */
 private sourcesSignal = signal<Source[]>([]);
+/** Internal signal indexed by source id with preloaded article lists. */
 private articlesSignal = signal<Record<string, Article[]>>({});
 private newsApi = inject(NewsApi);
-private logoApi = inject(LogoApi);
+private logoApi = inject(LogoDevApi);
 
+/** Read-only projection of available news sources. */
 readonly sources = computed(() => this.sourcesSignal());
+/** Read-only projection of the article cache keyed by source id. */
 readonly articles = computed(() => this.articlesSignal());
+/** Reactive list of articles for the currently selected source. */
 public currentSourceArticles = computed(() => this.articlesSignal()[this.currentSource?.id] ?? []);
+/** Currently selected source used as aggregate navigation focus. */
 private _currentSource!: Source;
 
 loadSources() {
@@ -858,6 +865,8 @@ protected readonly articles: Signal<Article[]> = this.store.currentSourceArticle
 
 ngOnInit(): void {
   this.store.loadSources();
+  // Validar que funcione, en caso contrario retirar
+  this.store.loadArticlesForCurrentSource();
 }
 
 updateArticlesBySource(source: Source): void {

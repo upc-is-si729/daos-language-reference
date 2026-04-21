@@ -5,7 +5,7 @@
 
 ## Frontend
 - [Guide Hello Angular](frontend/daos-hello-angular.md)
-- [Guide News API](frontend/daos-catch-up.md)
+- [Guide Catch Up](frontend/daos-catch-up.md)
 - [Guide Proyecto New Fake-store](frontend/daos-new-fakestore-products.md)
 - [Guide Learning Center](frontend/daos-new-learning-center.md)
 - [Guide Deploy Learning Center](frontend/daos-new-deploy-learning-center.md)
