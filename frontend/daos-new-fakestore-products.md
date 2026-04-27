@@ -645,7 +645,7 @@ ng generate service sales/application/fakestore-app --skip-tests=true
 
 **Agregar** los siguentes `import` al archivo `fakestore-app.ts`, ubicado en la carpeta `/src/app/sales/application`:
 ```typescript
-import { computed, inject, signal, Signal } from '@angular/core';
+import { computed, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { Product } from '../domain/model/product.entity';
 import { FakestoreApi } from '../infrastructure/fakestore-api';
 ```
