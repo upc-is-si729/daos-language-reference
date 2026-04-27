@@ -1,11 +1,11 @@
-# Proyecto Fake-store
+# Proyecto Fake-store v2610
  
 ## Creación del proyecto
 
 > [!CAUTION]
 > **En el caso de estar en un equipo MAC:**
 > - Debe anteceder el comando `sudo` al ejecutar las instrucciones: `ng` y `chown`, y luego ingresar la contraseña del Administrador (`d3v3l0p3rUPC`).
-> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/1asi0729/2025-20` o en otra de su preferencia.
+> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/1asi0729/202610` o en otra de su preferencia.
 
 > [!CAUTION]
 > **En el caso de estar en un equipo Windows:**
@@ -18,7 +18,7 @@ A continuación se detalla las intrucciones para crear un nuevo `workspace` e `i
 **Cargar** el `Terminal` del sistema Operativo, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
 
 ```bash
-ng new daos-fakestore-products-v2520
+ng new daos-fakestore-products-v2610
 ```
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
@@ -36,13 +36,9 @@ _? Do you want to enable Server-Side Rendering (SSR) and Static Site Generation
 N
 ```
 
-_? Do you want to create a 'zoneless' application without zone.js? (y/N)_, **digitar**:
+_? Which AI tools do you want to configure with Angular best practices? https://angular.dev/ai/develop-with-ai_ 
 
-```
-Y
-```
-
-_? Which AI tools do you want to configure with Angular best practices? https://angular.dev/ai/develop-with-ai_ `(Press <space> to select, <a> to toggle all, <i> to invert selection, and <enter> to proceed)`, **Seleccionar**:
+`↑↓ navigate • space select • a all • i invert • ⏎ submit`, **Seleccionar**:
 
 ```
 (*) GitHub Copilot  [ https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions ]
@@ -61,7 +57,7 @@ A continuación se detalla las intrucciones para instalar `Angular Material` al 
 
 **Ingresar** a la carpeta creada con el mismo nombre que el proyecto **ejecutando** el siguiente command:
 ```
-cd daos-fakestore-products-v2520
+cd daos-fakestore-products-v2610
 ```
 
 **Agregar** Angula material a la aplicación, **ejecute** el siguiente CLI command:
@@ -72,15 +68,15 @@ ng add @angular/material
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
 
-_The package @angular/material@20.2.2 will be installed and executed.
+_The package @angular/material@^21.2.8 will be installed and executed.
 Would you like to proceed? (Y/n)_, **digitar**:
 ```
 Y
 ```
 
-_? Choose a prebuilt theme name, or "custom" for a custom theme:_, **seleccionar**:
+_? Select a pair of starter prebuilt color palettes for your Angular Material theme_, **seleccionar**:
 ```
-Azure/Blue   [Preview: https://material.angular.io?theme=azure-blue]
+Azure/Blue         [Preview: https://material.angular.dev?theme=azure-blue]
 ```
 
 
@@ -116,7 +112,7 @@ cd ..
 ```
 
 ```
-sudo chown -R alumnos ./daos-fakestore-products-v2520
+sudo chown -R alumnos ./daos-fakestore-products-v2610
 ```
 
 ```
@@ -149,22 +145,19 @@ ng serve --port 4200
 #### en.json
 ```json
 {
-  "filter": {
-    "label": "Filter",
-    "placeholder": "Enter text to filter"
-  },
   "product": {
+    "title": "Product list",
     "id": "No.",
-    "title": "Title",
     "price": "Price",
     "description": "Description",
     "category": "Category",
     "image": "Image",
     "rate": "Rate",
-    "count": "Count"
+    "count": "Count",
+    "add": "Add to cart"
   },
   "footer": {
-    "rights": "Copyright © 2025 {{ api }}, All rights reserved",
+    "rights": "Copyright © 2026 {{ api }}, All rights reserved",
     "intro": "Developed ",
     "author": "by {{ team }} Team"
   }
@@ -174,22 +167,19 @@ ng serve --port 4200
 #### es.json
 ```json
 {
-  "filter": {
-    "label": "Filtrar",
-    "placeholder": "Digite texto a filtrar"
-  },
   "product": {
+    "title": "Lista de productos",
     "id": "Núm.",
-    "title": "Título",
     "price": "Precio",
     "description": "Descripción",
-    "category": "Categoria",
+    "category": "Categoría",
     "image": "Imagen",
-    "rate": "calificación",
-    "count": "Cantidad"
+    "rate": "Calificación",
+    "count": "Cantidad",
+    "add": "Agregar al carrito"
   },
   "footer": {
-    "rights": "Derechos de autor © 2025 {{ api }}, Todos los derechos reservados",
+    "rights": "Derechos de autor © 2026 {{ api }}, Todos los derechos reservados",
     "intro": "Desarrollado ",
     "author": "por el Equipo {{ team }}"
   }
@@ -201,7 +191,7 @@ ng serve --port 4200
 **Crear** la carpeta `server` en la carpeta raiz del proyecto:
 
 ```markdown
-- 📂 daos-fakestore-products-v2520
+- 📂 daos-fakestore-products-v2610
   - 📁 server
 ```
 
@@ -632,10 +622,9 @@ import { ProductAssembler } from './product-assembler';
 **Reemplazar** el contenido de la clase `FakestoreApi` con el siguiente código, ubicado en el archivo `fakestore-api.ts`:
 
 ```ts
-private baseUrl = environment.fakestoreProviderApiBaseUrl
-private productsEndpoint = environment.fakestoreProviderProductsEndpointPath;
-
-constructor(private http: HttpClient) { }
+private baseUrl:string = environment.fakestoreProviderApiBaseUrl
+private productsEndpoint:string = environment.fakestoreProviderProductsEndpointPath;
+private http:HttpClient = inject(HttpClient);
 
 getProducts(): Observable<Product[]> {
   return this.http.get<ProductResponse[]>(`${this.baseUrl}${this.productsEndpoint}`)
@@ -656,7 +645,7 @@ ng generate service sales/application/fakestore-app --skip-tests=true
 
 **Agregar** los siguentes `import` al archivo `fakestore-app.ts`, ubicado en la carpeta `/src/app/sales/application`:
 ```typescript
-import { computed, inject, signal } from '@angular/core';
+import { computed, inject, signal, Signal } from '@angular/core';
 import { Product } from '../domain/model/product.entity';
 import { FakestoreApi } from '../infrastructure/fakestore-api';
 ```
@@ -664,10 +653,10 @@ import { FakestoreApi } from '../infrastructure/fakestore-api';
 **Reemplazar** el contenido de la clase `FakestoreApp` con el siguiente código, ubicado en el archivo `fakestore-app.ts`:
 
 ```ts
-private productsSignal = signal<Product[]>([]);
-private fakestoreApi = inject(FakestoreApi);
+private productsSignal:WritableSignal<Product[]> = signal<Product[]>([]);
+private fakestoreApi:FakestoreApi = inject(FakestoreApi);
 
-readonly products = computed(() => this.productsSignal());
+readonly products:Signal<Product[]> = computed(() => this.productsSignal());
 
 loadProducts(): void {
   if (this.productsSignal().length == 0) {
@@ -837,12 +826,12 @@ TranslateModule
 **Agregar** los siguientes `import` al archivo `layout.ts`, ubicado en la carpeta `/src/app/shared/presentation/components/layout`:
 
 ```ts
-import {inject, OnInit, Signal} from '@angular/core';
-import {HeaderContent} from '../header-content/header-content';
-import {FooterContent} from '../footer-content/footer-content';
-import {ProductList} from '../../../../sales/presentation/components/product-list/product-list';
-import {FakestoreApp} from '../../../../sales/application/fakestore-app';
-import {Product} from '../../../../sales/domain/model/product.entity';
+import { inject, OnInit, Signal } from '@angular/core';
+import { HeaderContent } from '../header-content/header-content';
+import { FooterContent } from '../footer-content/footer-content';
+import { ProductList } from '../../../../sales/presentation/components/product-list/product-list';
+import { FakestoreApp } from '../../../../sales/application/fakestore-app';
+import { Product } from '../../../../sales/domain/model/product.entity';
 ```
 
 **Agregar** la siguiente clase en el array `imports` del decorator `@Component` de la clase `Layout`:
@@ -860,7 +849,7 @@ implements OnInit
 **Reemplazar** el contenido de la clase `Layout` con el siguiente código:
 
 ```ts
-protected fakestoreApp = inject(FakestoreApp);
+protected fakestoreApp:FakestoreApp = inject(FakestoreApp);
 protected readonly products: Signal<Product[]> = this.fakestoreApp.products;
 
 ngOnInit(): void {
@@ -873,7 +862,7 @@ ngOnInit(): void {
 ```html
 <app-header-content></app-header-content>
 <app-product-list [products]="products()"></app-product-list>
-<app-footer-content></app-footer-content>
+<app-footer-content/>
 ```
 
 
@@ -881,51 +870,68 @@ ngOnInit(): void {
 
 **Agregar** los siguientes imports a la clase `ProductList` del archivo `product-list.ts` ubicado en la carpeta `/src/app/sales/presentation/components/product-list`:
 ```ts
-import { input } from '@angular/core';
+import { InputSignal, input } from '@angular/core';
 import { Product } from '../../../domain/model/product.entity';
 import { ProductItem } from '../product-item/product-item';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { TranslateModule } from "@ngx-translate/core";
 ```
 
 **Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductList` del archivo `product-list.ts`:
 
 ```
-ProductItem,MatGridListModule
+ProductItem, MatGridListModule, TranslateModule
+```
+
+**Agregar** el siguiente elemento en el `@Component` de la clase `ProductList` del archivo `product-list.ts`:
+
+```
+changeDetection: ChangeDetectionStrategy.OnPush
 ```
 
 **Reemplazar** el contenido de la clase `ProductList` ubicado en el archivo `product-list.ts` con el siguiente código:
 
 ```ts
-products = input.required<Product[]>();
+products:InputSignal<Product[]> = input.required<Product[]>();
 ```
 
 **Reemplazar** el contenido del archivo `product-list.html` con el siguiente código:
 ```html
+<h2>{{ 'product.title' | translate }}</h2>
 <mat-grid-list cols="4" rowHeight="500px" gutterSize="10px">
   @for (product of products(); track product.title) {
     <mat-grid-tile>
-    <app-product-item [product]="product"/>
+      <app-product-item [product]="product"/>
     </mat-grid-tile>
   }
 </mat-grid-list>
 ```
 
+**Reemplazar** el contenido del archivo `product-list.css` con el siguiente código:
+```css
+h2{
+    text-align: center;
+}
+```
 
 ### Modificación del ProductItem Component
 
 **Agregar** los siguientes imports a la clase `ProductItem` del archivo `product-item.ts` ubicado en la carpeta `/src/app/sales/presentation/components/product-item`:
 ```ts
-import {input, InputSignal} from '@angular/core';
-import {Product} from '../../../domain/model/product.entity';
-import {ChangeDetectionStrategy} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import { input, InputSignal } from '@angular/core';
+import { Product } from '../../../domain/model/product.entity';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { TranslateModule } from "@ngx-translate/core";
 ```
 
 **Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductList` del archivo `product-list.ts`:
 
 ```
-MatCardModule, MatButtonModule
+MatCardModule, MatButtonModule, MatIcon, TranslateModule
 ```
 
 **Agregar** el siguiente elemento en el `@Component` de la clase `ProductItem` del archivo `product-item.ts`:
@@ -945,15 +951,17 @@ product: InputSignal<Product> = input.required<Product>();
 <mat-card class="product-card" appearance="outlined">
   <img mat-card-image class="product-image" [alt]="product().title" [src]="product().image" />
   <mat-card-content>
-    <p><strong> {{product().title}} </strong></p>
-    <p><strong>Category: </strong> {{product().category}}</p>
-    <p><strong>Price: </strong> {{product().price}}</p>
+    <p><strong> {{ product().title }} </strong></p>
+    <p>
+      <strong>{{ 'product.category' | translate }}: </strong> {{ product().category }}<br>
+      <strong>{{ 'product.price' | translate }}: </strong> {{ product().price }}<br>
+      <strong>{{ 'product.rate' | translate }}: </strong> {{ product().rating.rate }}
+    </p>
   </mat-card-content>
   <mat-card-actions>
-    <button matButton>Add to cart</button>
+     <button matButton><mat-icon>shopping_cart</mat-icon> {{ 'product.add' | translate }}</button>
   </mat-card-actions>
 </mat-card>
-
 ```
 
 **Reemplazar** el contenido del archivo `product-item.css` con el siguiente código:
