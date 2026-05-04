@@ -910,6 +910,12 @@ ng generate class learning/domain/model/course --type=entity --skip-tests=true
 import {Category} from './category.entity';
 ```
 
+**Agregar** la interface `BaseEntity` a la clase `Course`, quedando de la siguiente manera:
+
+```typescript
+export class Course implements BaseEntity
+```
+
 **Agregar** los siguentes atributos y constructor a la clase `Course` del archivo `course.entity.ts` con el siguiente código:
 
 ```typescript
