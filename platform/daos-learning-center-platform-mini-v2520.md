@@ -1,4 +1,4 @@
-# Learning Center Platform Mini v2520
+# Learning Center Platform Mini v2610
 
 
 [![Java](https://img.shields.io/badge/Java-25-informational?logo=java&logoColor=white)](https://www.oracle.com/java/)
@@ -11,8 +11,8 @@
 
 ## Technologies \& Tools
 
-- ☕ Java 25 (JDK)
-- 🌱 Spring Boot 3.5.6 — Spring Data JPA, Spring Web
+- ☕ Java 26 (JDK)
+- 🌱 Spring Boot 4.0.6 — Spring Data JPA, Spring Web
 - 🧩 Maven — build and dependency management
 - 🐘 PostgreSQL — database engine
 - 🧭 IntelliJ IDEA — recommended IDE (IntelliJ IDEA 2025.2.2)
@@ -22,7 +22,7 @@
 
 ## Table of Contents
 
-- [Learning Center Platform Mini v2520](#learning-center-platform-mini-v2520)
+- [Learning Center Platform Mini v2610](#learning-center-platform-mini-v2610)
 - [Configuración inicial](#configuración-inicial)
   - [Base de datos](#base-de-datos)
   - [Creación del project](#creación-del-project)
@@ -78,13 +78,13 @@
 
 **Cargar** el navegador y **pegar** el siguiente enlace:
 
-https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.6&packaging=jar&jvmVersion=25&groupId=pe.edu.upc.center&artifactId=learning-center-platform-mini&name=learning-center-platform-mini&description=Demo%20project%20for%20Spring%20Boot&packageName=pe.edu.upc.center.platform&dependencies=data-jpa,validation,web,devtools,postgresql,lombok
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=4.0.6&packaging=jar&configurationFileFormat=properties&jvmVersion=26&groupId=pe.edu.upc.center&artifactId=learning-center-platform-mini&packageName=pe.edu.upc.center.platform&dependencies=data-jpa,validation,web,devtools,postgresql,lombok
 
-**Generar** el project Spring, Guardarlo en la carpeta `IdeaProjects\202520` y luego abrirlo en `IntelliJ IDEA`.
+**Generar** el project Spring, Guardarlo en la carpeta `IdeaProjects\1ASI0729\` y luego abrirlo en `IntelliJ IDEA`.
 
 ### Configuración del SDK 
 
-**Hacer** click en `File` luego en `Project Structure`. **Seleccionar** `Project` de `Project Settings` y seleccionar la versión `25` de Java para el `SDK`, en el caso de no estar instalado, descárguelo.  Luego **Seleccionar** `SDKs` de `Platform Settings` y seleccionar la versión seleccionada previamente, finalmente hacer click en `OK`.
+**Hacer** click en `File` luego en `Project Structure`. **Seleccionar** `Project` de `Project Settings` y seleccionar la versión `26` de Java para el `SDK`, en el caso de no estar instalado, descárguelo.  Luego **Seleccionar** `SDKs` de `Platform Settings` y seleccionar la versión seleccionada previamente, finalmente hacer click en `OK`.
 
 ### Archivo pom.xml
 
@@ -92,7 +92,7 @@ https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.6
 
 ```xml
 <properties>
-    <java.version>25</java.version>
+    <java.version>26</java.version>
 </properties>
 ```
 
@@ -109,7 +109,7 @@ Luego **agregar** las siguientes dependencias:
 <dependency>
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.8.13</version>
+    <version>3.0.3</version>
 </dependency>
 ```
 
