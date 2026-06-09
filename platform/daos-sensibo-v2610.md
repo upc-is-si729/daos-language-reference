@@ -158,15 +158,7 @@ public class OpenApiConfiguration {
 
 ### Project structur for registry Bounded Context
 
-**Crear** la siguiente estructura para el Bounded Context `profiles`:
-
-```markdown
-- 📁 registry
-  - 📁 domain
-    - 📁 model
-      - 📁 aggregates
-      - 📁 valueobjects
-```
+**Crear** la estructura para el Bounded Context `registry`:
 
 El siguiente archivo contiene la estructura completa de un Bounded Context: 
 [Bounded Context Structure Template](bounded.zip)
