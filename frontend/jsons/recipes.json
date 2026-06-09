@@ -1,0 +1,184 @@
+{
+  "recipes": [
+    {
+      "dishName": "Lomo Saltado",
+      "mainProtein": "Beef",
+      "cookingTechnique": "Stir-fry",
+      "originCity": "Lima",
+      "preparationTime": "25 minutes",
+      "nutritionalValue": {
+        "calories": 650,
+        "fatContent": "22g",
+        "proteinContent": "35g"
+      },
+      "ingredients": [
+        { "ingredientName": "Beef sirloin", "amount": "500g" },
+        { "ingredientName": "Red onion", "amount": "2 units" },
+        { "ingredientName": "Yellow chili pepper", "amount": "3 units" },
+        { "ingredientName": "Soy sauce", "amount": "3 tablespoons" }
+      ]
+    },
+    {
+      "dishName": "Aji de Gallina",
+      "mainProtein": "Chicken",
+      "cookingTechnique": "Stewing",
+      "originCity": "Lima",
+      "preparationTime": "45 minutes",
+      "nutritionalValue": {
+        "calories": 720,
+        "fatContent": "30g",
+        "proteinContent": "28g"
+      },
+      "ingredients": [
+        { "ingredientName": "Shredded chicken breast", "amount": "1 unit" },
+        { "ingredientName": "Yellow chili paste", "amount": "1/2 cup" },
+        { "ingredientName": "Evaporated milk", "amount": "1 can" },
+        { "ingredientName": "Walnuts", "amount": "50g" }
+      ]
+    },
+    {
+      "dishName": "Anticuchos",
+      "mainProtein": "Beef Heart",
+      "cookingTechnique": "Grilling",
+      "originCity": "Lima",
+      "preparationTime": "120 minutes",
+      "nutritionalValue": {
+        "calories": 450,
+        "fatContent": "18g",
+        "proteinContent": "40g"
+      },
+      "ingredients": [
+        { "ingredientName": "Beef heart", "amount": "1 kg" },
+        { "ingredientName": "Panca chili paste", "amount": "1/2 cup" },
+        { "ingredientName": "Vinegar", "amount": "1/4 cup" },
+        { "ingredientName": "Garlic paste", "amount": "2 tablespoons" }
+      ]
+    },
+    {
+      "dishName": "Causa Rellena",
+      "mainProtein": "Chicken",
+      "cookingTechnique": "Layering",
+      "originCity": "Lima",
+      "preparationTime": "40 minutes",
+      "nutritionalValue": {
+        "calories": 510,
+        "fatContent": "20g",
+        "proteinContent": "15g"
+      },
+      "ingredients": [
+        { "ingredientName": "Yellow potato", "amount": "1 kg" },
+        { "ingredientName": "Yellow chili paste", "amount": "3 tablespoons" },
+        { "ingredientName": "Lime juice", "amount": "2 units" },
+        { "ingredientName": "Mayonnaise", "amount": "1/2 cup" }
+      ]
+    },
+    {
+      "dishName": "Arroz con Pollo",
+      "mainProtein": "Chicken",
+      "cookingTechnique": "One-pot simmering",
+      "originCity": "Chiclayo",
+      "preparationTime": "60 minutes",
+      "nutritionalValue": {
+        "calories": 680,
+        "fatContent": "15g",
+        "proteinContent": "30g"
+      },
+      "ingredients": [
+        { "ingredientName": "Chicken pieces", "amount": "4 units" },
+        { "ingredientName": "Cilantro paste", "amount": "1 cup" },
+        { "ingredientName": "Rice", "amount": "500g" },
+        { "ingredientName": "Green peas", "amount": "100g" }
+      ]
+    },
+    {
+      "dishName": "Papa a la Huancaina",
+      "mainProtein": "Cheese",
+      "cookingTechnique": "Blending",
+      "originCity": "Huancayo",
+      "preparationTime": "20 minutes",
+      "nutritionalValue": {
+        "calories": 420,
+        "fatContent": "25g",
+        "proteinContent": "10g"
+      },
+      "ingredients": [
+        { "ingredientName": "Boiled potato", "amount": "4 units" },
+        { "ingredientName": "Fresh cheese", "amount": "250g" },
+        { "ingredientName": "Yellow chili pepper", "amount": "4 units" },
+        { "ingredientName": "Soda crackers", "amount": "6 units" }
+      ]
+    },
+    {
+      "dishName": "Seco de Res",
+      "mainProtein": "Beef",
+      "cookingTechnique": "Braising",
+      "originCity": "Lambayeque",
+      "preparationTime": "90 minutes",
+      "nutritionalValue": {
+        "calories": 750,
+        "fatContent": "28g",
+        "proteinContent": "42g"
+      },
+      "ingredients": [
+        { "ingredientName": "Beef chunks", "amount": "800g" },
+        { "ingredientName": "Cilantro", "amount": "1 bunch" },
+        { "ingredientName": "Chicha de jora", "amount": "1 cup" },
+        { "ingredientName": "Canary beans", "amount": "500g" }
+      ]
+    },
+    {
+      "dishName": "Carapulcra",
+      "mainProtein": "Pork",
+      "cookingTechnique": "Slow-cooking",
+      "originCity": "Ica",
+      "preparationTime": "150 minutes",
+      "nutritionalValue": {
+        "calories": 810,
+        "fatContent": "35g",
+        "proteinContent": "38g"
+      },
+      "ingredients": [
+        { "ingredientName": "Dried potato", "amount": "500g" },
+        { "ingredientName": "Pork shoulder", "amount": "600g" },
+        { "ingredientName": "Roasted peanuts", "amount": "100g" },
+        { "ingredientName": "Chocolate", "amount": "1 small piece" }
+      ]
+    },
+    {
+      "dishName": "Tacu Tacu",
+      "mainProtein": "Beans and Rice",
+      "cookingTechnique": "Pan-searing",
+      "originCity": "Chincha",
+      "preparationTime": "30 minutes",
+      "nutritionalValue": {
+        "calories": 580,
+        "fatContent": "12g",
+        "proteinContent": "18g"
+      },
+      "ingredients": [
+        { "ingredientName": "Cooked beans", "amount": "2 cups" },
+        { "ingredientName": "Cooked rice", "amount": "2 cups" },
+        { "ingredientName": "Yellow chili paste", "amount": "2 tablespoons" },
+        { "ingredientName": "Garlic", "amount": "3 cloves" }
+      ]
+    },
+    {
+      "dishName": "Escabeche de Pollo",
+      "mainProtein": "Chicken",
+      "cookingTechnique": "Pickling",
+      "originCity": "Lima",
+      "preparationTime": "50 minutes",
+      "nutritionalValue": {
+        "calories": 540,
+        "fatContent": "24g",
+        "proteinContent": "32g"
+      },
+      "ingredients": [
+        { "ingredientName": "Chicken breast", "amount": "2 units" },
+        { "ingredientName": "Red onion", "amount": "3 units" },
+        { "ingredientName": "Yellow chili pepper strips", "amount": "2 units" },
+        { "ingredientName": "Vinegar", "amount": "1/2 cup" }
+      ]
+    }
+  ]
+}
