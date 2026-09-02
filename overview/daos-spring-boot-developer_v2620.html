@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>daos-spring-boot-developer_v2620.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="hello-spring-boot-developer">Hello Spring Boot Developer</h1>
+<h2 id="table-of-contents">Table of contents</h2>
+<h2 id="creaci%C3%B3n-del-project">Creación del project</h2>
+<p>Cargar el navegador y generar un proyecto Spring a partir del siguiente enlace:</p>
+<p>https://start.spring.io/#!type=maven-project&amp;language=java&amp;platformVersion=4.1.1&amp;packaging=jar&amp;configurationFileFormat=properties&amp;jvmVersion=26&amp;groupId=pe.edu.upc.hello.platform&amp;artifactId=hello-spring-boot-developer&amp;packageName=pe.edu.upc.hello.platform&amp;dependencies=validation,web,devtools,lombok,springdoc-openapi</p>
+<p>Generar el project Spring, Guardarlo en la carpeta <code>IdeaProjects</code> y luego abrirlo el <code>IntelliJ IDEA</code>.</p>
+<h2 id="configuraci%C3%B3n-inicial">Configuración inicial</h2>
+<h3 id="pomxml">pom.xml</h3>
+<p>Abrir el archivo <code>pom.xml</code> y agregar las siguientes dependencias:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-lang3<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.20.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>    
+</div></code></pre>
+<h3 id="applicationproperties">application.properties</h3>
+<p>Abrir el archivo <code>application.properties</code> y agregar el siguiente código:</p>
+<pre class="hljs"><code><div>server.port: 8090
+</div></code></pre>
+<h2 id="profile-bounded-generic">Profile Bounded generic</h2>
+<h3 id="project-structur-for-generic-bounded-context">Project structur for Generic Bounded Context</h3>
+<p>En el package principal <code>pe.edu.upc.hello.platform</code>,
+Crear la siguiente estructura para el Bounded Context <code>generic</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-bullet">-</span> 📁 profiles
+<span class="hljs-bullet">  -</span> 📁 domain
+<span class="hljs-bullet">    -</span> 📁 model
+<span class="hljs-bullet">      -</span> 📁 entity
+<span class="hljs-bullet">      -</span> 📁 valueobjects
+<span class="hljs-bullet">    -</span> 📁 service
+<span class="hljs-bullet">      -</span> 📁 internal
+<span class="hljs-bullet">  -</span> 📁 interfaces.rest
+<span class="hljs-bullet">    -</span> 📁 assemblers
+<span class="hljs-bullet">    -</span> 📁 controllers
+<span class="hljs-bullet">    -</span> 📁 resources
+</div></code></pre>
+<h3 id="package-domainmodel-valueobjects">Package domain.model valueobjects</h3>
+<p>En el package <code>domain.model.valueobjects</code> crear l record <code>PersonName</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> org.apache.commons.lang3.StringUtils;
+
+<span class="hljs-comment">/**
+ * Value object representing a person&#x27;s name.
+ * Encapsulates validation logic and formatting for first and last names.
+ *
+ * <span class="hljs-doctag">@param</span> firstName The first name.
+ * <span class="hljs-doctag">@param</span> lastName  The last name.
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title class_">PersonName</span><span class="hljs-params">(String firstName, String lastName)</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">FIRST_NAME_MAX_LENGTH</span> <span class="hljs-operator">=</span> <span class="hljs-number">35</span>;
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">LAST_NAME_MAX_LENGTH</span> <span class="hljs-operator">=</span> <span class="hljs-number">40</span>;
+
+  <span class="hljs-keyword">public</span> PersonName {
+    <span class="hljs-keyword">if</span> (StringUtils.isBlank(firstName)) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;First name cannot be blank&quot;</span>);
+    }
+    <span class="hljs-keyword">if</span> (firstName.length() &gt; FIRST_NAME_MAX_LENGTH) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;First name must be at most &quot;</span> + FIRST_NAME_MAX_LENGTH + <span class="hljs-string">&quot; characters&quot;</span>);
+    }
+    <span class="hljs-keyword">if</span> (StringUtils.isBlank(lastName)) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;Last name cannot be blank&quot;</span>);
+    }
+    <span class="hljs-keyword">if</span> (lastName.length() &gt; LAST_NAME_MAX_LENGTH) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;Last name must be at most &quot;</span> + LAST_NAME_MAX_LENGTH + <span class="hljs-string">&quot; characters&quot;</span>);
+    }
+    firstName = firstName.trim();
+    lastName = lastName.trim();
+  }
+
+  <span class="hljs-comment">/**
+   * Returns the full name by combining first and last names.
+   *
+   * <span class="hljs-doctag">@return</span> The full name.
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-title function_">getFullName</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> String.format(<span class="hljs-string">&quot;%s %s&quot;</span>, firstName, lastName);
+  }
+}
+</div></code></pre>
+<h3 id="package-domainmodel-entity">Package domain.model entity</h3>
+<p>En el package <code>domain.model.entity</code> crear la clase <code>Developer</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.domain.model.valueobjects.PersonName;
+<span class="hljs-keyword">import</span> lombok.Getter;
+
+<span class="hljs-keyword">import</span> java.util.UUID;
+
+<span class="hljs-comment">/**
+ * Represents a Developer entity.
+ * &lt;p&gt;
+ * This entity represents a developer in the system, with a unique identifier and basic profile information.
+ * It also tracks the number of times the developer has been greeted.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The identifier is a time-ordered UUID v7.
+ * &lt;/p&gt;
+ *
+ * <span class="hljs-doctag">@author</span> Open-Source Application Development Team
+ * <span class="hljs-doctag">@version</span> 1.3.0
+ */</span>
+<span class="hljs-meta">@Getter</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Developer</span> {
+  <span class="hljs-comment">/**
+   * The unique identifier of the developer.
+   * Uses UUID v7 for time-ordered, lexicographically sortable identifiers.
+   */</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> UUID id;
+
+  <span class="hljs-comment">/**
+   * The developer&#x27;s name.
+   */</span>
+  <span class="hljs-keyword">private</span> PersonName name;
+
+  <span class="hljs-comment">/**
+   * The number of times this developer has been greeted.
+   */</span>
+  <span class="hljs-meta">@Getter</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-variable">greetingCount</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+
+  <span class="hljs-comment">/**
+   * Constructs a new Developer with the given first and last names.
+   * Initializes the greeting count to zero and generates a time-ordered UUID v7.
+   *
+   * <span class="hljs-doctag">@param</span> firstName the developer&#x27;s first name
+   * <span class="hljs-doctag">@param</span> lastName  the developer&#x27;s last name
+   * <span class="hljs-doctag">@throws</span> IllegalArgumentException if either name is blank or exceeds the maximum length
+   */</span>
+  <span class="hljs-type">public</span> <span class="hljs-title function_">Developer</span><span class="hljs-params">(String firstName, String lastName)</span> {
+    <span class="hljs-built_in">this</span>.id = UUID.ofEpochMillis(System.currentTimeMillis());
+    <span class="hljs-built_in">this</span>.name = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PersonName</span>(firstName, lastName);
+  }
+
+  <span class="hljs-comment">/**
+   * Updates the developer&#x27;s first name.
+   *
+   * <span class="hljs-doctag">@param</span> firstName the new first name
+   * <span class="hljs-doctag">@throws</span> IllegalArgumentException if the first name is blank or exceeds the maximum length
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title function_">setFirstName</span><span class="hljs-params">(String firstName)</span> {
+    <span class="hljs-built_in">this</span>.name = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PersonName</span>(firstName, <span class="hljs-built_in">this</span>.name.lastName());
+  }
+
+  <span class="hljs-comment">/**
+   * Updates the developer&#x27;s last name.
+   *
+   * <span class="hljs-doctag">@param</span> lastName the new last name
+   * <span class="hljs-doctag">@throws</span> IllegalArgumentException if the last name is blank or exceeds the maximum length
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title function_">setLastName</span><span class="hljs-params">(String lastName)</span> {
+    <span class="hljs-built_in">this</span>.name = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PersonName</span>(<span class="hljs-built_in">this</span>.name.firstName(), lastName);
+  }
+
+  <span class="hljs-comment">/**
+   * Returns the developer&#x27;s first name.
+   *
+   * <span class="hljs-doctag">@return</span> the first name
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-title function_">getFirstName</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> name.firstName();
+  }
+
+  <span class="hljs-comment">/**
+   * Returns the developer&#x27;s last name.
+   *
+   * <span class="hljs-doctag">@return</span> the last name
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-title function_">getLastName</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> name.lastName();
+  }
+
+  <span class="hljs-comment">/**
+   * Returns the full name of the developer.
+   *
+   * <span class="hljs-doctag">@return</span> the combined first and last names
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-title function_">getFullName</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> name.getFullName();
+  }
+
+  <span class="hljs-comment">/**
+   * Increments the greeting counter for this developer.
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title function_">incrementGreetingCount</span><span class="hljs-params">()</span> {
+    Developer.greetingCount++;
+  }
+}
+</div></code></pre>
+<h3 id="package-domain-service">Package domain service</h3>
+<p>En el package <code>domain.service</code> crear el interface <code>GreetingCounter</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">GreetingCounter</span> {
+  <span class="hljs-type">int</span> <span class="hljs-title function_">getGreetingCount</span><span class="hljs-params">()</span>;
+  <span class="hljs-type">void</span> <span class="hljs-title function_">incrementGreetingCount</span><span class="hljs-params">()</span>;
+}
+</div></code></pre>
+<h3 id="package-domainservice-internal">Package domain.service internal</h3>
+<p>En el package <code>domain.service.internal</code> crear la clase <code>GreetingCounterImpl</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.domain.service.GreetingCounter;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GreetingCounterImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">GreetingCounter</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">greetingCount</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getGreetingCount</span><span class="hljs-params">()</span> {
+    <span class="hljs-keyword">return</span> greetingCount;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">void</span> <span class="hljs-title function_">incrementGreetingCount</span><span class="hljs-params">()</span> {
+    greetingCount++;
+  }
+}
+</div></code></pre>
+<h3 id="package-domainmodelentity">Package domain.model.entity</h3>
+<p>En el package <code>domain.service</code> crear el interface <code>GreetingCounter</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">GreetingCounter</span> {
+  <span class="hljs-type">int</span> <span class="hljs-title function_">getGreetingCount</span><span class="hljs-params">()</span>;
+  <span class="hljs-type">void</span> <span class="hljs-title function_">incrementGreetingCount</span><span class="hljs-params">()</span>;
+}
+</div></code></pre>
+<h3 id="package-interfacesrest-resources">Package interfaces.rest resources</h3>
+<p>En el package <code>resources</code> crear el record <code>GreetDeveloperRequest</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> jakarta.validation.constraints.NotBlank;
+<span class="hljs-keyword">import</span> jakarta.validation.constraints.Size;
+
+<span class="hljs-comment">/**
+ * Request to greet a developer.
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title class_">GreetDeveloperRequest</span><span class="hljs-params">(
+    @NotBlank(message = &quot;First name cannot be blank&quot;)</span>
+    <span class="hljs-meta">@Size(max = 35, message = &quot;First name cannot exceed 35 characters&quot;)</span> String firstName,
+    <span class="hljs-meta">@NotBlank(message = &quot;Last name cannot be blank&quot;)</span>
+    <span class="hljs-meta">@Size(max = 40, message = &quot;Last name cannot exceed 40 characters&quot;)</span> String lastName) {
+}
+</div></code></pre>
+<p>En el package <code>resources</code> crear el record <code>GreetDeveloperResponse</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> java.util.UUID;
+
+<span class="hljs-comment">/**
+ * Response to a greet developer request.
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title class_">GreetDeveloperResponse</span><span class="hljs-params">(UUID id, String fullName)</span> {
+}
+</div></code></pre>
+<p>En el package <code>resources</code> crear el record <code>GetGreetingCountResponse</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/// A response for getting the total number of greetings.</span>
+<span class="hljs-comment">/// @param greetingCount the greeting count since service start</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title class_">GetGreetingCountResponse</span><span class="hljs-params">(<span class="hljs-type">int</span> greetingCount)</span> {}
+</div></code></pre>
+<h3 id="package-interfacesrest-assemblers">Package interfaces.rest assemblers</h3>
+<p>En el package <code>assemblers</code> crear la clase <code>GreetDeveloperAssembler</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.domain.model.entity.Developer;
+<span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.interfaces.rest.resources.GreetDeveloperResponse;
+
+<span class="hljs-comment">/**
+ * Assembler for greeting developer resources.
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GreetDeveloperAssembler</span> {
+
+  <span class="hljs-comment">/**
+   * Converts a Developer entity to a GreetDeveloperResponse.
+   *
+   * <span class="hljs-doctag">@param</span> entity the developer entity
+   * <span class="hljs-doctag">@return</span> the greet-developer response
+   */</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">GreetDeveloperResponse</span> <span class="hljs-title function_">toResponseFromEntity</span><span class="hljs-params">(Developer entity)</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">GreetDeveloperResponse</span>(entity.getId(), entity.getFullName());
+  }
+}
+</div></code></pre>
+<h3 id="package-interfacesrest-controllers">Package interfaces.rest controllers</h3>
+<p>En el package <code>controllers</code> crear la clase <code>GreetingsController</code> con el siguiente contenido:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.domain.model.entity.Developer;
+<span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.domain.service.GreetingCounter;
+<span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.interfaces.rest.assemblers.GreetDeveloperAssembler;
+<span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.interfaces.rest.resources.GetGreetingCountResponse;
+<span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.interfaces.rest.resources.GreetDeveloperRequest;
+<span class="hljs-keyword">import</span> com.acme.hello.platform.profiles.interfaces.rest.resources.GreetDeveloperResponse;
+<span class="hljs-keyword">import</span> io.swagger.v3.oas.annotations.tags.Tag;
+<span class="hljs-keyword">import</span> jakarta.validation.Valid;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.*;
+
+<span class="hljs-keyword">import</span> java.net.URI;
+
+<span class="hljs-comment">/**
+ * Controller for greeting developers.
+ */</span>
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping(&quot;/api/v1/greetings&quot;)</span>
+<span class="hljs-meta">@Tag(name = &quot;Greetings&quot;, description = &quot;Endpoints for greeting developers and tracking statistics&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GreetingsController</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> GreetingCounter greetingCounter;
+
+  <span class="hljs-comment">/// Creates a new GreetingsController with the specified GreetingCounter.</span>
+  <span class="hljs-comment">/// @param greetingCounter the service instance for greeting counting</span>
+  <span class="hljs-type">public</span> <span class="hljs-title function_">GreetingsController</span><span class="hljs-params">(GreetingCounter greetingCounter)</span> {
+    <span class="hljs-built_in">this</span>.greetingCounter = greetingCounter;
+  }
+
+  <span class="hljs-comment">/**
+   * Greets a developer.
+   *
+   * <span class="hljs-doctag">@param</span> request the developer-to-greet request
+   * <span class="hljs-doctag">@return</span> the greeted developer response
+   */</span>
+  <span class="hljs-meta">@PostMapping</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">ResponseEntity</span>&lt;GreetDeveloperResponse&gt; <span class="hljs-title function_">greetDeveloper</span><span class="hljs-params">(<span class="hljs-meta">@Valid</span> <span class="hljs-meta">@RequestBody</span> GreetDeveloperRequest request)</span> {
+    <span class="hljs-type">var</span> <span class="hljs-variable">developer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Developer</span>(request.firstName(), request.lastName());
+    greetingCounter.incrementGreetingCount();
+    <span class="hljs-type">var</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> GreetDeveloperAssembler.toResponseFromEntity(developer);
+    <span class="hljs-keyword">return</span> ResponseEntity.created(URI.create(<span class="hljs-string">&quot;/api/v1/greetings/&quot;</span> + developer.getId())).body(response);
+  }
+
+  <span class="hljs-comment">/**
+   * Gets the total number of greetings.
+   *
+   * <span class="hljs-doctag">@return</span> the total number of greetings
+   */</span>
+  <span class="hljs-meta">@GetMapping</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-type">ResponseEntity</span>&lt;GetGreetingCountResponse&gt; <span class="hljs-title function_">getGreetingCount</span><span class="hljs-params">()</span> {
+    <span class="hljs-type">var</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">GetGreetingCountResponse</span>(greetingCounter.getGreetingCount());
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(response);
+  }
+}
+</div></code></pre>
+
+</body>
+</html>
