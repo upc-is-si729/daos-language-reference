@@ -1,11 +1,11 @@
-# Proyecto Fake-store v2610
+# Proyecto Fake-store v2620
  
 ## Creación del proyecto
 
 > [!CAUTION]
 > **En el caso de estar en un equipo MAC:**
 > - Debe anteceder el comando `sudo` al ejecutar las instrucciones: `ng` y `chown`, y luego ingresar la contraseña del Administrador (`d3v3l0p3rUPC`).
-> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/1asi0729/202610` o en otra de su preferencia.
+> - Debe ubicarse en la carpeta `/Users/alumnos/IdeaProjects/1asi0729/202620` o en otra de su preferencia.
 
 > [!CAUTION]
 > **En el caso de estar en un equipo Windows:**
@@ -18,7 +18,7 @@ A continuación se detalla las intrucciones para crear un nuevo `workspace` e `i
 **Cargar** el `Terminal` del sistema Operativo, ubicarse en la carpeta de su preferencia de acuerdo al Sistema Operativo y **ejecutar** el siguiente CLI command:
 
 ```bash
-ng new daos-fakestore-products-v2610
+ng new daos-fakestore-products-v2620
 ```
 
 Despues de ejecutar el CLI command, le mostrará diferentes opciones y debe escoger las siguientes:
@@ -57,7 +57,7 @@ A continuación se detalla las intrucciones para instalar `Angular Material` al 
 
 **Ingresar** a la carpeta creada con el mismo nombre que el proyecto **ejecutando** el siguiente command:
 ```
-cd daos-fakestore-products-v2610
+cd daos-fakestore-products-v2620
 ```
 
 **Agregar** Angula material a la aplicación, **ejecute** el siguiente CLI command:
@@ -112,7 +112,7 @@ cd ..
 ```
 
 ```
-sudo chown -R alumnos ./daos-fakestore-products-v2610
+sudo chown -R alumnos ./daos-fakestore-products-v2620
 ```
 
 ```
@@ -191,7 +191,7 @@ ng serve --port 4200
 **Crear** la carpeta `server` en la carpeta raiz del proyecto:
 
 ```markdown
-- 📂 daos-fakestore-products-v2610
+- 📂 daos-fakestore-products-v2620
   - 📁 server
 ```
 
@@ -280,20 +280,25 @@ import { provideAppInitializer, inject } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { firstValueFrom } from 'rxjs';
 ```
 
 **Agregar** los siguientes métodos al array `providers` de la constante `appConfig` del archivo `app.config.ts` :
 ```ts
 provideHttpClient(),
 provideTranslateService({
-  loader: provideTranslateHttpLoader({prefix: './assets/i18n/', suffix: '.json'}),
+  loader: provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
+  fallbackLang: 'en',
   lang: 'en',
-  fallbackLang: 'en'
 }),
 provideAppInitializer(() => {
   const translate = inject(TranslateService);
-  translate.use(translate.getBrowserLang() || "en");
-})
+  translate.addLangs(['en', 'es']);
+
+  const browserLang = translate.getBrowserLang();
+  const selectedLang = browserLang && ['en', 'es'].includes(browserLang) ? browserLang : 'en';
+  return firstValueFrom(translate.use(selectedLang));
+}),
 ```
 
 ### Creación de la estructura del proyecto
@@ -653,19 +658,34 @@ import { FakestoreApi } from '../infrastructure/fakestore-api';
 **Reemplazar** el contenido de la clase `FakestoreApp` con el siguiente código, ubicado en el archivo `fakestore-app.ts`:
 
 ```ts
-private productsSignal:WritableSignal<Product[]> = signal<Product[]>([]);
-private fakestoreApi:FakestoreApi = inject(FakestoreApi);
+private productsSignal: WritableSignal<Product[]> = signal<Product[]>([]);
+private fakestoreApi: FakestoreApi = inject(FakestoreApi);
 
-readonly products:Signal<Product[]> = computed(() => this.productsSignal());
+readonly products: Signal<Product[]> = computed(() => this.productsSignal());
+private readonly errorSignal = signal<string | null>(null);
 
 loadProducts(): void {
   if (this.productsSignal().length == 0) {
     this.fakestoreApi.getProducts()
-      .subscribe(products => {
-        this.productsSignal.set(products);
+      .subscribe({
+        next: products => {
+          this.productsSignal.set(products);
+          this.errorSignal.set(null);
+        },
+        error: (err) => {
+          this.errorSignal.set(this.formatError(err, 'Failed to load products'));
+        },
       });
   }
 }
+private formatError = (error: unknown, fallback: string): string => {
+  if (error instanceof Error) {
+    return error.message.includes('Resource not found')
+      ? `${fallback}: Not found`
+      : error.message;
+  }
+  return fallback;
+};
 ```
 
 
@@ -699,6 +719,7 @@ ng generate component sales/presentation/components/product-item --skip-tests=tr
 **Agregar** los siguientes `import` al archivo `language-switcher.ts`, ubicado en la carpeta `/src/app/shared/presentation/components/language-switcher`:
 
 ```ts
+import { inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 ```
@@ -712,15 +733,19 @@ MatButtonToggleGroup, MatButtonToggle
 **Reemplazar** el contenido de la clase `LanguageSwitcher` con el siguiente código, ubicado en el archivo `language-switcher.ts`:
 
 ```ts
-currentLang = 'en';
-languages = ['en', 'es'];
+protected currentLang = 'en';
+protected languages: string[];
+private translate: TranslateService;
 
-constructor(private translate: TranslateService) {
-  this.currentLang = translate.getCurrentLang();
+constructor() {
+  this.translate = inject(TranslateService);
+  this.currentLang = this.translate.getCurrentLang() ?? 'en';
+  this.languages = [...this.translate.getLangs()];
 }
 
 useLanguage(language: string) {
   this.translate.use(language);
+  this.currentLang = language;
 }
 ```
 
@@ -785,13 +810,13 @@ MatToolbarModule, MatButtonModule, MatIconModule, LanguageSwitcher
 **Agregar** el siguiente `import` a la clase `Footer` del archivo `footer.ts` ubicado en la carpeta `/src/app/shared/presentation/components/footer`:
 
 ```ts
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from '@ngx-translate/core';
 ```
 
 **Agregar** la siguiente clase en el array `imports` del `@Component` de la clase `Footer`:
 
 ```
-TranslateModule
+TranslatePipe
 ```
 
 **Reemplazar** el contenido del archivo `footer.html` con el siguiente código, ubicado en la carpeta `/src/app/shared/presentation/components/footer`:
@@ -875,13 +900,13 @@ import { Product } from '../../../domain/model/product.entity';
 import { ProductItem } from '../product-item/product-item';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from '@ngx-translate/core';
 ```
 
 **Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductList` del archivo `product-list.ts`:
 
 ```
-ProductItem, MatGridListModule, TranslateModule
+ProductItem, MatGridListModule, TranslatePipe
 ```
 
 **Agregar** el siguiente elemento en el `@Component` de la clase `ProductList` del archivo `product-list.ts`:
@@ -925,13 +950,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslatePipe } from '@ngx-translate/core';
 ```
 
 **Agregar** las siguientes clases en el array `imports` del `@Component` de la clase `ProductList` del archivo `product-list.ts`:
 
 ```
-MatCardModule, MatButtonModule, MatIcon, TranslateModule
+MatCardModule, MatButtonModule, MatIcon, TranslatePipe
 ```
 
 **Agregar** el siguiente elemento en el `@Component` de la clase `ProductItem` del archivo `product-item.ts`:
